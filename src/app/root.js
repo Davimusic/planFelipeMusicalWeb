@@ -3,7 +3,7 @@
 import "./globals.css";
 import React, { useState, useEffect } from 'react';
 import { Menu } from "@/components/menu";
-import { Content } from "@/components/Content";
+import { Content } from "@/components/content";
 
 
 export function Root(){
