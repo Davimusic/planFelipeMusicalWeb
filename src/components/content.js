@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import IsShow from "./IsShow";
+import IsShow from "./isShow";
 import llamarTodoAPUObjeto from "@/funciones/conectoresBackend/llamarTodoAPUObjeto";
 import { CreateSelect } from "./selects";
 import decidirTipoDeArchivo from "@/funciones/decidirTipoDeArchivo";
