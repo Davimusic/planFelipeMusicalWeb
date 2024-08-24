@@ -1,6 +1,6 @@
 "use client"
 
-import { Root } from "./Root";
+import { Root } from './root';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import counterReducer from "@/funciones/redux/counterReducer";
