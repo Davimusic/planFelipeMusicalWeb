@@ -1,14 +1,25 @@
+import React from 'react';
 import { useState, useEffect } from "react";
+import RenderElement from '@/funciones/renderElement';
 import axios from 'axios';
 import IsShow from "./isShow";
-import llamarTodoAPUObjeto from "@/funciones/conectoresBackend/llamarTodoAPUObjeto";
-import { CreateSelect } from "./selects";
+import Text from "./simple/text";
+import Video from "./simple/video";
+import Audio from "./simple/audio";
+import Link from "next/link";
+import Container from "./simple/container";
+import Label from './simple/label';
+import Button from './simple/button';
+import { CreateSelect } from "./simple/selects";
 import decidirTipoDeArchivo from "@/funciones/decidirTipoDeArchivo";
+
+import llamarTodoAPUObjeto from "@/funciones/conectoresBackend/llamarTodoAPUObjeto";
 
 //redux
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { updateObjetoAPU, updateLlavesProyectos } from "@/funciones/redux/actions";
+import { basePath } from '../../next.config';
 
 export function Content() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -34,29 +45,354 @@ export function Content() {
             });
     }, []);
 
-    const uploadFile = async () => {
-        setLoading(true);
-        const formData = new FormData();
-        formData.append('file', selectedFile);
-        formData.append('upload_preset', 'y8peecdo');
-        formData.append('folder', `${email}/${llaveProyectoEnUso}`);
+    const prueba2 = {
+        contaninerPadre: {
+            type: "Container",
+            style: {
+                background: "green",
+                width: "50%",
+                padding: "20px",
+                borderRadius: "0.5em"
+            },
+            children: [
+                {
+                type: "Container",
+                style: {
+                    background: "blue",
+                    width: "50%",
+                    padding: "20px",
+                    borderRadius: "0.5em"
+                },
+                children: [
+                    {
+                    type: "Text",
+                    texto: "hola mundo",
+                    estilo: {
+                        fontSize: "16px"
+                    }
+                    },
+                    {
+                    type: "Video",
+                    src: "https://res.cloudinary.com/dplncudbq/video/upload/v1707506488/davipianof%40gmail.com/MadrenonaXD%20%C3%B1o%C3%B1a/jqezdabjbztdecleiun3.mp4",
+                    estilo: {
+                        width: "100%",
+                        border: "1px solid #ccc",
+                        borderRadius: "0.5em"
+                    }
+                    },
+                    {
+                    type: "Container",
+                    style: {
+                        background: "gray",
+                        width: "50%",
+                        padding: "20px",
+                        borderRadius: "0.5em"
+                    },
+                    children: [
+                        {
+                        type: "Link",
+                        href: "/about",
+                        text: "Acerca de nosotros"
+                        },
+                        {
+                        type: "Audio",
+                        src: "https://res.cloudinary.com/dplncudbq/video/upload/v1692977795/mias/relax7_orxvbj.mp3"
+                        }
+                    ]
+                    }
+                ]
+                },
+                {
+                type: "Container",
+                style: {
+                    background: "blue",
+                    width: "50%",
+                    padding: "20px",
+                    borderRadius: "0.5em"
+                },
+                children: [
+                    {
+                    type: "Text",
+                    texto: "hola mundo",
+                    estilo: {
+                        fontSize: "16px"
+                    }
+                    },
+                    {
+                    type: "Video",
+                    src: "https://res.cloudinary.com/dplncudbq/video/upload/v1707506488/davipianof%40gmail.com/MadrenonaXD%20%C3%B1o%C3%B1a/jqezdabjbztdecleiun3.mp4",
+                    estilo: {
+                        width: "100%",
+                        border: "1px solid #ccc",
+                        borderRadius: "0.5em"
+                    }
+                    },
+                    {
+                    type: "Container",
+                    style: {
+                        background: "gray",
+                        width: "fit-content",
+                        padding: "20px",
+                        borderRadius: "0.5em"
+                    },
+                    children: [
+                        {
+                        type: "Link",
+                        href: "/about",
+                        text: "Acerca de nosotros"
+                        },
+                        {
+                        type: "Audio",
+                        src: "https://res.cloudinary.com/dplncudbq/video/upload/v1692977795/mias/relax7_orxvbj.mp3"
+                        }
+                    ]
+                    }
+                ]
+                }
+            ]
+            }
+        };
 
-        const res = await axios.post(
-            `https://api.cloudinary.com/v1_1/dplncudbq/upload`,
-            formData
-        );
+        const login = {
+            contaninerPadre: {
+              type: "Container",
+              style: {
+                maxWidth: "400px",
+                margin: "0 auto",
+                padding: "20px",
+                borderRadius: "8px",
+                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                backgroundColor: "gray"
+              },
+              children: [
+                {
+                  type: "Text",
+                  text: "Iniciar Sesión",
+                  estilo: {
+                    textAlign: "center",
+                    marginBottom: "20px",
+                    fontSize: '50px'
+                  }
+                },
+                {
+                  type: "Container",
+                  style: {
+                    display: "flex",
+                    flexDirection: "column"
+                  },
+                  children: [
+                    {
+                      type: "Container",
+                      style: {
+                        marginBottom: "15px"
+                      },
+                      children: [
+                        {
+                          type: "Label",
+                          valor: "Correo Electrónico",
+                          onValueChange: (value) => console.log(value)
+                        },
+                        {
+                          type: "Input",
+                          inputType: "email",
+                          id: "email",
+                          required: true,
+                          style: {
+                            width: "100%",
+                            padding: "10px",
+                            borderRadius: "4px",
+                            border: "1px solid #ccc",
+                            background: 'red'
+                          },
+                          onValueChange: (value) => console.log('Checkbox value:', value)
+                        }
+                      ]
+                    },
+                    {
+                      type: "Container",
+                      style: {
+                        marginBottom: "15px"
+                      },
+                      children: [
+                        {
+                          type: "Label",
+                          valor: "Contraseña",
+                          onValueChange: (value) => console.log(value)
+                        },
+                        {
+                          type: "Container",
+                          style: {
+                            display: "flex",
+                            alignItems: "center"
+                          },
+                          children: [
+                            {
+                              type: "Input",
+                              inputType: "password",
+                              id: "password",
+                              required: true,
+                              style: {
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "4px",
+                                border: "1px solid #ccc"
+                              }
+                            },
+                            {
+                              type: "Button",
+                              buttonType: "button",
+                              style: {
+                                marginLeft: "10px",
+                                padding: "10px",
+                                border: "none",
+                                background: "white",
+                                cursor: "pointer",
+                                color: "black"
+                              }, 
+                              children: [
+                                {
+                                    type: "Text",
+                                    text: "mostrar",
+                                    estilo: {
+                                      textAlign: "center",
+                                      fontSize: '15px'
+                                    }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      type: "Container",
+                      style: {
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "20px"
+                      },
+                      children: [
+                        {
+                          type: "Input",
+                          inputType: "checkbox",
+                          id: "rememberMe",
+                          required: true,
+                          style: {
+                            display: "flex",
+                            alignItems: "center",
+                            marginBottom: "20px",
+                            background: 'red'
+                          },
+                        },
+                        {
+                          type: "Label",
+                          valor: "Recordar sesión",
+                          onValueChange: (value) => console.log(value)
+                        }
+                      ]
+                    },
+                    {
+                      type: "Button",
+                      style: {
+                        padding: "10px",
+                        borderRadius: "4px",
+                        border: "none",
+                        backgroundColor: "#007BFF",
+                        color: "#fff",
+                        cursor: "pointer"
+                      },
+                      children: [
+                        {
+                            type: "Text",
+                            text: "iniciar sesión",
+                            estilo: {
+                              textAlign: "center",
+                              fontSize: '15px'
+                            },
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  type: "Container",
+                  style: {
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "20px"
+                  },
+                  children: [
+                    {
+                      type: "Button",
+                      style: {
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "10px",
+                        borderRadius: "4px",
+                        border: "1px solid #ccc",
+                        cursor: "pointer",
+                        backgroundColor: "#fff"
+                      },
+                      children: [
+                        {
+                          type: "Icon",
+                          iconType: "FaGoogle",
+                          style: {
+                            marginRight: "10px"
+                          }
+                        },
+                        {
+                          type: "Text",
+                          text: "Iniciar con Google",
+                          estilo: {
+                            textAlign: "center",
+                            marginBottom: "20px",
+                            fontSize: '15px'
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      type: "Button",
+                      style: {
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "10px",
+                        borderRadius: "4px",
+                        border: "1px solid #ccc",
+                        cursor: "pointer",
+                        backgroundColor: "#fff"
+                      },
+                      children: [
+                        {
+                          type: "Icon",
+                          iconType: "FaFacebook",
+                          style: {
+                            marginRight: "10px"
+                          }
+                        },
+                        {
+                          type: "Text",
+                          text: "Iniciar con Facebook",
+                          estilo: {
+                            textAlign: "center",
+                            marginBottom: "20px",
+                            fontSize: '15px'
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          };
+          
+          
+  
 
-        console.log(res.data);
-        console.log(res.data['url']);
-        setLoading(false);
-        setUploadSuccess(true);
-        setSelectedFile(null);
-    };
+  
 
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);
-        setUploadSuccess(false);
-    };
 
     
     return (
@@ -66,38 +402,13 @@ export function Content() {
                     <div className="miCirculoGiratorio"></div>
                 </div>
             : 
-                <div >
-                    <div className="centrar" style={{display: 'block', height:'25%', background: 'black', paddingBottom: '5%'}}>
-                        <div className="" style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-around'}}>
-                            <IsShow    informacion={'cargar archivo'} 
-                                            contenido={<label className="imagenSubirArchivos" style={{display: loading === true ? 'none' : 'flex', backgroundImage: 'url("https://res.cloudinary.com/dplncudbq/image/upload/v1706024045/crearNuevoObjeto_o9hw7f.png")'}}>
-                                                            <input type="file" onChange={handleFileChange} style={{display: 'none'}} />
-                                                        </label>}
-                                            width={65} height={65} style={{paddingBottom: '20px'}}/>
-                            <IsShow    informacion={'subir archivo'} 
-                                            contenido={<button className="imagenSubirArchivos" style={{display: !selectedFile || loading ? 'none' : 'flex',  backgroundImage: 'url("https://res.cloudinary.com/dplncudbq/image/upload/v1706024045/save_pmx5wo.png")'}} onClick={uploadFile} ></button>}
-                                            width={65} height={65} tyle={{paddingBottom: '20px'}}/> 
-                            {llavesProyectos.length !== 0 ? 
-                                <CreateSelect 
-                                    name={'llaves'} 
-                                    value={llaveProyectoEnUso} 
-                                    options={llavesProyectos} 
-                                    event={(event) => setLlaveProyectoEnUso(event.target.value)}
-                                /> 
-                            : null }                               
-                        </div>                
-                        <div style={{marginTop: '20px'}}>
-                            {loading && <p>Cargando...</p>}
-                            {uploadSuccess && <p>¡Archivo subido con éxito!</p>}
-                            {selectedFile && <p>Archivo seleccionado: {selectedFile.name}. Guardar en proyecto: {llaveProyectoEnUso}</p>}
-                        </div>
-                    </div>
-                    <div className="centrar borde bordes color5" style={{height:'70vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        {selectedFile && (
-                            decidirTipoDeArchivo(selectedFile)
-                        )}
-                    </div>
-                </div>
+            <div>
+                {Object.keys(login).map((key) => (
+                    <React.Fragment key={key}>
+                        {RenderElement(login[key])}
+                    </React.Fragment>
+                ))}
+            </div>
             }
         </div>
     );

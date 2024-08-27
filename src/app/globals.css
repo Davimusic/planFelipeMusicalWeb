@@ -165,10 +165,7 @@ p {
 
 .imagenFondo::after {
   content: "";
-  background: url('https://res.cloudinary.com/dplncudbq/image/upload/v1656097007/mias/h2_jy6hgj.jpg');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
+  background: radial-gradient(circle, rgba(46,85,83,0.9528186274509804) 18%, rgba(20,16,65,0.87718837535014) 100%);
   filter: blur(5px);
   z-index: -1;
   position: absolute;
@@ -177,6 +174,7 @@ p {
   right: 0;
   left: 0;
 }
+
 
 .imagenSubirArchivos{
   background: white;
