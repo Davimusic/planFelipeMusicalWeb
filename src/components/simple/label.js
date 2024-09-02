@@ -10,10 +10,7 @@ export default function Label(props) {
 
   return (
     <div>
-      <input
-        type="text"
-        value={value}
-        onChange={handleChange}
+      <label
         style={{
           color: 'black',
           width: '100%',
@@ -21,11 +18,13 @@ export default function Label(props) {
           margin: '8px 0',
           boxSizing: 'border-box',
           borderRadius: '4px',
-          border: '2px solid #4CAF50',
           transition: '0.5s',
           outline: 'none',
+          display: 'block',
         }}
-      />
+      >
+        {value}
+      </label>
     </div>
   );
 }

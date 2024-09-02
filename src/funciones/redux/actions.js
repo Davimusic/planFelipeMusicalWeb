@@ -1,14 +1,16 @@
-export const updateObjetoAPU = (value) => {
+export const updateRefs = (value) => {
     return {
-        type: 'UPDATE_OBJETOSAPU',
+        type: 'UPDATE_REFS',
         payload: value,
     };
 };
 
-export const updateLlavesProyectos = (value) => {
+export const updateObjectInEdition = (value) => {
     return {
-        type: 'UPDATE_LLAVES_PROYECTOS',
+        type: 'UPDATE_OBJECT_IN_EDITION',
         payload: value,
     };
 };
+
+
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Text = ({ text, estilo }) => {
+const Text = ({ text, style }) => {
     return (
-        <p style={estilo}>{text}</p>
+        <p style={style}>{text}</p>
     );
 };
 

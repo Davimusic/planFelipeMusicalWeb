@@ -1,19 +1,19 @@
 const initialState = {
-  objetosAPU : [], 
-  llavesProyectos: []
+  refs: {},
+  objectInEdition: {}
 };
 
 const counterReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'UPDATE_OBJETOSAPU':
+    case 'UPDATE_REFS':
       return {
         ...state,
-        objetosAPU: action.payload, 
-      };
-    case 'UPDATE_LLAVES_PROYECTOS':
+        refs: action.payload, 
+      };   
+    case 'UPDATE_OBJECT_IN_EDITION':
       return {
         ...state,
-        llavesProyectos: action.payload, 
+        objectInEdition: action.payload, 
       };                                                         
     default:
       return state;
