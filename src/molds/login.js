@@ -303,11 +303,12 @@ export default function LoginMold() {
             type: "Container",
             name: "containerPadre",
             style: {
-                maxWidth: "400px",
                 margin: "0 auto",
                 padding: "20px",
                 borderRadius: "8px",
-                boxShadow: "0 0 10px rgba(0,0,0,0.1)"
+                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+                width: '50%',
+                backgroundColor: 'red'
             },
             children: [
                 {
@@ -316,15 +317,15 @@ export default function LoginMold() {
                     style: {
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center"
+                        justifyContent: "center",
                     },
                     children: [
                         {
                             type: "Video",
                             name: "video",
-                            src: "https://res.cloudinary.com/dplncudbq/video/upload/v1657307099/mias/VID-20220628-WA0004_ofcsda.mp4",
+                            src: "https://res.cloudinary.com/dplncudbq/video/upload/v1657579454/mias/vi1_e6w4v7.mp4",
                             style: {
-                                width: "50%",
+                                width: "100%",
                                 padding: "10px",
                                 borderRadius: "4px",
                                 border: "1px solid #ccc",
@@ -351,9 +352,10 @@ export default function LoginMold() {
                     type: "Container",
                     name: "botonsConatiner",
                     style: {
-                        display: "flex",
+                        display: "block",
                         alignItems: "center",
-                        justifyContent: "center"
+                        justifyContent: "space-between",
+                        flexDirection: "column",
                     },
                     children: [
                         {
@@ -365,7 +367,8 @@ export default function LoginMold() {
                                 border: "none",
                                 //backgroundColor: "#007BFF",
                                 color: "#fff",
-                                cursor: "pointer"
+                                cursor: "pointer",
+                                borderRadius: '0.5em'
                             },
                             onClick: [  () => Alert('atras'),
                                         
@@ -391,7 +394,8 @@ export default function LoginMold() {
                                 border: "none",
                                 //backgroundColor: "#007BFF",
                                 color: "#fff",
-                                cursor: "pointer"
+                                cursor: "pointer",
+                                borderRadius: '0.5em'
                             },
                             onClick: [  () => Alert('siguiente'),
                                         
