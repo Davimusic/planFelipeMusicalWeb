@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../estilos/general/general.css'
 
 const Container = ({ children, className, style }) => {
     return (

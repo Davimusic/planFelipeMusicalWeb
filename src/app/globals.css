@@ -305,16 +305,7 @@ body {
   background-color: white;
 }
 
-.scroll {
-  overflow-x: auto;
-  overflow-y: auto; /* Agregado */
-  scrollbar-width: none; /* Para Firefox */
-  -ms-overflow-style: none;  /* Para Internet Explorer y Edge */
-}
 
-.scroll::-webkit-scrollbar { 
-  display: none;  /* Para Chrome, Safari y Opera */
-}
 
 
 
@@ -415,45 +406,7 @@ h1, h2, h3, h4, h5{
   margin: 0; 
 }
 
-.color1{
-  background: #00070c;
-}
 
-.color2{
-  background: #120461;
-}
-
-.color3{
-  background: #404041;
-}
-
-.color4{
-  background: #163338;
-}
-
-.color5{
-  background: #f4f5f5;
-}
-
-.colorTranparencia{
-  background: #771212d0;
-}
-
-.colorLetra1{
-  color: #ffffff;
-}
-
-.transparencia{
-  background-color: #00000041;
-}
-
-
-
-a {
-  color: inherit;
-  text-decoration: none;
-  width: max-content;
-}
 
 * {
   box-sizing: border-box;

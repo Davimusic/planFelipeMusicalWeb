@@ -4,6 +4,7 @@ import HandleComponentChange from "@/funciones/generales/handleComponentChange";
 import { useState, useEffect } from "react";
 import { updateObjectInEdition } from "@/funciones/redux/actions";
 
+
 function sum (num1, num2){
     return (num1 + num2)
 }
@@ -305,114 +306,120 @@ export default function LoginMold() {
             style: {
                 margin: "0 auto",
                 padding: "20px",
-                borderRadius: "8px",
+                
                 boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                width: '50%',
-                backgroundColor: 'red'
+                width: '90vw',
+                height: '90vh',
+                //backgroundColor: 'red'
             },
+            className: 'center',
             children: [
                 {
                     type: "Container",
                     name: "passwordInputContainer",
+                    className: '',//color2
                     style: {
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        //backgroundColor: 'blue'
                     },
                     children: [
                         {
-                            type: "Video",
-                            name: "video",
-                            src: "https://res.cloudinary.com/dplncudbq/video/upload/v1657579454/mias/vi1_e6w4v7.mp4",
+                            type: "Container",
+                            name: "passwordInputContainer",
+                            className: 'responsiveContainer equalSpace',//color3
                             style: {
-                                width: "100%",
-                                padding: "10px",
-                                borderRadius: "4px",
-                                border: "1px solid #ccc",
-                                backgroundColor: "gold"
-                            }
-                        },
-                        
-                    ]
-                },
-                {
-                    type: "Text",
-                    name: "text",
-                    text: "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias ",
-                    style: {
-                        marginLeft: "10px",
-                        padding: "10px",
-                        border: "none",
-                        //background: "white",
-                        cursor: "pointer",
-                        color: "white"
-                    }
-                },
-                {
-                    type: "Container",
-                    name: "botonsConatiner",
-                    style: {
-                        display: "block",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        flexDirection: "column",
-                    },
-                    children: [
-                        {
-                            type: "Button",
-                            name: "submitButton",
-                            style: {
-                                padding: "10px",
-                                borderRadius: "4px",
-                                border: "none",
-                                //backgroundColor: "#007BFF",
-                                color: "#fff",
-                                cursor: "pointer",
-                                borderRadius: '0.5em'
+                                //backgroundColor: 'blue'
                             },
-                            onClick: [  () => Alert('atras'),
-                                        
-                                ],
                             children: [
                                 {
-                                type: "Text",
-                                name: "submitButtonText",
-                                text: "atras",
-                                style: {
-                                    textAlign: "center",
-                                    fontSize: '16px'
-                                }
-                                }
+                                    type: "Container",
+                                    name: "passwordInputContainer",
+                                    className: 'halfLengthHorizontalAvailable',
+                                    style: {},
+                                    children: [
+                                        {
+                                            type: "Video",
+                                            name: "video",
+                                            src: "https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4",
+                                            className:'fixSpace borders1',
+                                        },
+                                    ]
+                                },
+                                {
+                                    type: "Text",
+                                    name: "text",
+                                    text: "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha ",
+                                    style: {
+                                        
+                                    },
+                                    className: 'quarterLengthOfAvailableVerticalSpace  margin1 scroll',//color2
+                                },
                             ]
                         },
+                        
                         {
-                            type: "Button",
-                            name: "submitButton",
+                            type: "Container",
+                            name: "botonsConatiner",
                             style: {
-                                padding: "10px",
-                                borderRadius: "4px",
-                                border: "none",
-                                //backgroundColor: "#007BFF",
-                                color: "#fff",
-                                cursor: "pointer",
-                                borderRadius: '0.5em'
                             },
-                            onClick: [  () => Alert('siguiente'),
-                                        
-                                ],
+                            className: ' equalSpace margin1',//color3
                             children: [
                                 {
-                                type: "Text",
-                                name: "submitButtonText",
-                                text: "siguiente",
-                                style: {
-                                    textAlign: "center",
-                                    fontSize: '16px'
+                                    type: "Button",
+                                    name: "submitButton",
+                                    style: {
+                                        padding: "10px",
+                                        borderRadius: "4px",
+                                        border: "none",
+                                        backgroundColor: "none",
+                                        color: "none",
+                                        cursor: "pointer",
+                                        borderRadius: '0.5em'
+                                    },
+                                    onClick: [  () => Alert('atras'),
+                                                
+                                        ],
+                                    children: [
+                                        {type: 'Image',
+                                        name: 'image1',
+                                        style: {},
+                                        src: 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133407/mias/atras_lfyntg.png',
+                                        alt: 'atras',
+                                        className: 'buttonImage',
+                                        width: '20',
+                                        height: '20'
+                                        }
+                                    ]
+                                },
+                                {
+                                    type: "Button",
+                                    name: "submitButton",
+                                    style: {
+                                        padding: "10px",
+                                        borderRadius: "4px",
+                                        border: "none",
+                                        backgroundColor: "none",
+                                        color: "none",
+                                        cursor: "pointer",
+                                        borderRadius: '0.5em'
+                                    },
+                                    onClick: [  () => Alert('siguiente'),
+                                                
+                                        ],
+                                    children: [
+                                        {type: 'Image',
+                                            name: 'image2',
+                                            style: {},
+                                            src: 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133410/mias/adelante_ztqvpx.png',
+                                            alt: 'adelante',
+                                            className: 'buttonImage',
+                                            width: '20',
+                                            height: '20'
+                                            }
+                                    ]
                                 }
-                                }
+                                
                             ]
-                        }
-                        
+                        },
                     ]
                 },
             ]
