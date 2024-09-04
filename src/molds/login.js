@@ -16,7 +16,7 @@ export default function LoginMold() {
     
 
     const dispatch = useDispatch();
-    const [body, setBody] = useState({
+    /*const [body, setBody] = useState({
         contaninerPadre: {
         type: "Container",
         name: "containerPadre",
@@ -297,8 +297,126 @@ export default function LoginMold() {
         ]
         }
     }
-    );
-
+    );*/
+    const [body, setBody] = useState({
+        contaninerPadre: {
+            type: "Container",
+            name: "containerPadre",
+            style: {
+                maxWidth: "400px",
+                margin: "0 auto",
+                padding: "20px",
+                borderRadius: "8px",
+                boxShadow: "0 0 10px rgba(0,0,0,0.1)"
+            },
+            children: [
+                {
+                    type: "Container",
+                    name: "passwordInputContainer",
+                    style: {
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    },
+                    children: [
+                        {
+                            type: "Video",
+                            name: "video",
+                            src: "https://res.cloudinary.com/dplncudbq/video/upload/v1657307099/mias/VID-20220628-WA0004_ofcsda.mp4",
+                            style: {
+                                width: "50%",
+                                padding: "10px",
+                                borderRadius: "4px",
+                                border: "1px solid #ccc",
+                                backgroundColor: "gold"
+                            }
+                        },
+                        
+                    ]
+                },
+                {
+                    type: "Text",
+                    name: "text",
+                    text: "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias ",
+                    style: {
+                        marginLeft: "10px",
+                        padding: "10px",
+                        border: "none",
+                        //background: "white",
+                        cursor: "pointer",
+                        color: "white"
+                    }
+                },
+                {
+                    type: "Container",
+                    name: "botonsConatiner",
+                    style: {
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    },
+                    children: [
+                        {
+                            type: "Button",
+                            name: "submitButton",
+                            style: {
+                                padding: "10px",
+                                borderRadius: "4px",
+                                border: "none",
+                                //backgroundColor: "#007BFF",
+                                color: "#fff",
+                                cursor: "pointer"
+                            },
+                            onClick: [  () => Alert('atras'),
+                                        
+                                ],
+                            children: [
+                                {
+                                type: "Text",
+                                name: "submitButtonText",
+                                text: "atras",
+                                style: {
+                                    textAlign: "center",
+                                    fontSize: '16px'
+                                }
+                                }
+                            ]
+                        },
+                        {
+                            type: "Button",
+                            name: "submitButton",
+                            style: {
+                                padding: "10px",
+                                borderRadius: "4px",
+                                border: "none",
+                                //backgroundColor: "#007BFF",
+                                color: "#fff",
+                                cursor: "pointer"
+                            },
+                            onClick: [  () => Alert('siguiente'),
+                                        
+                                ],
+                            children: [
+                                {
+                                type: "Text",
+                                name: "submitButtonText",
+                                text: "siguiente",
+                                style: {
+                                    textAlign: "center",
+                                    fontSize: '16px'
+                                }
+                                }
+                            ]
+                        }
+                        
+                    ]
+                },
+            ]
+        }
+    }
+    
+    
+    )
     function changeText(object, name, text1, text2){
         const textComponent = findComponentByName(object, name);
         if (textComponent.text === text1) {
