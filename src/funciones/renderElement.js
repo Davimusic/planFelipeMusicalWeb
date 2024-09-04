@@ -30,20 +30,20 @@ const RenderElement = (element) => {
         dispatch(updateRefs(refs));
     }, [dispatch]);
 
-    const ForwardedText = forwardRef((props, ref) => <Text {...props} forwardedRef={ref} />);
-    const ForwardedVideo = forwardRef((props, ref) => <Video {...props} forwardedRef={ref} />);
-    const ForwardedAudio = forwardRef((props, ref) => <Audio {...props} forwardedRef={ref} />);
-    const ForwardedLink = forwardRef((props, ref) => <Link {...props} forwardedRef={ref} />);
-    const ForwardedLabel = forwardRef((props, ref) => <Label {...props} forwardedRef={ref} />);
-    const ForwardedButton = forwardRef((props, ref) => <Button {...props} forwardedRef={ref} />);
-    const ForwardedIcon = forwardRef((props, ref) => <Icon {...props} forwardedRef={ref} />);
-    const ForwardedInput = forwardRef((props, ref) => <Input {...props} forwardedRef={ref} />);
-    const ForwardedImage = forwardRef((props, ref) => <Image {...props} forwardedRef={ref} />);
+    const ForwardedText =      forwardRef((props, ref) => <Text {...props} forwardedRef={ref} />);
+    const ForwardedVideo =     forwardRef((props, ref) => <Video {...props} forwardedRef={ref} />);
+    const ForwardedAudio =     forwardRef((props, ref) => <Audio {...props} forwardedRef={ref} />);
+    const ForwardedLink =      forwardRef((props, ref) => <Link {...props} forwardedRef={ref} />);
+    const ForwardedLabel =     forwardRef((props, ref) => <Label {...props} forwardedRef={ref} />);
+    const ForwardedButton =    forwardRef((props, ref) => <Button {...props} forwardedRef={ref} />);
+    const ForwardedIcon =      forwardRef((props, ref) => <Icon {...props} forwardedRef={ref} />);
+    const ForwardedInput =     forwardRef((props, ref) => <Input {...props} forwardedRef={ref} />);
+    const ForwardedImage =     forwardRef((props, ref) => <Image {...props} forwardedRef={ref} />);
     const ForwardedContainer = forwardRef((props, ref) => <Container {...props} forwardedRef={ref} />);
 
     switch (element.type) {
         case 'Text':
-            return <ForwardedText ref={ref} text={element.text} style={element.style} className={element.className}/>;
+            return <ForwardedText ref={ref} onClick={element.onClick} text={element.text} style={element.style} className={element.className}/>;
         case 'Video':
             return <ForwardedVideo ref={ref} src={element.src} style={element.style} className={element.className}/>;
         case 'Audio':
@@ -59,7 +59,7 @@ const RenderElement = (element) => {
         case 'Input':
             return <ForwardedInput ref={ref} inputType={element.inputType} id={element.id} style={element.style} required={element.required} onValueChange={element.onValueChange} value={element.value} name={element.name} className={element.className}/>;
         case 'Image':
-            return <ForwardedImage ref={ref} src={element.src} alt={element.alt} className={element.className} style={element.style} height={element.height} width={element.width}/>;
+            return <ForwardedImage ref={ref} onClick={element.onClick} src={element.src} alt={element.alt} className={element.className} style={element.style} height={element.height} width={element.width}/>;
         case 'Container':
             return (
             <ForwardedContainer ref={ref} style={element.style} className={element.className}>

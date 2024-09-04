@@ -306,13 +306,13 @@ export default function LoginMold() {
             style: {
                 margin: "0 auto",
                 padding: "20px",
-                
                 boxShadow: "0 0 10px rgba(0,0,0,0.1)",
                 width: '90vw',
                 height: '90vh',
                 //backgroundColor: 'red'
+                //display: 'block'
             },
-            className: 'center',
+            className: 'scroll center',
             children: [
                 {
                     type: "Container",
@@ -325,7 +325,7 @@ export default function LoginMold() {
                         {
                             type: "Container",
                             name: "passwordInputContainer",
-                            className: 'responsiveContainer equalSpace',//color3
+                            className: 'responsiveContainer',//color2
                             style: {
                                 //backgroundColor: 'blue'
                             },
@@ -348,14 +348,14 @@ export default function LoginMold() {
                                     type: "Text",
                                     name: "text",
                                     text: "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha ",
-                                    style: {
-                                        
-                                    },
+                                    style: {},
+                                    onClick: [() => Alert('texto'), () => Alert('texto 2')],
                                     className: 'quarterLengthOfAvailableVerticalSpace  margin1 scroll',//color2
                                 },
+                                
+                                
                             ]
                         },
-                        
                         {
                             type: "Container",
                             name: "botonsConatiner",
@@ -364,32 +364,16 @@ export default function LoginMold() {
                             className: ' equalSpace margin1',//color3
                             children: [
                                 {
-                                    type: "Button",
-                                    name: "submitButton",
-                                    style: {
-                                        padding: "10px",
-                                        borderRadius: "4px",
-                                        border: "none",
-                                        backgroundColor: "none",
-                                        color: "none",
-                                        cursor: "pointer",
-                                        borderRadius: '0.5em'
-                                    },
-                                    onClick: [  () => Alert('atras'),
-                                                
-                                        ],
-                                    children: [
-                                        {type: 'Image',
-                                        name: 'image1',
-                                        style: {},
-                                        src: 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133407/mias/atras_lfyntg.png',
-                                        alt: 'atras',
-                                        className: 'buttonImage',
-                                        width: '20',
-                                        height: '20'
-                                        }
-                                    ]
-                                },
+                                    type: 'Image',
+                                    name: 'image1',
+                                    style: {},
+                                    src: 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133407/mias/atras_lfyntg.png',
+                                    alt: 'atras',
+                                    className: 'buttonImage',
+                                    width: '20',
+                                    height: '20',
+                                    onClick: [() => alert('atras'), () => alert('atras2')]
+                                },                                
                                 {
                                     type: "Button",
                                     name: "submitButton",
@@ -397,8 +381,8 @@ export default function LoginMold() {
                                         padding: "10px",
                                         borderRadius: "4px",
                                         border: "none",
-                                        backgroundColor: "none",
-                                        color: "none",
+                                        backgroundColor: "#00000000",
+                                        color: "#00000000",
                                         cursor: "pointer",
                                         borderRadius: '0.5em'
                                     },
@@ -422,7 +406,8 @@ export default function LoginMold() {
                         },
                     ]
                 },
-            ]
+                
+            ],
         }
     }
     

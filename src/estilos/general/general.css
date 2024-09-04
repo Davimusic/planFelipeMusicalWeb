@@ -50,6 +50,7 @@
     max-height: 50vh; 
 }
 
+
 .quarterLengthOfAvailableVerticalSpace {
     box-sizing: border-box; 
     max-width: 25vw; 
@@ -60,12 +61,31 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Centra horizontalmente */
+    /*background-color: #404041;*/
 }
 
-/* Media query para pantallas pequeñas */
-@media (max-width: 600px) {
+.halfHeightScreen{
+    height: '6vh';
+}
+
+@media (max-width: 1000px) {
     .responsiveContainer {
         flex-direction: column;
+    }
+    .fixSpace {
+        box-sizing: border-box; 
+        max-width: 100%; 
+        max-height: 100%;
+    }
+    .halfLengthHorizontalAvailable {
+        box-sizing: border-box; 
+        max-width: 100%; 
+        max-height: 100%;
+    }
+    .quarterLengthOfAvailableVerticalSpace {
+        box-sizing: border-box; 
+        max-width: 100%; 
+        max-height: 100%;
     }
 }
 
