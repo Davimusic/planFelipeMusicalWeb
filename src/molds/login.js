@@ -3,52 +3,108 @@ import deepClone from "@/funciones/generales/deepClone";
 import HandleComponentChange from "@/funciones/generales/handleComponentChange";
 import { useState, useEffect } from "react";
 import { updateObjectInEdition } from "@/funciones/redux/actions";
+import generalConnector from "@/funciones/conectoresBackend/generalConnector";
+import { useRouter } from "next/navigation";
 
 
-function sum (num1, num2){
-    return (num1 + num2)
+
+function findComponentByName(obj, name) {
+    if (obj.name === name) {
+        return obj;
+    }
+
+    if (obj.children) {
+        for (let child of obj.children) {
+            const result = findComponentByName(child, name);
+            if (result) {
+                return result;
+            }
+        }
+    }
+
+    for (let key in obj) {
+        if (typeof obj[key] === 'object') {
+            const result = findComponentByName(obj[key], name);
+            if (result) {
+                return result;
+            }
+        }
+    }
+
+    return null;
 }
+
+async function checkTheLogin(user, password, router) {
+    user = user.trim();// Eliminar espacios en blanco adicionales
+    password = password.trim();
+
+    if (!user || !password) {// Verificar si el usuario o la contraseña están vacíos
+        alert("Error: El usuario y la contraseña no pueden estar vacíos.");
+        return false;
+    }
+    checkTheLoginInDb(user, password, router)
+}
+
+async function checkTheLoginInDb(user, password, router) {
+    
+
+    try {
+        const result = await generalConnector('verifyLogin', 'POST', { user: user,password: password });
+
+        if (result.success) {
+            console.log('logeo exitosamente');
+            router.push('/first');
+        } else {
+            console.log(result.message);
+        }
+    } catch (error) {
+        console.error('Error verificando el usuario:', error);
+    }    
+}
+
+
+
+
+
+
 
 //redux
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 export default function LoginMold() {
     const refs = useSelector(state => state.refs);
+    const router = useRouter();
     
 
     const dispatch = useDispatch();
-    /*const [body, setBody] = useState({
+    const [body, setBody] = useState({
         contaninerPadre: {
         type: "Container",
         name: "containerPadre",
         style: {
-            maxWidth: "400px",
-            margin: "0 auto",
-            padding: "20px",
-            borderRadius: "8px",
-            boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-            backgroundColor: "gray"
+            
         },
+        className: 'horizontalCenter',
         children: [
-            {
-            type: "Text",
-            name: "headerText",
-            text: "Iniciar Sesión",
-            style: {
-                textAlign: "center",
-                marginBottom: "20px",
-                fontSize: '50px',
-                color: 'red'
-            }
-            },
             {
             type: "Container",
             name: "formContainer",
             style: {
-                display: "flex",
-                flexDirection: "column"
+                
             },
+            className: 'color3 block maxWidth400 margin1 padding1 borders1 ',
             children: [
+                {
+                    type: "Text",
+                    name: "headerText",
+                    text: "Iniciar Sesión",
+                    style: {
+                        textAlign: "center",
+                        marginBottom: "20px",
+                        fontSize: '50px',
+                        color: 'red'
+                    }
+                    },
                 {
                 type: "Container",
                 name: "emailContainer",
@@ -67,13 +123,8 @@ export default function LoginMold() {
                     inputType: "email",
                     id: "email",
                     required: true,
-                    style: {
-                        width: "100%",
-                        padding: "10px",
-                        borderRadius: "4px",
-                        border: "1px solid #ccc",
-                        background: 'red'
-                    },
+                    style: {},
+                    className: 'borders1 width100 padding1 borderNone',
                     value: '',
                     onValueChange: (value) =>   [ changeBody(
                                                         HandleComponentChange, 
@@ -112,16 +163,10 @@ export default function LoginMold() {
                         type: "Input",
                         name: "passwordInput",
                         inputType: "password",
-                        
                         required: true,
-                        style: {
-                            width: "100%",
-                            padding: "10px",
-                            borderRadius: "4px",
-                            border: "1px solid #ccc",
-                            backgroundColor: 'gold'
-                        },
+                        style: {},
                         value: '',
+                        className: 'borders1 width100 padding1 borderNone',
                         onValueChange: (value) =>   [ changeBody(
                                                             HandleComponentChange, 
                                                             'passwordInput', 
@@ -141,7 +186,7 @@ export default function LoginMold() {
                             marginLeft: "10px",
                             padding: "10px",
                             border: "none",
-                            background: "white",
+                            background: "transparent",
                             cursor: "pointer",
                             color: "black"
                         },
@@ -171,13 +216,15 @@ export default function LoginMold() {
                                 ],
                         children: [
                             {
-                            type: "Text",
-                            name: "showPasswordButtonText",
-                            text: "mostrar",
-                            style: {
-                                textAlign: "center",
-                                fontSize: '15px'
-                            }
+                                type: "Text",
+                                name: "showPasswordButtonText",
+                                text: "mostrar",
+                                style: {
+                                    textAlign: "center",
+                                    fontSize: '15px'
+                                },
+                                className: 'borders1 width100 padding1',
+                                onClick:[()=> alert('ddd')  ]
                             }
                         ]
                         }
@@ -186,233 +233,49 @@ export default function LoginMold() {
                 ]
                 },
                 {
-                type: "Container",
-                name: "passwordRepeatContainer",
-                style: {
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "20px"
-                },
-                children: [
-                    {
-                    type: "Input",
-                    name: "passwordRepeatInput",
-                    inputType: "password",
-                    id: "passwordRepeat",
-                    required: true,
-                    style: {
-                        width: "100%",
-                        padding: "10px",
-                        borderRadius: "4px",
-                        border: "1px solid #ccc"
-                    },
-                    value: '',
-                    onValueChange: (value) =>   [ changeBody(
-                                                        HandleComponentChange, 
-                                                        'passwordRepeatInput', 
-                                                        body, 
-                                                        (component) => {
-                                                            component.value = value
-                                                        }
-                                                    ), 
-                                                    saveObjectsNameInEdition({object:'Input', name: 'passwordRepeatInput'}),
-                                                ]
-                    }
-                ]
-                },
-                {
-                type: "Container",
-                name: "newAccountContainer",
-                style: {
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "20px"
-                },
-                children: [
-                    {
-                    type: "Input",
-                    name: "newAccountCheckbox",
-                    inputType: "checkbox",
-                    id: "newAccount",
-                    required: true,
-                    style: {
-                        display: "flex",
-                        alignItems: "center",
-                        marginBottom: "20px",
-                        background: 'red'
-                    },
-                    onValueChange: (value) => Alert(value),
-                    },
-                    {
-                    type: "Label",
-                    name: "newAccountLabel",
-                    valor: "Crear nueva cuenta",
-                    }
-                ]
-                },
-                {
-                    type: "Button",
-                    name: "submitButton",
-                    style: {
-                        padding: "10px",
-                        borderRadius: "4px",
-                        border: "none",
-                        backgroundColor: "#007BFF",
-                        color: "#fff",
-                        cursor: "pointer"
-                    },
-                    onClick: [  () => Alert('iniciar'),
-                                () => Alert(sum(1,2)),
-                                () => changeBody(HandleComponentChange, 'emailInput', body, (component) => {
-                                    component.style= {
-                                        width: "100%",
-                                        padding: "10px",
-                                        borderRadius: "4px",
-                                        border: "1px solid #ccc",
-                                        background: 'blue'
-                                    };
-                                }),
-                                () => changeBody(HandleComponentChange, 'headerText', body, (component) => {
-                                    component.style= {
-                                        textAlign: "center",
-                                        marginBottom: "20px",
-                                        fontSize: '50px',
-                                        color: 'green'
-                                    };
-                                })
-                        ],
+                    type: "Container",
+                    name: "passwordContainer",
+                    style: {},
+                    className: 'equalSpace',
                     children: [
                         {
-                        type: "Text",
-                        name: "submitButtonText",
-                        text: "Iniciar",
-                        style: {
-                            textAlign: "center",
-                            fontSize: '16px'
-                        }
+                            type: "Button",
+                            name: "submitButton",
+                            style: {
+                                padding: "10px",
+                                borderRadius: "4px",
+                                border: "none",
+                                backgroundColor: "#007BFF",
+                                color: "#fff",
+                                cursor: "pointer"
+                            },
+                            onClick: [()=> checkTheLogin(findComponentByName(body, 'emailInput').value, findComponentByName(body, 'passwordInput').value, router)],
+                            
+                            children: [
+                                {
+                                type: "Text",
+                                name: "submitButtonText",
+                                text: "Iniciar",
+                                style: {
+                                    textAlign: "center",
+                                    fontSize: '16px'
+                                }
+                                }
+                            ]
                         }
                     ]
-                }
+                },    
             ]
             }
         ]
         }
     }
-    );*/
-    const [body, setBody] = useState({
-        contaninerPadre: {
-            type: "Container",
-            name: "containerPadre",
-            style: {
-                margin: "0 auto",
-                padding: "20px",
-                boxShadow: "0 0 10px rgba(0,0,0,0.1)",
-                width: '90vw',
-                height: '90vh',
-                //backgroundColor: 'red'
-                //display: 'block'
-            },
-            className: 'scroll center',
-            children: [
-                {
-                    type: "Container",
-                    name: "passwordInputContainer",
-                    className: '',//color2
-                    style: {
-                        //backgroundColor: 'blue'
-                    },
-                    children: [
-                        {
-                            type: "Container",
-                            name: "passwordInputContainer",
-                            className: 'responsiveContainer',//color2
-                            style: {
-                                //backgroundColor: 'blue'
-                            },
-                            children: [
-                                {
-                                    type: "Container",
-                                    name: "passwordInputContainer",
-                                    className: 'halfLengthHorizontalAvailable',
-                                    style: {},
-                                    children: [
-                                        {
-                                            type: "Video",
-                                            name: "video",
-                                            src: "https://res.cloudinary.com/dplncudbq/video/upload/v1657988513/mias/y1_b0pxvc.mp4",
-                                            className:'fixSpace borders1',
-                                        },
-                                    ]
-                                },
-                                {
-                                    type: "Text",
-                                    name: "text",
-                                    text: "Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha ",
-                                    style: {},
-                                    onClick: [() => Alert('texto'), () => Alert('texto 2')],
-                                    className: 'quarterLengthOfAvailableVerticalSpace  margin1 scroll',//color2
-                                },
-                                
-                                
-                            ]
-                        },
-                        {
-                            type: "Container",
-                            name: "botonsConatiner",
-                            style: {
-                            },
-                            className: ' equalSpace margin1',//color3
-                            children: [
-                                {
-                                    type: 'Image',
-                                    name: 'image1',
-                                    style: {},
-                                    src: 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133407/mias/atras_lfyntg.png',
-                                    alt: 'atras',
-                                    className: 'buttonImage',
-                                    width: '20',
-                                    height: '20',
-                                    onClick: [() => alert('atras'), () => alert('atras2')]
-                                },                                
-                                {
-                                    type: "Button",
-                                    name: "submitButton",
-                                    style: {
-                                        padding: "10px",
-                                        borderRadius: "4px",
-                                        border: "none",
-                                        backgroundColor: "#00000000",
-                                        color: "#00000000",
-                                        cursor: "pointer",
-                                        borderRadius: '0.5em'
-                                    },
-                                    onClick: [  () => Alert('siguiente'),
-                                                
-                                        ],
-                                    children: [
-                                        {type: 'Image',
-                                            name: 'image2',
-                                            style: {},
-                                            src: 'https://res.cloudinary.com/dplncudbq/image/upload/v1676133410/mias/adelante_ztqvpx.png',
-                                            alt: 'adelante',
-                                            className: 'buttonImage',
-                                            width: '20',
-                                            height: '20'
-                                            }
-                                    ]
-                                }
-                                
-                            ]
-                        },
-                    ]
-                },
-                
-            ],
-        }
-    }
+    );
+
     
-    
-    )
+
+
+
     function changeText(object, name, text1, text2){
         const textComponent = findComponentByName(object, name);
         if (textComponent.text === text1) {
@@ -452,20 +315,7 @@ export default function LoginMold() {
     }
     
 
-    function findComponentByName(component, name) {
-        if (component.name === name) {
-            return component;
-        }
-        if (component.children) {
-            for (let child of component.children) {
-                const result = findComponentByName(child, name);
-                if (result) {
-                    return result;
-                }
-            }
-        }
-        return null;
-    }
+    
     
     const saveObjectsNameInEdition = (obj) => {
         dispatch(updateObjectInEdition(obj))

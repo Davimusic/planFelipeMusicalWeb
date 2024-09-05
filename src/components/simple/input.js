@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 //redux
 import { useSelector } from 'react-redux';
 
-const Input = ({ inputType, id, style, required, onValueChange, value, name }) => {
+const Input = ({ inputType, id, style, required, onValueChange, value, name, className }) => {
     const [inputValue, setInputValue] = useState(value);
     const inputRef = useRef(null);
     const objectInEdition = useSelector(state => state.objectInEdition);
@@ -35,6 +35,7 @@ const Input = ({ inputType, id, style, required, onValueChange, value, name }) =
             value={inputValue}
             name={name}
             onChange={handleChange}
+            className={className}
         />
     );
 };

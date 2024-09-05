@@ -16,7 +16,7 @@ import LoginMold from '@/molds/login';
 
 
 
-import llamarTodoAPUObjeto from "@/funciones/conectoresBackend/llamarTodoAPUObjeto";
+//import llamarTodoAPUObjeto from "@/funciones/conectoresBackend/llamarTodoAPUObjeto";
 
 //redux
 import { useSelector } from 'react-redux';

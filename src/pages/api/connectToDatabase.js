@@ -15,7 +15,7 @@ export async function connectToDatabase() {
   
     try {
       await client.connect();
-      const db = client.db('SENA');
+      const db = client.db('PlanFelipeMusical');
       cachedDb = db;
       return db;
     } catch (error) {

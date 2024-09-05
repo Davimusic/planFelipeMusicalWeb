@@ -22,7 +22,7 @@ export function Menu({ onActivate }){
         <div className={`dropdown ${isOpen ? 'open' : ''}`}> 
             <img onClick={()=> changeMenuState()} className="imagenes" style={{margin: '5px'}} src="https://res.cloudinary.com/dplncudbq/image/upload/v1701542645/menu1_ui2fw4.png" alt="Descripción de la imagen" />
             {isOpen && (
-                <div className='menuContent'>
+                <div className='menuContent' onClick={()=> changeMenuState()}>
                     {typeof window !== 'undefined' ? 
                         <>
                             <button className="botones" onClick={() => {window.location.href='https://apu-kappa.vercel.app/'}}>APU</button>

@@ -3,8 +3,8 @@ import HandleMultipleFunctions from '@/funciones/generales/handleMultipleFunctio
 
 const Text = ({ text, style, className, onClick}) => {
     return (
-        <p onClick={HandleMultipleFunctions(...onClick)} style={style} className={className}>{text}</p>
+        <p  style={style} className={className}>{text}</p>
     );
 };
-
+//onClick={HandleMultipleFunctions(...onClick)}
 export default Text;

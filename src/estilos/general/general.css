@@ -38,6 +38,38 @@
     background-color: #00000041;
 }
 
+.width100{
+    width: 100%;
+}
+
+.block{
+    display: block;
+}
+
+.maxWidth400{
+    max-width: 400px;
+}
+
+.borderNone{
+    border: none;
+}
+
+.verticalCenter{
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;    /* Centra verticalmente */
+    height: 100vh;          
+}
+
+.horizontalCenter {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center;    /* Centra verticalmente */
+    height: 90.25vh;
+}
+
+
+
 .fixSpace {
     box-sizing: border-box; 
     max-width: 50vw; 
@@ -85,7 +117,6 @@
     .quarterLengthOfAvailableVerticalSpace {
         box-sizing: border-box; 
         max-width: 100%; 
-        max-height: 100%;
     }
 }
 
@@ -113,9 +144,56 @@
     margin: 20px;
 }
 
-.buttonImage{
-    width: '20px';
-    height: '20px';
+.marginTop1{
+    margin-top: 20px;
+}
+
+.marginRight1{
+    margin-right: 20px;
+}
+
+.marginLeft1{
+    margin-left: 20px;
+}
+
+.marginBottom1{
+    margin-bottom: 20px;
+}
+
+.margin2{
+    margin: 40px;
+}
+
+.marginTop2{
+    margin-top: 40px;
+}
+
+.marginRight2{
+    margin-right: 40px;
+}
+
+.marginLeft2{
+    margin-left: 40px;
+}
+
+
+.marginBottom2{
+    margin-bottom: 40px;
+}
+
+.padding1{
+    padding: 10px;
+}
+
+.buttonImage {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.boxShadow1{
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 a {
@@ -134,3 +212,4 @@ a {
   .scroll::-webkit-scrollbar { 
     display: none;  /* Para Chrome, Safari y Opera */
   }
+
