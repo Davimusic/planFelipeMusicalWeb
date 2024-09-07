@@ -163,7 +163,7 @@ p {
   object-fit: cover;
 }
 
-.imagenFondo::after {
+.backgroundImage::after {
   content: "";
   background: radial-gradient(circle, rgba(46,85,83,0.9528186274509804) 18%, rgba(20,16,65,0.87718837535014) 100%);
   filter: blur(5px);

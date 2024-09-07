@@ -1,6 +1,7 @@
 const initialState = {
   refs: {},
-  objectInEdition: {}
+  objectInEdition: {},
+  multipurpose: {}//loggingStatus(boleano)
 };
 
 const counterReducer = (state = initialState, action) => {
@@ -14,7 +15,12 @@ const counterReducer = (state = initialState, action) => {
       return {
         ...state,
         objectInEdition: action.payload, 
-      };                                                         
+      };      
+    case 'UPDATE_MULTIPURPOSE':
+      return {
+        ...state,
+        multipurpose: action.payload, 
+      };                                                           
     default:
       return state;
   }

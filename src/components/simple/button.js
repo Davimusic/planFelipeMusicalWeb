@@ -4,8 +4,6 @@ import { Alert } from '@/funciones/generales/alert';
 import HandleMultipleFunctions from '@/funciones/generales/handleMultipleFunctions';
 
 const Button = ({ onClick, children, style }) => {
-    console.log(onClick);
-    
     return (
         <button onClick={HandleMultipleFunctions(...onClick)}  style={style}>
             {Array.isArray(children) ? children.map((child, index) => {

@@ -12,5 +12,12 @@ export const updateObjectInEdition = (value) => {
     };
 };
 
+export const updateMultipurpose = (value) => {
+    return {
+        type: 'UPDATE_MULTIPURPOSE',
+        payload: value,
+    };
+};
+
 
 

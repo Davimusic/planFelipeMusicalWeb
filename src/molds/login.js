@@ -2,9 +2,11 @@ import { Alert } from "@/funciones/generales/alert";
 import deepClone from "@/funciones/generales/deepClone";
 import HandleComponentChange from "@/funciones/generales/handleComponentChange";
 import { useState, useEffect } from "react";
-import { updateObjectInEdition } from "@/funciones/redux/actions";
+import { updateObjectInEdition, updateMultipurpose } from "@/funciones/redux/actions";
 import generalConnector from "@/funciones/conectoresBackend/generalConnector";
 import { useRouter } from "next/navigation";
+import validateMultipurposeAccess from "@/funciones/generales/security/validateMultipurposeAccess";
+import Prueva from "@/funciones/generales/prueba";
 
 
 
@@ -34,7 +36,7 @@ function findComponentByName(obj, name) {
     return null;
 }
 
-async function checkTheLogin(user, password, router) {
+async function checkTheLogin(user, password, router, multipurpose, dispatch) {
     user = user.trim();// Eliminar espacios en blanco adicionales
     password = password.trim();
 
@@ -42,17 +44,23 @@ async function checkTheLogin(user, password, router) {
         alert("Error: El usuario y la contraseña no pueden estar vacíos.");
         return false;
     }
-    checkTheLoginInDb(user, password, router)
+    checkTheLoginInDb(user, password, router, multipurpose, dispatch)
 }
 
-async function checkTheLoginInDb(user, password, router) {
+async function checkTheLoginInDb(user, password, router, multipurpose, dispatch) {
     
 
     try {
         const result = await generalConnector('verifyLogin', 'POST', { user: user,password: password });
 
         if (result.success) {
-            console.log('logeo exitosamente');
+            //dispatch(updateMultipurpose({ ...multipurpose, loggingStatus: true }));
+            //console.log(Prueva('Post','loggingStatus', true));
+            localStorage.setItem('multipurpose', JSON.stringify({'loggingStatus': true}));
+            // Recuperar y mostrar el objeto en el log
+            const storedObject = JSON.parse(localStorage.getItem('hola'));
+            console.log('Objeto almacenado:', storedObject);
+            //console.log('logeo exitosamente');
             router.push('/first');
         } else {
             console.log(result.message);
@@ -68,12 +76,36 @@ async function checkTheLoginInDb(user, password, router) {
 
 
 
+
 //redux
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 export default function LoginMold() {
     const refs = useSelector(state => state.refs);
+    const multipurpose = useSelector(state => state.multipurpose);
+    const objectInEdition = useSelector(state => state.objectInEdition);
     const router = useRouter();
+
+    useEffect(() => {
+        if (multipurpose.loggingStatus) {
+            router.push('/first');
+        }
+    }, [multipurpose.loggingStatus]);
+
+    useEffect(() => {
+        console.log(multipurpose);
+        
+    }, [multipurpose]);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            if (validateMultipurposeAccess('loggingStatus', true)) {
+                router.push('/first');
+            } 
+        }
+    }, [router]);
+
+    
     
 
     const dispatch = useDispatch();
@@ -249,7 +281,7 @@ export default function LoginMold() {
                                 color: "#fff",
                                 cursor: "pointer"
                             },
-                            onClick: [()=> checkTheLogin(findComponentByName(body, 'emailInput').value, findComponentByName(body, 'passwordInput').value, router)],
+                            onClick: [()=> checkTheLogin(findComponentByName(body, 'emailInput').value, findComponentByName(body, 'passwordInput').value, router, multipurpose, dispatch)],
                             
                             children: [
                                 {
@@ -323,8 +355,8 @@ export default function LoginMold() {
 
     const changeBody = (func, ...args) => {
         const updatedBody = func(...args);
-        console.log(updatedBody);
-        console.log(deepClone(updatedBody));
+        //console.log(updatedBody);
+        //console.log(deepClone(updatedBody));
         setBody(deepClone(updatedBody));
     };
 

@@ -1,12 +1,49 @@
-import React from 'react';
+"use client";
+// src/pages/WordViewer.js
+import { Menu } from '@/components/menu';
+import handleMenuActivation from '@/funciones/utils/menuUtils';
+import validateMultipurposeAccess from '@/funciones/generales/security/validateMultipurposeAccess';
+import { useSelector } from 'react-redux';
+import Prueva from "@/funciones/generales/prueba";
+import { useState, useEffect } from "react";
+import '../estilos/general/general.css'
 
-const NotFound = () => {
+import { useRouter } from 'next/router';
+
+
+
+
+const WordViewer = () => {
+  const multipurpose = useSelector(state => state.multipurpose);
+  const router = useRouter();
+  const [hasAccess, setHasAccess] = useState(false);
+
+  useEffect(() => {
+      if (typeof window !== 'undefined') {
+          for (let i = 0; i < localStorage.length; i++) {
+              let key = localStorage.key(i);
+              console.log(`${key}: ${localStorage.getItem(key)}`);
+          }
+          setHasAccess(validateMultipurposeAccess('loggingStatus', true));
+      }
+  }, []);
+
+  if (!hasAccess) {
+      return <div style={{backgroundColor: 'red'}}>No tienes acceso para ver este contenido.</div>;
+  }
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', backgroundImage: 'url(https://res.cloudinary.com/dplncudbq/image/upload/v1703698224/fondoo_ri7v9f.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <h1 style={{ fontSize: '3rem', color: 'black', textAlign: 'center' }}>fsfsf</h1>
-      <p style={{ fontSize: '1.5rem', color: 'black', textAlign: 'center' }}>La ruta que buscas no existe.</p>
-    </div>
+      <Menu>
+          <div className='' style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+              <iframe 
+                  src="https://docs.google.com/gview?url=https://res.cloudinary.com/dplncudbq/raw/upload/v1725627563/planFelipeMusical/MANUAL_Ministerio_Alabanza_Adoracio%CC%81n_ICCESE_zzfq1x.docx&embedded=true" 
+                  style={{ width: '90vw', height: '90vh', border: 'none', backgroundColor: 'transparent' }}
+                  title="Word Document Viewer"
+                  className='borders1'
+              ></iframe>
+          </div>
+      </Menu>
   );
 };
 
-export default NotFound;
+export default WordViewer;
