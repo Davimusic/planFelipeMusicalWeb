@@ -10,63 +10,68 @@ import Button from '@/components/simple/button';
 import Icon from '@/components/simple/icon';
 import Input from '@/components/simple/input'
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
-import React, { useRef, forwardRef, useEffect } from 'react';
-//redux
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { updateRefs } from "@/funciones/redux/actions";
 
-const refs = {};
+import React, { useRef, useEffect } from 'react';
+
+import Alert from '@/funciones/generales/alert';
+
+
+const functions = {
+    alert: dynamic(() => import('@/funciones/generales/alert')),
+    deepClone: dynamic(() => import('@/funciones/generales/deepClone')),
+    handleComponentChange: dynamic(() => import('@/funciones/generales/handleComponentChange')),
+    handleMultipleFunctions: dynamic(() => import('@/funciones/generales/handleMultipleFunctions')),
+    // Agrega aquí más funciones según sea necesario
+};
+
+console.log('Functions:', functions); // Para verificar que las funciones se cargan correctamente
+
+
+
+
+
 const RenderElement = (element) => {
-    const ref = useRef(null);
-    refs[element.name] = ref;
+   // console.log(element);
+    
 
-    //redux
-    const objetoRefs = useSelector(state => state.refs);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(updateRefs(refs));
-    }, [dispatch]);
-
-    const ForwardedText =      forwardRef((props, ref) => <Text {...props} forwardedRef={ref} />);
-    const ForwardedVideo =     forwardRef((props, ref) => <Video {...props} forwardedRef={ref} />);
-    const ForwardedAudio =     forwardRef((props, ref) => <Audio {...props} forwardedRef={ref} />);
-    const ForwardedLink =      forwardRef((props, ref) => <Link {...props} forwardedRef={ref} />);
-    const ForwardedLabel =     forwardRef((props, ref) => <Label {...props} forwardedRef={ref} />);
-    const ForwardedButton =    forwardRef((props, ref) => <Button {...props} forwardedRef={ref} />);
-    const ForwardedIcon =      forwardRef((props, ref) => <Icon {...props} forwardedRef={ref} />);
-    const ForwardedInput =     forwardRef((props, ref) => <Input {...props} forwardedRef={ref} />);
-    const ForwardedImage =     forwardRef((props, ref) => <Image {...props} forwardedRef={ref} />);
-    const ForwardedContainer = forwardRef((props, ref) => <Container {...props} forwardedRef={ref} />);
+    const handleClick = (onClick) => {
+        
+    };
+    
+    
 
     switch (element.type) {
         case 'Text':
-            return <ForwardedText ref={ref} onClick={element.onClick} text={element.text} style={element.style} className={element.className}/>;
+            return <Text onClick={element.onClick} text={element.text} style={element.style} className={element.className} />;
         case 'Video':
-            return <ForwardedVideo ref={ref} src={element.src} style={element.style} className={element.className}/>;
+            return <Video src={element.src} style={element.style} className={element.className} />;
         case 'Audio':
-            return <ForwardedAudio ref={ref} src={element.src} className={element.className}/>;
+            return <Audio src={element.src} className={element.className} />;
         case 'Link':
-            return <ForwardedLink ref={ref} href={element.href}>{element.text} className={element.className}</ForwardedLink>;
+            return <Link href={element.href} className={element.className}>{element.text}</Link>;
         case 'Label':
-            return <ForwardedLabel ref={ref} valor={element.valor} onValueChange={element.onValueChange || (() => {})} className={element.className}/>;
+            return <Label valor={element.valor} onValueChange={element.onValueChange || (() => {})} className={element.className} />;
         case 'Button':
-            return <ForwardedButton ref={ref} onClick={element.onClick} style={element.style} children={element.children} className={element.className}/>;
+                return <Button id={element.id} onClick={element.onClick} style={element.style} className={element.className}>
+                    {element.children && element.children.map((child, index) => (
+                        <React.Fragment key={index}>{RenderElement(child)}</React.Fragment>
+                    ))}
+                </Button>;
         case 'Icon':
-            return <ForwardedIcon ref={ref} iconType={element.iconType} style={element.style} className={element.className}/>;
+            return <Icon iconType={element.iconType} style={element.style} className={element.className} />;
         case 'Input':
-            return <ForwardedInput ref={ref} inputType={element.inputType} id={element.id} style={element.style} required={element.required} onValueChange={element.onValueChange} value={element.value} name={element.name} className={element.className}/>;
+            return <Input inputType={element.inputType} id={element.id} style={element.style} required={element.required} onValueChange={element.onValueChange} value={element.value} name={element.name} className={element.className} />;
         case 'Image':
-            return <ForwardedImage ref={ref} onClick={element.onClick} src={element.src} alt={element.alt} className={element.className} style={element.style} height={element.height} width={element.width}/>;
+            return <Image onClick={() => handleClick(element.onClick)} src={element.src} alt={element.alt} className={element.className} style={element.style} height={element.height} width={element.width} />;
         case 'Container':
             return (
-            <ForwardedContainer ref={ref} style={element.style} className={element.className}>
-                {element.children.map((child, index) => (
-                    <React.Fragment key={index}>{RenderElement(child)}</React.Fragment>
-                ))}
-            </ForwardedContainer>
+                <Container style={element.style} className={element.className}>
+                    {element.children.map((child, index) => (
+                        <React.Fragment key={index}>{RenderElement(child)}</React.Fragment>
+                    ))}
+                </Container>
             );
         default:
             return null;

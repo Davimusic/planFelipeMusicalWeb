@@ -1,9 +1,13 @@
-export default function  HandleMultipleFunctions (...functions) {
-    return (event) => {
-        functions.forEach((func) => {
+const handleMultipleFunctions = (...functions) => {
+    return () => {
+        functions.forEach(func => {
             if (typeof func === 'function') {
-                func(event);
+                func();
+            } else {
+                console.error('Expected a function, but received:', func);
             }
         });
     };
 };
+
+export default handleMultipleFunctions;

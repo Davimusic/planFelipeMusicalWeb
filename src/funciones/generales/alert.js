@@ -1,3 +1,5 @@
-export function Alert(message){
-    return alert(message)
+// src/funciones/generales/alert.js
+export default function alert(message) {
+    console.log(message);
 }
+
