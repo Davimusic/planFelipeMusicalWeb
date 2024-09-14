@@ -1,6 +1,8 @@
+import localStorageAcces from "../security/localStorageAcces";
+
 export default function convertStringFunctionsToOperables(path, functions, setBody) {
     if (typeof window !== 'undefined') {
-        const storedObject = JSON.parse(localStorage.getItem(path));
+        const storedObject = localStorageAcces('GET', path)//JSON.parse(localStorage.getItem(path));
         
         if (storedObject) {
             const traverseAndEval = (obj) => {
