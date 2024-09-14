@@ -162,8 +162,9 @@ let login={
     ]
 }
 
-
-localStorage.setItem('multifunctions', JSON.stringify(login));
+if (typeof window !== 'undefined') {
+//localStorage.setItem('multifunctions', JSON.stringify(login));
+}
 
 
 export default function LoginMold() {
