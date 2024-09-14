@@ -26,7 +26,17 @@ export function Content() {    //redux
             });
     }, []);*/
 
-    /*useEffect(() => {
+    
+
+    return (
+        <div style={{height:'100%'}}>
+            {RenderElement(LoginMold())}
+        </div>
+    );
+}
+
+
+/*useEffect(() => {
         const obj={
             type: "Container",
             name: "botonsConatiner",
@@ -86,11 +96,4 @@ export function Content() {    //redux
         }
         localStorage.setItem('multifunctions', JSON.stringify(obj));
     }, [])*/
-
-    return (
-        <div style={{height:'100%'}}>
-            {RenderElement(LoginMold())}
-        </div>
-    );
-}
 
