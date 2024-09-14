@@ -1,4 +1,5 @@
 import generalConnector from "@/functions/BackendConnectors/generalConnector";
+import localStorageAcces from "./localStorageAcces";
 
 export default async function checkTheLoginInDb(user, password, router) {
     try {
@@ -7,9 +8,10 @@ export default async function checkTheLoginInDb(user, password, router) {
         if (result.success) {
             //dispatch(updateMultipurpose({ ...multipurpose, loggingStatus: true }));
             //console.log(Prueva('Post','loggingStatus', true));
-            if (typeof window !== 'undefined') {
+            localStorageAcces('POST', 'loggingStatus', true)
+            /*if (typeof window !== 'undefined') {
             //localStorage.setItem('loggingStatus', JSON.stringify(true));
-            }
+            }*/
             //console.log('logeo exitosamente');
             router.push('/first');
         } else {
