@@ -163,7 +163,7 @@ let login={
 }
 
 if (typeof window !== 'undefined') {
-//localStorage.setItem('multifunctions', JSON.stringify(login));
+localStorage.setItem('multifunctions', JSON.stringify(login));
 }
 
 
