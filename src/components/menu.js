@@ -36,7 +36,7 @@ export function Menu({ children }) {
                                     <button className="botones" onClick={() => { window.location.href = 'https://apu-kappa.vercel.app/' }}>APU</button>
                                     <button className="botones" onClick={() => { window.location.href = 'https://gannt-blush.vercel.app/' }}>GANNT</button>
                                     <button className="botones" onClick={HandleMultipleFunctions(
-                () => localStorage.setItem('loggingStatus', JSON.stringify(false)),
+                
                 () => router.push('/')
             )}
             >SALIR</button>
