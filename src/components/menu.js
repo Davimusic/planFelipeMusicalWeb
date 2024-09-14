@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import '../estilos/menu.css';
 import '../../src/app/globals.css';
-import HandleMultipleFunctions from "@/funciones/generales/handleMultipleFunctions";
+import HandleMultipleFunctions from "@/functions/general/handleMultipleFunctions";
 
 export function Menu({ children }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,7 +36,7 @@ export function Menu({ children }) {
                                     <button className="botones" onClick={() => { window.location.href = 'https://apu-kappa.vercel.app/' }}>APU</button>
                                     <button className="botones" onClick={() => { window.location.href = 'https://gannt-blush.vercel.app/' }}>GANNT</button>
                                     <button className="botones" onClick={HandleMultipleFunctions(
-                () => localStorage.setItem('multipurpose', JSON.stringify({ 'loggingStatus': false })),
+                () => localStorage.setItem('loggingStatus', JSON.stringify(false)),
                 () => router.push('/')
             )}
             >SALIR</button>

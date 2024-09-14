@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-//redux
-import { useSelector } from 'react-redux';
+import extractArrayContentToStrings from '@/functions/general/extractArrayContentToStrings';
 
 const Input = ({ inputType, id, style, required, onValueChange, value, name, className }) => {
     const [inputValue, setInputValue] = useState(value);
-    const inputRef = useRef(null);
-    const objectInEdition = useSelector(state => state.objectInEdition);
 
     useEffect(() => {
         setInputValue(value);
@@ -19,15 +16,8 @@ const Input = ({ inputType, id, style, required, onValueChange, value, name, cla
         }
     };
 
-    useEffect(() => {
-        if (objectInEdition && objectInEdition.name === name) {
-            inputRef.current.focus();
-        }
-    }, [objectInEdition, name]);
-
     return (
         <input
-            ref={inputRef}
             type={inputType}
             id={id}
             style={style}
@@ -35,7 +25,7 @@ const Input = ({ inputType, id, style, required, onValueChange, value, name, cla
             value={inputValue}
             name={name}
             onChange={handleChange}
-            className={className}
+            className={extractArrayContentToStrings(className)}
         />
     );
 };

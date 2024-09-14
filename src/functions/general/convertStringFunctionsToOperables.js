@@ -7,14 +7,20 @@ export default function convertStringFunctionsToOperables(path, functions, setBo
                 if (obj.onClick) {
                     obj.onClick = eval(`(${obj.onClick})`);
                 }
+                if (obj.onValueChange) {
+                    obj.onValueChange = eval(`(${obj.onValueChange})`);
+                }
                 if (obj.children && Array.isArray(obj.children)) {
                     obj.children.forEach(child => traverseAndEval(child));
                 }
             };
 
             traverseAndEval(storedObject);
+            console.log(storedObject);
+            
             setBody(storedObject);
         }
     }
 }
+
 

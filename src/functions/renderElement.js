@@ -1,4 +1,4 @@
-//import React from 'react';
+import React from 'react';
 import IsShow from '@/components/isShow';
 import Text from '@/components/simple/text';
 import Video from '@/components/simple/video';
@@ -10,37 +10,9 @@ import Button from '@/components/simple/button';
 import Icon from '@/components/simple/icon';
 import Input from '@/components/simple/input'
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-
-import React, { useRef, useEffect } from 'react';
-
-import Alert from '@/funciones/generales/alert';
-
-
-const functions = {
-    alert: dynamic(() => import('@/funciones/generales/alert')),
-    deepClone: dynamic(() => import('@/funciones/generales/deepClone')),
-    handleComponentChange: dynamic(() => import('@/funciones/generales/handleComponentChange')),
-    handleMultipleFunctions: dynamic(() => import('@/funciones/generales/handleMultipleFunctions')),
-    // Agrega aquí más funciones según sea necesario
-};
-
-console.log('Functions:', functions); // Para verificar que las funciones se cargan correctamente
-
-
-
 
 
 const RenderElement = (element) => {
-   // console.log(element);
-    
-
-    const handleClick = (onClick) => {
-        
-    };
-    
-    
 
     switch (element.type) {
         case 'Text':
@@ -54,11 +26,7 @@ const RenderElement = (element) => {
         case 'Label':
             return <Label valor={element.valor} onValueChange={element.onValueChange || (() => {})} className={element.className} />;
         case 'Button':
-                return <Button id={element.id} onClick={element.onClick} style={element.style} className={element.className}>
-                    {element.children && element.children.map((child, index) => (
-                        <React.Fragment key={index}>{RenderElement(child)}</React.Fragment>
-                    ))}
-                </Button>;
+                return <Button children={element.children} id={element.id} onClick={element.onClick} style={element.style} className={element.className}/>
         case 'Icon':
             return <Icon iconType={element.iconType} style={element.style} className={element.className} />;
         case 'Input':

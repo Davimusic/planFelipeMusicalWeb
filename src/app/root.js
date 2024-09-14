@@ -2,14 +2,9 @@
 
 import "./globals.css";
 import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import { Menu } from "@/components/menu";
 import { Content } from "@/components/content";
-import counterReducer from "@/funciones/redux/counterReducer";
-//import handleMenuActivation from "@/funciones/utils/menuUtils";
 
-const store = createStore(counterReducer);
+
 
 export function Root() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,8 +12,7 @@ export function Root() {
     
 
     return (
-        <Provider store={store}>
-            <html>
+        <html>
                 <head>
                     <link
                         href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Dancing+Script&family=Montserrat+Alternates:ital,wght@0,300;1,100&family=PT+Serif:ital@1&family=Playfair+Display:ital,wght@1,500&family=Rubik+Vinyl&display=swap"
@@ -35,7 +29,6 @@ export function Root() {
                         <Content />
                     </div>
                 </body>
-            </html>
-        </Provider>
+        </html>
     );
 }

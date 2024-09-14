@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from "react";
-import RenderElement from '@/funciones/renderElement';
+import RenderElement from '@/functions/renderElement';
 import LoginMold from '@/molds/login';
 import '../estilos/general/general.css'
 
@@ -26,21 +26,20 @@ export function Content() {    //redux
             });
     }, []);*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         const obj={
             type: "Container",
             name: "botonsConatiner",
             style: {},
-            className: 'color3',//color3
+            className: ['paddingTop'],//color3
             children: [
                 {
                     type: "Button",
                     name: "Button1",
                     id: '1',
                     buttonType: "button",
-                    className: ['color1', 'otros', 'rotate'],
+                    className: ['color1', 'paddingTop', 'rotate'],
                     style: {
-                        marginLeft: "100px",
                         padding: "10px",
                         border: "none",
                         background: "white",
@@ -71,7 +70,6 @@ export function Content() {    //redux
                     buttonType: "button",
                     className: ['color4', 'otros'],
                     style: {
-                        marginLeft: "1000px",
                         padding: "10px",
                         border: "none",
                         background: "red",
@@ -87,17 +85,11 @@ export function Content() {    //redux
             ]
         }
         localStorage.setItem('multifunctions', JSON.stringify(obj));
-    }, [])
+    }, [])*/
 
     return (
         <div style={{height:'100%'}}>
-            <div>
-                {Object.keys(LoginMold()).map((key) => (
-                    <React.Fragment key={key}>
-                        {RenderElement(LoginMold()[key])}
-                    </React.Fragment>
-                ))}
-            </div>
+            {RenderElement(LoginMold())}
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../estilos/general/general.css';
-import handleMultipleFunctions from '@/funciones/generales/handleMultipleFunctions';
+import handleMultipleFunctions from '@/functions/general/handleMultipleFunctions';
 
 const Image = ({ src, alt, className, style, width, height, onClick }) => {
     return (
