@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import '../estilos/menu.css';
 import '../../src/app/globals.css';
 import HandleMultipleFunctions from "@/functions/general/handleMultipleFunctions";
+import localStorageAcces from "@/functions/security/localStorageAcces";
 
 export function Menu({ children }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,7 +37,7 @@ export function Menu({ children }) {
                                     <button className="botones" onClick={() => { window.location.href = 'https://apu-kappa.vercel.app/' }}>APU</button>
                                     <button className="botones" onClick={() => { window.location.href = 'https://gannt-blush.vercel.app/' }}>GANNT</button>
                                     <button className="botones" onClick={HandleMultipleFunctions(
-                
+                () => localStorageAcces('POST', 'loggingStatus', false),                     
                 () => router.push('/')
             )}
             >SALIR</button>

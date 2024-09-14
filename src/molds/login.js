@@ -199,11 +199,14 @@ export default function LoginMold() {
     }, [email]);
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (validateMultipurposeAccess('loggingStatus', true)) {
+        //functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'), alert('verdad'), alert('false'))
+        
+        /*if (typeof window !== 'undefined') {
+            functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'), router.push('/first'), '')
+            if (validateMultipurposeAccess('loggingStatus', false)) {
                 router.push('/first');
             } 
-        }
+        }*/
     }, [router]);  
 
     return body

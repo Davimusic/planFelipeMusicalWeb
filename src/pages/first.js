@@ -15,15 +15,9 @@ const WordViewer = () => {
     const router = useRouter();
     const [hasAccess, setHasAccess] = useState(false);
 
-    /*useEffect(() => {
-        if (typeof window !== 'undefined') {
-            for (let i = 0; i < localStorage.length; i++) {
-                let key = localStorage.key(i);
-                console.log(`${key}: ${localStorage.getItem(key)}`);
-            }
-            setHasAccess(validateMultipurposeAccess('loggingStatus', true));
-        }
-    }, []);*/
+    useEffect(() => {
+        setHasAccess(validateMultipurposeAccess('loggingStatus', true));
+    }, []);
 
     if (!hasAccess) {
         return <div style={{backgroundColor: 'red'}}>No tienes acceso para ver este contenido.</div>;

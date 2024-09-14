@@ -6,13 +6,8 @@ export default async function checkTheLoginInDb(user, password, router) {
         const result = await generalConnector('verifyLogin', 'POST', { user: user,password: password });
 
         if (result.success) {
-            //dispatch(updateMultipurpose({ ...multipurpose, loggingStatus: true }));
-            //console.log(Prueva('Post','loggingStatus', true));
             localStorageAcces('POST', 'loggingStatus', true)
-            /*if (typeof window !== 'undefined') {
-            //localStorage.setItem('loggingStatus', JSON.stringify(true));
-            }*/
-            //console.log('logeo exitosamente');
+            console.log('logeo exitoso');
             router.push('/first');
         } else {
             console.log(result.message);

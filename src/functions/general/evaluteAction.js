@@ -1,7 +1,9 @@
 export default function evaluteAction(fun, trueCase, falseCase){
     if(fun){
-        return trueCase
+        console.log('entra true');
+        trueCase
     } else {
-        return falseCase
+        console.log('entra false');
+        falseCase
     }
 }
