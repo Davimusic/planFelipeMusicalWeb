@@ -72,13 +72,13 @@ export default function render() {
     const [body, setBody] = useState({});
 
     const items = [
-        <div className='rotate' style={{ backgroundColor: 'red', height: '50vh', width: '100%' }}>Item 1</div>,
-        <div style={{ backgroundColor: 'green', height: '50vh', width: '100%' }}>Item 2</div>,
-        <div onClick={() => alert('si')} style={{ backgroundColor: 'blue', height: '50vh', width: '100%' }}>Item 3</div>,
-        <div style={{ backgroundColor: 'yellow', height: '50vh', width: '100%' }}>Item 4</div>,
-        <p style={{ backgroundColor: 'lightgrey', height: '50vh', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Texto de ejemplo</p>,
-        <img src="https://res.cloudinary.com/dplncudbq/image/upload/v1657563380/mias/h19_wgstaq.jpg" alt="Placeholder" style={{ height: '50vh', width: '50vw',  aspectRatio: '2 / 1' }} />,
-        <video controls style={{ height: '50vh', width: '100%' }}>
+        <div className='rotate' style={{ backgroundColor: 'red', height: '45vh', width: '90%' }}>Item 1</div>,
+        <div style={{ backgroundColor: 'green', height: '45vh', width: '90%' }}>Item 2</div>,
+        <div onClick={() => alert('si')} style={{ backgroundColor: 'blue', height: '45vh', width: '90%' }}>Item 3</div>,
+        <div style={{ backgroundColor: 'yellow', height: '45vh', width: '90%' }}>Item 4</div>,
+        <p style={{ backgroundColor: 'lightgrey', height: '45vh', width: '90%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Texto de ejemplo</p>,
+        <img src="https://res.cloudinary.com/dplncudbq/image/upload/v1657563380/mias/h19_wgstaq.jpg" alt="Placeholder" style={{ height: '45vh', width: '45vw',  aspectRatio: '2 / 1' }} />,
+        <video controls style={{ height: '45vh', width: '90%' }}>
             <source src="https://res.cloudinary.com/dplncudbq/video/upload/v1657988838/mias/y5_hjj0uv.mp4" type="video/mp4" />
             Your browser does not support the video tag.
         </video>

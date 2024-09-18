@@ -26,7 +26,7 @@ export default function SlideGallery({ children, visibleCount, autoScroll = fals
 
     return (
         <div className='center' style={{width: '100%', height: '90vh'}}>
-            <div className='' style={{width: '80%', height: '90vh'}}>
+            <div className='center' style={{width: '80%', height: '90vh', background: 'blue'}}>
             <div>
             <div  style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: 'max-content' }}>
             <div
@@ -44,7 +44,7 @@ export default function SlideGallery({ children, visibleCount, autoScroll = fals
             >
                 <div style={{ display: 'flex', width: '100%', transform: `translateX(-${currentIndex * 100}%)`, transition: 'transform 0.9s ease' }}>
                     {children.map((child, index) => (
-                        <div className='center' key={index} style={{ flex: '0 0 100%', width: '100%' }}>
+                        <div className='center color4' key={index} style={{ flex: '0 0 100%', width: '100%' }}>
                             {child}
                         </div>
                     ))}
