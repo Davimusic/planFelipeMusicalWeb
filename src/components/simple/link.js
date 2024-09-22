@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 
-const Link = ({ href, children }) => {
+const Link = ({id, href, children }) => {
     return (
-        <Link href={href}>
+        <Link id={id} href={href}>
         <a>{children}</a>
         </Link>
     );

@@ -6,10 +6,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import validateMultipurposeAccess from "@/functions/security/validateMultipurposeAccess";
 import Prueva from "@/functions/general/prueba";
-import importAllLocalFunctions from '@/functions/general/importAllLocalFunctions';
+import importAllFunctions from "@/functions/general/importAllLocalFunctions";
 
-let functions = importAllLocalFunctions()
-//console.log(functions);
+let functions = importAllFunctions()
+
 let login={
     "type": "Container",
     "name": "containerPadre",
@@ -140,10 +140,9 @@ let login={
                             },
                             "onClick": `() => functions.handleMultipleFunctions([
                                                 functions.evaluteAction(functions.checkTheLogin(functions.email(), functions.password()), 
-                                                                        functions.checkTheLoginInDb(functions.email(), functions.password(), functions.router()),
-                                                                        functions.alert('login errado'))
-                                                    
-                                        ])`,
+                                                                        () =>    functions.checkTheLoginInDb(functions.email(), functions.password(), functions.router()),
+                                                                        () =>    functions.alert('login errado'))
+                                            ])`,
                             'className': [''],
                             "children": [
                                 {
@@ -162,12 +161,7 @@ let login={
     ]
 }
 
-/*if (typeof window !== 'undefined') {
-localStorage.setItem('multifunctions', JSON.stringify(login));
-}*/
-
 functions.localStorageAcces('POST', 'multifunctions', login)
-
 
 export default function LoginMold() {
     const [body, setBody] = useState({});
@@ -194,12 +188,14 @@ export default function LoginMold() {
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
     }, []);
 
-    useEffect(() => {
-        console.log(email);
-    }, [email]);
+    
 
     useEffect(() => {
-        //functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'), alert('verdad'), alert('false'))
+        console.log();
+        
+        console.log(functions.localStorageAcces('GET', 'loggingStatus'));
+        
+        
         
         /*if (typeof window !== 'undefined') {
             functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'), router.push('/first'), '')
