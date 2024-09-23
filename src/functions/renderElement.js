@@ -11,9 +11,6 @@ import Icon from '@/components/simple/icon';
 import Input from '@/components/simple/input'
 import Image from 'next/image';
 
-import importAllFunctions from './general/importAllLocalFunctions';
-let functions = importAllFunctions()
-
 const RenderElement = (element) => {
 
     switch (element.type) {

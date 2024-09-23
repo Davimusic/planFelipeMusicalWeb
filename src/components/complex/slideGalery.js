@@ -60,6 +60,7 @@ const items=
 let slide={
     "type": "Container",
     "id": 1,
+    "className": [],
     "children": [
         {
             "type": "Container",
@@ -82,10 +83,12 @@ let slide={
                         {
                             "type": "Container",
                             "id": 4,
+                            "className": [],
                             "children": [
                                 {
                                     "type": "Container",
                                     "id": 5,
+                                    "className": [],
                                     "style": {
                                         "display": "flex",
                                         "alignItems": "center",
@@ -108,10 +111,12 @@ let slide={
                                                 "justifyContent": "center",
                                                 "overflow": "hidden"
                                             },
+                                            "className": [],
                                             "children": [
                                                 {
                                                     "type": "Container",
                                                     "id": 7,
+                                                    "className": [],
                                                     "style": {
                                                         "display": "flex",
                                                         "width": '`${100 * functions.childrens.length / visibleCount}%`',
@@ -121,6 +126,7 @@ let slide={
                                                     "children": [{
                                                         'type': 'Container',
                                                         'id': 'ChildrenArray',
+                                                        "className": [],
                                                         "children": []
                                                     }]
                                                 }

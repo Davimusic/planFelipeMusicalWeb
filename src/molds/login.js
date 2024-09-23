@@ -1,11 +1,5 @@
-import { Alert } from "@/functions/general/alert";
-import deepClone from "@/functions/general/deepClone";
-import HandleComponentChange from "@/functions/general/handleComponentChange";
 import { useState, useEffect } from "react";
-
 import { useRouter } from "next/navigation";
-import validateMultipurposeAccess from "@/functions/security/validateMultipurposeAccess";
-import Prueva from "@/functions/general/prueba";
 import importAllFunctions from "@/functions/general/importAllLocalFunctions";
 
 let functions = importAllFunctions()
@@ -161,6 +155,7 @@ let login={
     ]
 }
 
+
 functions.localStorageAcces('POST', 'multifunctions', login)
 
 export default function LoginMold() {
@@ -178,225 +173,16 @@ export default function LoginMold() {
     console.log(functions);
     const router = useRouter();
 
-    /*useEffect(() => {
-        if (multipurpose.loggingStatus) {
-            router.push('/first');
-        }
-    }, [multipurpose.loggingStatus]);*/
-
     useEffect(() => {
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
     }, []);
 
-    
-
     useEffect(() => {
-        console.log();
-        
-        console.log(functions.localStorageAcces('GET', 'loggingStatus'));
-        
-        
-        
-        /*if (typeof window !== 'undefined') {
-            functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'), router.push('/first'), '')
-            if (validateMultipurposeAccess('loggingStatus', false)) {
-                router.push('/first');
-            } 
-        }*/
+        functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'),()=> router.push('/first'), '')
     }, [router]);  
 
     return body
 }
 
-let referencia = {
-    type: "Container",
-    name: "containerPadre",
-    style: {
-        
-    },
-    className: ['horizontalCenter', 'center'],
-    children: [
-        {
-        type: "Container",
-        name: "formContainer",
-        style: {
-            
-        },
-        className: ['color3', 'block', 'maxWidth400', 'margin1', 'padding1', 'borders1'],
-        children: [
-            {
-                type: "Text",
-                name: "headerText",
-                text: "Iniciar Sesión",
-                style: {
-                    textAlign: "center",
-                    marginBottom: "20px",
-                    fontSize: '50px',
-                    color: 'red'
-                }
-                },
-            {
-            type: "Container",
-            name: "emailContainer",
-            style: {
-                marginBottom: "15px"
-            },
-            children: [
-                {
-                type: "Label",
-                name: "emailLabel",
-                valor: "Correo Electrónico",
-                },
-                {
-                type: "Input",
-                name: "emailInput",
-                inputType: "email",
-                id: "email",
-                required: true,
-                style: {},
-                className: ['borders1', 'width100', 'padding1', 'borderNone'],
-                value: '',
-                onValueChange: (value) =>   [ changeBody(
-                                                    HandleComponentChange, 
-                                                    'emailInput', 
-                                                    body, 
-                                                    (component) => {
-                                                        component.value = value
-                                                    }
-                                                ), 
-                                                saveObjectsNameInEdition({object:'Input', name: 'emailInput'}),
-                                            ]
-                },
-            ]
-            },
-            {
-            type: "Container",
-            name: "passwordContainer",
-            style: {
-                marginBottom: "15px"
-            },
-            children: [
-                {
-                type: "Label",
-                name: "passwordLabel",
-                valor: "Contraseña",
-                },
-                {
-                type: "Container",
-                name: "passwordInputContainer",
-                style: {
-                    display: "flex",
-                    alignItems: "center"
-                },
-                children: [
-                    {
-                    type: "Input",
-                    name: "passwordInput",
-                    inputType: "password",
-                    required: true,
-                    style: {},
-                    value: '',
-                    className: ['borders1', 'width100', 'padding1', 'borderNone'],
-                    onValueChange: (value) =>   [ changeBody(
-                                                        HandleComponentChange, 
-                                                        'passwordInput', 
-                                                        body, 
-                                                        (component) => {
-                                                            component.value = value
-                                                        }
-                                                    ), 
-                                                    saveObjectsNameInEdition({object:'Input', name: 'passwordInput'}),
-                                                ]
-                    },
-                    {
-                    type: "Button",
-                    name: "showPasswordButton",
-                    buttonType: "button",
-                    style: {
-                        marginLeft: "10px",
-                        padding: "10px",
-                        border: "none",
-                        background: "transparent",
-                        cursor: "pointer",
-                        color: "black"
-                    },
-                    onClick:[     
-                                    () => changeBody(
-                                        HandleComponentChange, 
-                                        'passwordInput', 
-                                        body, 
-                                        (component) => {
-                                            component.inputType = "text";
-                                        }
-                                    ),
-                                    () => changeBody(
-                                        HandleComponentChange, 
-                                        'passwordRepeatInput', 
-                                        body, 
-                                        (component) => {
-                                            component.inputType = "text";
-                                        }
-                                    ),
-                                    () => {
-                                        changeInputType('mostrar', 'text', 'password', body.contaninerPadre, body, 'showPasswordButtonText', 'passwordInput', 'inputType')
-                                    },
-                                    () => {
-                                        changeText(body.contaninerPadre, 'showPasswordButtonText', 'mostrar', 'ocultar')
-                                    },
-                            ],
-                    children: [
-                        {
-                            type: "Text",
-                            name: "showPasswordButtonText",
-                            text: "mostrar",
-                            style: {
-                                textAlign: "center",
-                                fontSize: '15px'
-                            },
-                            className: ['borders1', 'width100', 'padding1'],
-                            onClick:[()=> alert('ddd')  ]
-                        }
-                    ]
-                    }
-                ]
-                }
-            ]
-            },
-            {
-                type: "Container",
-                name: "passwordContainer",
-                style: {},
-                className: ['equalSpace'],
-                children: [
-                    {
-                        type: "Button",
-                        name: "submitButton",
-                        style: {
-                            padding: "10px",
-                            borderRadius: "4px",
-                            border: "none",
-                            backgroundColor: "#007BFF",
-                            color: "#fff",
-                            cursor: "pointer"
-                        },
-                        onClick: [()=> checkTheLogin(findComponentByName(body, 'emailInput').value, findComponentByName(body, 'passwordInput').value, router, multipurpose, dispatch)],
-                        
-                        children: [
-                            {
-                            type: "Text",
-                            name: "submitButtonText",
-                            text: "Iniciar",
-                            style: {
-                                textAlign: "center",
-                                fontSize: '16px'
-                            }
-                            }
-                        ]
-                    }
-                ]
-            },    
-        ]
-        }
-    ]
-    }
+
 
