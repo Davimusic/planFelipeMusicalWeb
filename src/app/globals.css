@@ -165,7 +165,7 @@ p {
 
 .backgroundImage::after {
   content: "";
-  background: radial-gradient(circle, rgba(46,85,83,0.9528186274509804) 18%, rgba(20,16,65,0.87718837535014) 100%);
+  background:#3c3c3a; /*linear-gradient(45deg, rgba(60,60,58,0.8631827731092436) 22%, rgba(15,158,213,0.7175245098039216) 51%, rgba(240,236,225,0.7707457983193278) 87%);*/
   filter: blur(5px);
   z-index: -1;
   position: absolute;

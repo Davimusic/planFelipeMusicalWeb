@@ -35,7 +35,7 @@ const items=
                 text: 'Item 3',
                 "className": [],
                 style: { backgroundColor: 'blue', height: '45vh', width: '90%', objectFit: 'cover', margin: '0 auto' },
-                onClick: () => alert('si')
+                onClick: `() => alert('si')`
             },
             {
                 type: 'Text',
@@ -93,6 +93,14 @@ export default function hi(){
     const [body, setBody] = useState({});
     const [isInjected, setIsInjected] = useState(false);
     const [id, setId] = useState(0);//''
+    const [selectedId, setSelectedId] = useState(null);
+
+const handleButtonClick = (id) => {
+    setSelectedId(id);
+    addFrameClass(body, id);
+};
+
+
 
 
     useEffect(() => {
@@ -148,22 +156,31 @@ export default function hi(){
 
     const renderComponentNames = (component) => {
         const { type, id, children } = component;
-        let depth = 0
-        
+        let depth = 0;
+    
         return (
-            <div style={{ marginLeft: depth * 2, paddingLeft: '5px', marginTop: '10px'}} onClick={(e) => {
-                e.stopPropagation();
-                {addFrameClass(body, id)}
-            }}>
-                {type}
+            <div style={{ marginLeft: depth * 2, paddingLeft: '5px'}}>
+                <div
+                    className={selectedId === id ? 'color2 borders1' : ''}
+                    style={{padding: '10px'}}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleButtonClick(id);
+                    }}
+                >
+                    {type}
+                </div>
                 {children && children.map((child, index) => (
                     <div key={index}>
-                        {renderComponentNames(child, depth + 1)}
+                        {renderComponentNames(child)}
                     </div>
                 ))}
             </div>
         );
     };
+    
+    
+    
 
     const renderComponentAttributes = (component, targetId, depth = 0) => {
         const { type, id, className, style, children } = component;

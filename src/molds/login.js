@@ -177,8 +177,12 @@ export default function LoginMold() {
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
     }, []);
 
+    
+    
+
+
     useEffect(() => {
-        functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'),()=> router.push('/first'), '')
+        functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'),()=> router.push('/first'),()=> console.log('login'))
     }, [router]);  
 
     return body

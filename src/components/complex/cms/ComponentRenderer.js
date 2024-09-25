@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import importAllFunctions from '@/functions/general/importAllLocalFunctions';
 import '../../../estilos/general/general.css'
+import Input from '@/components/simple/input';
 
 const functions = importAllFunctions()
 
@@ -115,26 +116,34 @@ const formatNode = (node) => {
     return (
         <div key={node.id} style={{}}>
             <div>Type: {node.type}</div>
-            <div>ID: {node.id}</div>
+            <button className='borders1' style={{marginRight: '10px', background: 'green', padding: '10px', fontSize: '100%'}}>
+                Save changes
+            </button>
+            {/*<div>ID: {node.id}</div>*/}
+            <div>onClick: {node.onClick ? <Input className={['borders1']} type={"text"} value={node.onClick.toString()} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/> : <Input className={['borders1']} type={"text"} value={''} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/>}</div>
             {node.className && (
-                <div style={{display: 'flex'}}>
+                <div style={{display: 'block', background: 'gold'}} className='borders1'>
                     ClassName:
                     {node.className.map((className, index) => (
-                        <div className='borders1' style={{marginRight: '10px', background: 'black', padding: '10px'}} key={index} onClick={() => console.log(className)}>
-                            {className}
+                        <div className='borders1 center' style={{margin: '10px', background: 'black', padding: '10px', display: 'flex'}} key={index}>
+                            {className} <button className='borders1' onClick={() => console.log(className + ' borrar')} style={{margin: '10px', background: 'red', padding: '10px', fontSize: '100%'}}>
+                                            x
+                                        </button>
                         </div>
                     ))}
                 </div>
             )}
             {node.style && (
-                <div>
+                <div style={{background: 'gold'}}>
                     Style:
                     {Object.entries(node.style).map(([key, value], index) => (
-                        <div key={index} style={{display: 'flex', alignItems: 'center'}}>
-                            <div className='borders1' style={{marginRight: '10px', background: 'black', padding: '10px'}}>
-                                {key}
+                        <div key={index} style={{display: 'block', background: 'blue'}} className='borders1'>
+                            <div className='borders1 center' style={{margin: '10px', background: 'black', padding: '10px', display: 'flex'}}>
+                                {key}   <button className='borders1' onClick={() => console.log(key + ' borrar')} style={{margin: '10px', background: 'red', padding: '10px', fontSize: '100%'}}>
+                                            x
+                                        </button>
                             </div>
-                            <input className='borders1' type="text" value={value} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}} />
+                            <Input className={['borders1']} type={"text"} value={value} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/>
                         </div>
                     ))}
                 </div>
@@ -146,6 +155,7 @@ const formatNode = (node) => {
         </div>
     );
 };
+
 
 
 
