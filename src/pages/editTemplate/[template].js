@@ -92,7 +92,7 @@ function injectLabelIntoJSON(json) {
 export default function hi(){
     const [body, setBody] = useState({});
     const [isInjected, setIsInjected] = useState(false);
-    const [id, setId] = useState('');
+    const [id, setId] = useState(0);//''
 
 
     useEffect(() => {
@@ -106,8 +106,8 @@ export default function hi(){
     }, []);
 
     useEffect(() => {
-        console.log(body);
-    }, [body]);
+        console.log(id);
+    }, [id]);
 
     useEffect(() => {
         if (Object.keys(body).length !== 0) { 
@@ -151,7 +151,7 @@ export default function hi(){
         let depth = 0
         
         return (
-            <div style={{ marginLeft: depth * 2, paddingLeft: '5px', marginTop: '10px' }} onClick={(e) => {
+            <div style={{ marginLeft: depth * 2, paddingLeft: '5px', marginTop: '10px'}} onClick={(e) => {
                 e.stopPropagation();
                 {addFrameClass(body, id)}
             }}>
@@ -215,7 +215,7 @@ export default function hi(){
 
     return (
             <div className='center' style={{width: '100vw', height: '100vh', background: 'gray'}}>
-                <div className='scroll' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'green'}}>
+                <div className='scroll' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'green', padding: '20px'}}>
                     {renderComponentNames(body)}
                 </div>
                 <div className='' style={{width: '55%', height: '90%', background: 'red', position: 'relative'}}>
@@ -223,8 +223,8 @@ export default function hi(){
                         {RenderElement(body)}
                     </Menu>
                 </div>
-                <div className='scroll' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'green'}}>
-                    <ComponentRenderer component={body} targetId={id} addFrameClass={()=> addFrameClass(body, id)} setBody={(value)=> setBody(value)}/>;
+                <div className='scroll' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'green', padding: '20px'}}>
+                    <ComponentRenderer component={body} targetId={id} addFrameClass={()=> addFrameClass(body, id)} setBody={(value)=> setBody(value)}/>
                 </div>
             </div>        
     )  

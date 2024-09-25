@@ -60,7 +60,7 @@ const items=
 let slide={
     "type": "Container",
     "id": 1,
-    "className": [],
+    "className": ['color1'],
     "children": [
         {
             "type": "Container",
