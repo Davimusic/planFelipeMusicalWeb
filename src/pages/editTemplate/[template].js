@@ -99,7 +99,7 @@ export default function hi(){
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
         const style =  document.createElement('style');
             style.innerHTML =  `.frame {
-                                    border: 3px solid blue;
+                                    border: 5px solid blue;
                                 }
                                 `;
         document.head.appendChild(style);
@@ -214,16 +214,16 @@ export default function hi(){
     
 
     return (
-            <div className='center' style={{width: '100vw', height: '100vh', background: 'gray'}}>
-                <div className='scroll' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'green', padding: '20px'}}>
+            <div className='center' style={{width: '100vw', height: '100vh', background: 'black'}}>
+                <div className='scroll borders1' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black'}}>
                     {renderComponentNames(body)}
                 </div>
-                <div className='' style={{width: '55%', height: '90%', background: 'red', position: 'relative'}}>
+                <div className='' style={{width: '55%', height: '90%', background: '', position: 'relative', border: '1px solid black'}}>
                     <Menu>
                         {RenderElement(body)}
                     </Menu>
                 </div>
-                <div className='scroll' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'green', padding: '20px'}}>
+                <div className='scroll borders1' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black'}}>
                     <ComponentRenderer component={body} targetId={id} addFrameClass={()=> addFrameClass(body, id)} setBody={(value)=> setBody(value)}/>
                 </div>
             </div>        
