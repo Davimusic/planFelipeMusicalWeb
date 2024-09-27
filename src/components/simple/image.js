@@ -4,7 +4,7 @@ import handleMultipleFunctions from '@/functions/general/handleMultipleFunctions
 
 const Image = ({id, src, alt, className, style, width, height, onClick }) => {
     return (
-        <img id={id} onClick={handleMultipleFunctions(...onClick)} src={src} alt={alt} className={className} style={style} width={width} height={height} />
+        <img id={id} onClick={onClick} src={src} alt={alt} className={className} style={style} width={width} height={height} />
     );
 };
 

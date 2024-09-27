@@ -1,10 +1,10 @@
-
 import RenderElement from "@/functions/renderElement";
 import importAllFunctions from "@/functions/general/importAllLocalFunctions";
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu } from "@/components/menu";
 '../../estilos/general/general.css'
 import ComponentRenderer from "@/components/complex/cms/ComponentRenderer";
+
 
 const functions = importAllFunctions()
 
@@ -94,14 +94,11 @@ export default function hi(){
     const [isInjected, setIsInjected] = useState(false);
     const [id, setId] = useState(0);//''
     const [selectedId, setSelectedId] = useState(null);
-
-const handleButtonClick = (id) => {
-    setSelectedId(id);
-    addFrameClass(body, id);
-};
-
-
-
+    
+    const handleButtonClick = (id) => {
+        setSelectedId(id);
+        addFrameClass(body, id);
+    };
 
     useEffect(() => {
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
@@ -114,23 +111,51 @@ const handleButtonClick = (id) => {
     }, []);
 
     useEffect(() => {
-        console.log(id);
-    }, [id]);
+        
+        //console.log(body);
+    }, [body]);
 
     useEffect(() => {
         if (Object.keys(body).length !== 0) { 
             if (!isInjected) {
                 console.log(body);
-                setBody(injectLabelIntoJSON(body));
+                //setBody(injectLabelIntoJSON(body));
                 setIsInjected(true);
+                setBody(traverseAndReplaceOnClick(injectLabelIntoJSON(body)))
             }
         }
     }, [body, isInjected]);
 
+    function isEmptyObject(obj) {
+        return Object.keys(obj).length === 0 && obj.constructor === Object;
+    }
+    
+    
+    function traverseAndReplaceOnClick(obj) {
+        if (obj !== undefined && !isEmptyObject(obj)) {
+            //console.log(obj);
+    
+            obj.onClick = (event) => {
+                event.stopPropagation(); // Evita la propagación del evento
+                console.log('hola ' + obj.type + ', id: ' + obj.id);
+                setSelectedId(obj.id);
+                setId(obj.id)
+            };
+            
+    
+            if (obj.children && Array.isArray(obj.children)) {
+                obj.children.forEach(child => traverseAndReplaceOnClick(child));
+            }
+        }
+        console.log(JSON.stringify(obj, null, 2));
+
+        return obj;
+    }
+
     function addFrameClass(obj, id) {
         function updateObject(obj, id) {
             if (obj.id === id) {
-                setId(id)
+                setId(id);
                 obj.className = obj.className || [];
                 if (!obj.className.includes('frame')) {
                     obj.className.push('frame');
@@ -148,11 +173,29 @@ const handleButtonClick = (id) => {
             return obj;
         }
     
-        // Clonar el objeto antes de modificarlo
-        const clonedObj = JSON.parse(JSON.stringify(obj));
+        // Función de clonación profunda que mantiene las funciones
+        function deepClone(obj) {
+            if (obj === null || typeof obj !== 'object') {
+                return obj;
+            }
+    
+            if (Array.isArray(obj)) {
+                return obj.map(item => deepClone(item));
+            }
+    
+            const clonedObj = { ...obj };
+            for (const key in clonedObj) {
+                clonedObj[key] = deepClone(clonedObj[key]);
+            }
+    
+            return clonedObj;
+        }
+    
+        const clonedObj = deepClone(obj);
         const updatedObj = updateObject(clonedObj, id);
         setBody(updatedObj);
     }
+    
 
     const renderComponentNames = (component) => {
         const { type, id, children } = component;
@@ -165,6 +208,7 @@ const handleButtonClick = (id) => {
                     style={{padding: '10px'}}
                     onClick={(e) => {
                         e.stopPropagation();
+                        console.log(id);
                         handleButtonClick(id);
                     }}
                 >
@@ -178,9 +222,6 @@ const handleButtonClick = (id) => {
             </div>
         );
     };
-    
-    
-    
 
     const renderComponentAttributes = (component, targetId, depth = 0) => {
         const { type, id, className, style, children } = component;
@@ -227,22 +268,21 @@ const handleButtonClick = (id) => {
             </React.Fragment>
         ));
     };
-    
-    
 
     return (
-            <div className='center' style={{width: '100vw', height: '100vh', background: 'black'}}>
-                <div className='scroll borders1' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black'}}>
-                    {renderComponentNames(body)}
-                </div>
-                <div className='' style={{width: '55%', height: '90%', background: '', position: 'relative', border: '1px solid black'}}>
-                    <Menu>
-                        {RenderElement(body)}
-                    </Menu>
-                </div>
-                <div className='scroll borders1' style={{width: '20%',  minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black'}}>
-                    <ComponentRenderer component={body} targetId={id} addFrameClass={()=> addFrameClass(body, id)} setBody={(value)=> setBody(value)}/>
-                </div>
-            </div>        
+        <div className='center' style={{width: '100vw', height: '100vh', background: 'black'}}>
+        <div className='scroll borders1' style={{width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black'}}>
+            {renderComponentNames(body)}
+        </div>
+        <div className='' style={{width: '55%', height: '90%', background: 'transparent', position: 'relative', border: '1px solid black'}}>
+            <Menu>
+                {RenderElement(body)}
+            </Menu>
+        </div>
+        <div className='scroll borders1' style={{width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black'}}>
+            <ComponentRenderer component={body} targetId={id} addFrameClass={() => addFrameClass(body, id)} setBody={(value) => setBody(value)} />
+        </div>
+    </div>
+        
     )  
 }

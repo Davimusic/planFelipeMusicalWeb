@@ -5,7 +5,7 @@ import Input from '@/components/simple/input';
 
 const functions = importAllFunctions()
 
-const ComponentRendere = ({ component, targetId, addFrameClass }) => {
+/*const ComponentRendere = ({ component, targetId, addFrameClass }) => {
     const renderComponentAttributes = (component, depth = 0) => {
         const { type, id, style, children, className, ...otherProps } = component;
         const componentClasses = Array.isArray(className) ? [...new Set(className)] : [];
@@ -93,7 +93,7 @@ const ComponentRendere = ({ component, targetId, addFrameClass }) => {
     };
 
     return renderComponentAttributes(component);
-};
+};*/
 
 function traverseAndFilter(node, targetId) {
     if (node.id === targetId) {
@@ -122,7 +122,7 @@ const formatNode = (node) => {
             {/*<div>ID: {node.id}</div>*/}
             <div>onClick: {node.onClick ? <Input className={['borders1']} type={"text"} value={node.onClick.toString()} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/> : <Input className={['borders1']} type={"text"} value={''} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/>}</div>
             {node.className && (
-                <div style={{display: 'block', background: 'gold'}} className='borders1'>
+                <div style={{display: 'block', background: 'gold'}} className='borders1 padding1'>
                     ClassName:
                     {node.className.map((className, index) => (
                         <div className='borders1 center' style={{margin: '10px', background: 'black', padding: '10px', display: 'flex'}} key={index}>
@@ -134,7 +134,7 @@ const formatNode = (node) => {
                 </div>
             )}
             {node.style && (
-                <div style={{background: 'gold'}}>
+                <div className='borders1 padding1' style={{background: 'gold'}}>
                     Style:
                     {Object.entries(node.style).map(([key, value], index) => (
                         <div key={index} style={{display: 'block', background: 'blue'}} className='borders1'>
@@ -155,10 +155,6 @@ const formatNode = (node) => {
         </div>
     );
 };
-
-
-
-
 
 const ComponentRenderer = ({ component, targetId }) => {
     const filteredComponent = traverseAndFilter(component, targetId);

@@ -61,6 +61,7 @@ let slide={
     "type": "Container",
     "id": 1,
     "className": ['color1'],
+    onClick: `() => alert('conat')`,
     "children": [
         {
             "type": "Container",
