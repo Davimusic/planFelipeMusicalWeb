@@ -74,7 +74,10 @@ const items=
         ]
 }
 
-
+function updateClassForOnlyOneComponent(id, className) {
+    functions.removeClassFromElements(functions.getElementsByClass(className), className);
+    functions.addClassToElement(id, className);
+}
 
 export default function hi(){
     const [body, setBody] = useState({});
@@ -107,7 +110,7 @@ export default function hi(){
         }
     }, [body, isInjected]);
 
-    function updateClassForOnlyOneComponent(id, className) {
+    /*function updateClassForOnlyOneComponent(id, className) {
         const elementos = Array.from(document.getElementsByClassName(className));
         const ids = [];
         for (let i = 0; i < elementos.length; i++) {
@@ -120,7 +123,7 @@ export default function hi(){
         }
         document.getElementById(id).classList.add(className);
         console.log(ids);
-    }
+    }*/
 
     function traverseAndReplaceOnClick(obj) {
         if (obj !== undefined && !functions.isEmptyObject(obj)) {
