@@ -3,11 +3,12 @@ import importAllFunctions from "@/functions/general/importAllLocalFunctions";
 import React, { useState, useEffect, useRef } from 'react';
 import { Menu } from "@/components/menu";
 import injectLabelIntoJSON from "@/funciones/cms/injectLabelIntoJSON";
-'../../estilos/general/general.css'
-
-
+import traverseAndReplaceOnClick from "@/funciones/cms/traverseAndReplaceOnClick";
+import renderComponentNames from "@/funciones/cms/renderComponentNames";
+import componentRendererAttributes from "@/funciones/cms/componentRendererAttributes";
 import Input from "@/components/simple/input";
 
+'../../estilos/general/general.css'
 
 const functions = importAllFunctions()
 
@@ -93,39 +94,19 @@ export default function hi(){
 
     useEffect(() => {
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
-        const style =  document.createElement('style');
-            style.innerHTML =  `.frame {
-                                    border: 5px solid blue;
-                                }
-                                `;
-        document.head.appendChild(style);
+        functions.injectDocumentStyle('frame', 'border: 5px solid blue;')
     }, []);
 
     useEffect(() => {
         if (Object.keys(body).length !== 0) { 
             if (!isInjected) {
                 setIsInjected(true);
-                setBody(traverseAndReplaceOnClick(injectLabelIntoJSON(body, items)))
+                setBody(traverseAndReplaceOnClick(injectLabelIntoJSON(body, items), handleButtonClick))
             }
         }
     }, [body, isInjected]);
 
-    /*function updateClassForOnlyOneComponent(id, className) {
-        const elementos = Array.from(document.getElementsByClassName(className));
-        const ids = [];
-        for (let i = 0; i < elementos.length; i++) {
-            if (elementos[i] && elementos[i].id) { // Validación para evitar errores
-                document.getElementById(elementos[i].id).classList.remove(className);
-                console.log(elementos[i].id);
-                console.log('---------------');
-                ids.push(elementos[i].id);
-            }
-        }
-        document.getElementById(id).classList.add(className);
-        console.log(ids);
-    }*/
-
-    function traverseAndReplaceOnClick(obj) {
+    /*function traverseAndReplaceOnClick(obj, handleButtonClick) {
         if (obj !== undefined && !functions.isEmptyObject(obj)) {
             //console.log(obj);
     
@@ -140,9 +121,9 @@ export default function hi(){
             }
         }
         return obj;
-    }
+    }*/
 
-    const renderComponentNames = (component) => {
+    /*const renderComponentNames = (component) => {
         const { type, id, children } = component;
         let depth = 0;
 
@@ -166,15 +147,16 @@ export default function hi(){
                 ))}
             </div>
         );
-    };
+    };*/
 
-    const renderComponentAttributes = (component, targetId, depth = 0) => {
+    /*const renderComponentAttributes = (component, targetId, depth = 0) => {
         const { type, id, className, style, children } = component;
     
         // Si el id del componente actual coincide con el targetId, comenzamos a renderizar
         if (id === targetId || depth > 0) {
             return (
                 <div 
+                hi
                     style={{ marginLeft: depth * 20, paddingLeft: '5px', marginTop: '10px' }} 
                     onClick={(e) => {
                         e.stopPropagation();
@@ -212,9 +194,9 @@ export default function hi(){
                 {renderComponentAttributes(child, targetId, depth)}
             </React.Fragment>
         ));
-    };
+    };*/
 
-    function traverseAndFilter(node, targetId) {
+    /*function traverseAndFilter(node, targetId) {
         if (node.id === targetId) {
             return node;
         }
@@ -227,9 +209,9 @@ export default function hi(){
             }
         }
         return null;
-    }
+    }*/
     
-    const formatNode = (node) => {
+    /*const formatNode = (node) => {
         if (!node) return null;
     
         return (
@@ -238,7 +220,7 @@ export default function hi(){
                 <button className='borders1' style={{marginRight: '10px', background: 'green', padding: '10px', fontSize: '100%'}}>
                     Save changes
                 </button>
-                {/*<div>ID: {node.id}</div>*/}
+                
                 <div>onClick: {node.onClick ? <Input className={['borders1']} type={"text"} value={node.onClick.toString()} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/> : <Input className={['borders1']} type={"text"} value={''} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/>}</div>
                 {node.className && (
                     <div style={{display: 'block', background: 'gold'}} className='borders1 padding1'>
@@ -282,14 +264,14 @@ export default function hi(){
                 {formatNode(filteredComponent)}
             </div>
         );
-    };
+    };*/
 
     let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black' };
 
     return (
         <div className='center' style={{width: '100vw', height: '100vh', background: 'black'}}>
             <div className='scroll borders1' style={divstyle}>
-                {renderComponentNames(body)}
+                {renderComponentNames(body, handleButtonClick, selectedId)}
             </div>
             
             <div className='' style={{width: '55%', height: '90%', background: 'transparent', position: 'relative', border: '1px solid black'}}>
@@ -298,7 +280,7 @@ export default function hi(){
                 </Menu>
             </div>
             <div className='scroll borders1' style={divstyle}>
-                    {componentRenderer(body, id)}
+                    {componentRendererAttributes(body, id)}
             </div>
         </div>
         
