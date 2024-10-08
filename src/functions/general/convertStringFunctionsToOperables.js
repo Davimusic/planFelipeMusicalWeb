@@ -18,7 +18,7 @@ export default function convertStringFunctionsToOperables(path, functions, setBo
             };
 
             traverseAndEval(storedObject);
-            console.log(storedObject);
+            //console.log(storedObject);
             
             setBody(storedObject);
         }

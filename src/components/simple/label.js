@@ -1,30 +1,40 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import extractArrayContentToStrings from '@/functions/general/extractArrayContentToStrings';
 
-export default function Label(props) {
-  const [value, setValue] = useState(props.valor);
+const Label = ({ id, style, onValueChange, value, name, className }) => {
+    const [labelValue, setLabelValue] = useState(value);
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
-    props.onValueChange(event.target.value);
-  };
+    useEffect(() => {
+        setLabelValue(value);
+    }, [value]);
 
-  return (
-    <div>
-      <label
-        style={{
-          color: 'black',
-          width: '100%',
-          padding: '12px 20px',
-          margin: '8px 0',
-          boxSizing: 'border-box',
-          borderRadius: '4px',
-          transition: '0.5s',
-          outline: 'none',
-          display: 'block',
-        }}
-      >
-        {value}
-      </label>
-    </div>
-  );
-}
+    const handleChange = (event) => {
+        const newValue = event.target.value;
+        setLabelValue(newValue);
+        if (onValueChange) {
+            onValueChange(newValue);
+        }
+    };
+
+    return (
+        <div>
+            <label
+                id={id}
+                style={style}
+                name={name}
+                className={extractArrayContentToStrings(className)}
+            >
+                {labelValue}
+            </label>
+            <input
+                type="text"
+                value={labelValue}
+                onChange={handleChange}
+                style={{ display: 'none' }} // Oculta el input, pero permite cambiar el valor del label
+            />
+        </div>
+    );
+};
+
+export default Label;
+

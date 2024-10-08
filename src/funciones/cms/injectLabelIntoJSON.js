@@ -1,5 +1,5 @@
 export default function injectLabelIntoJSON(json, items) {
-    console.log(json);
+    //console.log(json);
     // Función recursiva para buscar el elemento con id = "ChildrenArray"
     function findAndInject(node) {
         if (node.id === "ChildrenArray") {
