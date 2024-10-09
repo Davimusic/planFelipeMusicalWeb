@@ -39,8 +39,9 @@ const styles = {
     right: '10px',
     background: 'none',
     border: 'none',
-    fontSize: '20px',
+    fontSize: '40px',
     cursor: 'pointer',
+    color: 'white'
   },
 };
 

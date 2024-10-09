@@ -3,6 +3,7 @@ import importAllFunctions from "@/functions/general/importAllLocalFunctions";
 import findObjectById from "@/functions/general/findObjectById";
 import React from 'react';
 import TextArea from "@/components/simple/textArea";
+import FileBrowser from "./fileBrowser";
 
 
 let functions = importAllFunctions()
@@ -10,13 +11,13 @@ let functions = importAllFunctions()
 
 
 
-const componentRendererAttributes = (component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected) => {
+const componentRendererAttributes = (component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject) => {
     //console.log(classNames);
     
     const filteredComponent = traverseAndFilter(component, targetId);
     return (
         <div>
-            {formatNode(filteredComponent, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected)}
+            {formatNode(filteredComponent, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject )}
         </div>
     );
 };
@@ -36,7 +37,7 @@ function traverseAndFilter(node, targetId) {
     return null;
 }
 
-const formatNode = (node, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected) => {
+const formatNode = (node, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject) => {
 
     function clone(obj) {
         return JSON.parse(JSON.stringify(obj));
@@ -261,6 +262,7 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             {node.src && (
                 <div className='borders1 padding1 marginTop1' style={{background: 'gold'}}>
                     src:
+                    <div style={{width: '100vw', height: '2vh', background: 'black'}} onClick={() => { setIsModalOpen(true); setModalContent(<FileBrowser type={resourceType} showControls={false} setSrcToInject={setSrcToInject}/>)}}>see content</div>
                     <Input className={['borders1', 'cursor', 'marginTop1']} onValueChange={(e) => updateValueByKey('src', e)} type="text" value={node.src} style={{marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%'}}/>
                 </div>
             )}
