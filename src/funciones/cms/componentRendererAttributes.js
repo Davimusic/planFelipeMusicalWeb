@@ -3,21 +3,18 @@ import importAllFunctions from "@/functions/general/importAllLocalFunctions";
 import findObjectById from "@/functions/general/findObjectById";
 import React from 'react';
 import TextArea from "@/components/simple/textArea";
+import Select from "@/components/simple/selects";
 import FileBrowser from "./fileBrowser";
-
+import sortArrayAlphabetically from "@/functions/general/sortArrayAlphabetically";
 
 let functions = importAllFunctions()
 
-
-
-
-const componentRendererAttributes = (component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject) => {
-    //console.log(classNames);
+const componentRendererAttributes = (component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject, setBodyEdit, setBodyTest, bodyTest) => {
     
     const filteredComponent = traverseAndFilter(component, targetId);
     return (
         <div>
-            {formatNode(filteredComponent, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject )}
+            {formatNode(filteredComponent, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject, setBodyEdit, setBodyTest, bodyTest)}
         </div>
     );
 };
@@ -37,35 +34,39 @@ function traverseAndFilter(node, targetId) {
     return null;
 }
 
-const formatNode = (node, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject) => {
+const formatNode = (node, component, targetId, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject, setBodyEdit, setBodyTest, bodyTest) => {
 
-    function clone(obj) {
-        return JSON.parse(JSON.stringify(obj));
+    function udpateBodies(edit, test, isReloadBodyWithTraverseAndReplaceOnClick){
+        if(isReloadBodyWithTraverseAndReplaceOnClick === true){
+            setIsReinjected(true)
+        }
+        setBody(edit)
+        setBodyEdit(edit)
+        setBodyTest(test)
     }
 
     const removeClass = (classToRemove) => {
         const newArray = functions.removeStringFromArray(findObjectById(component, targetId).className, classToRemove)
         setClassNames(newArray)
-        setBody(functions.updateObjectKeyById(targetId, component, 'className', newArray))
+        //setBody(functions.updateObjectKeyById(targetId, component, 'className', newArray))
+        let editObj = functions.updateObjectKeyById(targetId, component, 'className', newArray)
+        let testObj = functions.updateObjectKeyById(targetId, {...bodyTest}, 'className', newArray)
+        udpateBodies(editObj, testObj, false)
     };
 
     const addClass = () => {
         const newArray = functions.addElementToArray(classNames, selectedClassName)
         setClassNames(newArray)
-        setBody(functions.updateObjectKeyById(targetId, component, 'className', newArray))
+        //setBody(functions.updateObjectKeyById(targetId, component, 'className', newArray))
+        let editObj = functions.updateObjectKeyById(targetId, component, 'className', newArray)
+        let testObj = functions.updateObjectKeyById(targetId, {...bodyTest}, 'className', newArray)
+        udpateBodies(editObj, testObj, false)
     }
 
-    const setNewClass = (newClass) => {
-        setSelectedClassName(newClass)
-    }
 
     function deleteComponent() {
         const id = targetId;
         const obj = component
-        // Función para clonar el objeto
-        function clone(obj) {
-            return JSON.parse(JSON.stringify(obj));
-        }
     
         function removeComponentById(id, obj) {
             if (obj.id === id) {
@@ -79,20 +80,18 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             return obj;
         }
     
-        const clonedObj = clone(obj);
+        //const clonedObj = clone(obj);
+        //const clonedObj = functions.deepClone(obj)
     
-        console.log(removeComponentById(id, clonedObj));
-        setIsReinjected(true)
-        setBody(removeComponentById(id, clonedObj))
+        //reloadBodyWithTraverseAndReplaceOnClick(removeComponentById(id, clonedObj))
+        let editObj = removeComponentById(id, functions.deepClone(obj))
+        let testObj = removeComponentById(id, functions.deepClone(bodyTest))
+        udpateBodies(editObj, testObj, true)
     }
 
     function deleteStyle(styleKey) {
         const obj = component
-        // Función para clonar el objeto
-        function clone(obj) {
-            return JSON.parse(JSON.stringify(obj));
-        }
-    
+        
         // Función recursiva para eliminar el estilo
         function removeStyleById(styleKey, targetId, obj) {
             if (obj.id === targetId && obj.style) {
@@ -104,21 +103,16 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             return obj;
         }
     
-        // Clonar el objeto original
-        const clonedObj = clone(obj);
-        setIsReinjected(true)
-        console.log(removeStyleById(styleKey, targetId, clonedObj));
-        setBody(removeStyleById(styleKey, targetId, clonedObj))
+        //const clonedObj = clone(obj);
+        //reloadBodyWithTraverseAndReplaceOnClick(removeStyleById(styleKey, targetId, clonedObj))
+        let editObj = removeStyleById(styleKey, targetId, functions.deepClone(obj))
+        let testObj = removeStyleById(styleKey, targetId, bodyTest)
+        udpateBodies(editObj, testObj, true)
     }
 
     function injectStyle() {
-        // Obtener el nuevo estilo del input
         const newKeyValue = document.getElementById('styleInput').value;
     
-        
-        
-    
-        // Función recursiva para agregar el nuevo estilo
         function addStyleById(newKeyValue, targetId, obj) {
             if (obj.id === targetId) {
                 const [key, value] = newKeyValue.split(':');
@@ -134,48 +128,18 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             return obj;
         }
     
-        // Clonar el objeto original
-        const clonedObj = clone(component);
-        setIsReinjected(true)
-        console.log(addStyleById(newKeyValue, targetId, clonedObj));
-        setBody(addStyleById(newKeyValue, targetId, clonedObj))
+        //const clonedObj = clone(component);
+        //reloadBodyWithTraverseAndReplaceOnClick(addStyleById(newKeyValue, targetId, clonedObj))
+        let editObj = addStyleById(newKeyValue, targetId, functions.deepClone(component))
+        let testObj = addStyleById(newKeyValue, targetId, bodyTest)
+        udpateBodies(editObj, testObj, true)
     }
 
     const setStyleInputValue = (key, value) => {
         document.getElementById('styleInput').value = `${key}: ${value}`
     }
 
-    function changeText(newText) {
-        console.log(newText);
-        
-    
-        function updateText(obj) {
-            if (obj.id === targetId) {
-                if (obj.type === 'Text' || obj.type === 'Link') {
-                    obj.text = newText;
-                } else if (obj.type === 'TextArea' || obj.type === 'Label' || obj.type === 'Input') {
-                    obj.value = newText;
-                }
-            } else if (obj.children) {
-                obj.children = obj.children.map(child => updateText(child));
-            }
-            return obj;
-        }
-    
-        const obj = clone(component);
-        const updatedObj = updateText(obj);
-        console.log(updatedObj);
-        setIsReinjected(true)
-        setBody(updatedObj)
-    }
-
     function updateValueByKey(key, newValue) {
-        console.log(targetId);
-        console.log(key);
-        console.log(newValue);
-        
-        
-        
         function update(obj) {
             if (obj.id === targetId) {
                 if (obj[key] !== undefined) {
@@ -187,34 +151,41 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             return obj;
         }
     
-        const clonedComponent = clone(component);
-        const updatedComponent = update(clonedComponent);
-        console.log(updatedComponent);
+        //const clonedComponent = clone(component);
+        //const updatedComponent = update(functions.deepClone(component));
+        //reloadBodyWithTraverseAndReplaceOnClick(update(functions.deepClone(component)))
         
-        setIsReinjected(true)
-        setBody(updatedComponent)
+
+        let editObj = update(functions.deepClone(component))
+        let testObj = update(functions.deepClone(bodyTest))
+        udpateBodies(editObj, testObj, true)
+    }
+
+    function updateSrcValue(a){
+        updateValueByKey('src', a.secure_url)
     }
 
     if (!node) return null;
 
-    return (
+    /*return (
         <div key={node.id} style={{}}>
             <div>Type: {node.type}</div>
             <div className="marginTop1">onClick: {node.onClick ? <Input className={['borders1', 'cursor']} type="text" value={node.onClick.toString()} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/> : <Input className={['borders1']} type="text" value={''} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}/>}</div>
             {node.className && (
                 <div style={{display: 'block', background: 'gold'}} className='borders1 padding1 marginTop1'>
                     ClassName:
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                        <select value={selectedClassName} onChange={(e) => setSelectedClassName(e.target.value)} style={{marginRight: '10px', padding: '10px', fontSize: '100%'}}>
-                            <option value="">Select class</option>
-                            {availableClasses.map((cls, index) => (
-                                <option key={index} value={cls}>{cls}</option>
-                            ))}
-                        </select>
+                        <Select 
+                            id={'selectFileBrowser'} 
+                            style={{ marginRight: '10px', padding: '10px', fontSize: '100%', maxWidth: '100%', boxSizing: 'border-box' }} 
+                            className={[]} 
+                            name={'selectFileBrowser'} 
+                            value={selectedClassName} 
+                            event={(e) => setSelectedClassName(e.target.value)} 
+                            options={['Select class', ...sortArrayAlphabetically(availableClasses)]} 
+                        />
                         <button className='borders1 cursor' onClick={()=> addClass()} style={{marginRight: '10px', background: 'blue', padding: '10px', fontSize: '100%'}}>
                             Add class
                         </button>
-                    </div>
                     {node.className.map((className, index) => (
                         <div className='borders1 center' style={{margin: '10px', background: 'black', padding: '10px', display: 'flex'}} key={index}>
                             {className} <button className='borders1 cursor' onClick={() => removeClass(className)} style={{margin: '10px', background: 'red', padding: '10px', fontSize: '100%'}}>
@@ -246,8 +217,8 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             )}
             {node.text && (
                 <div className='borders1 padding1 marginTop1' style={{background: 'gold'}}>
-                    Text:
-                    <Input id={'styleInput'} className={['borders1', 'cursor', 'marginTop1']} onValueChange={(e) => changeText(e)} type="text" value={node.text} style={{marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%'}}/>
+                    Text:                                                                                   
+                    <Input id={'styleInput'} className={['borders1', 'cursor', 'marginTop1']} onValueChange={(e) => updateValueByKey('text', e)} type="text" value={node.text} style={{marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%'}}/>
                     <button className='borders1 cursor' onClick={() => injectStyle()} style={{margin: '10px', background: 'red', padding: '10px', fontSize: '100%'}}>
                         add new style
                     </button>
@@ -256,21 +227,123 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             {node.value && (
                 <div className='borders1 padding1 marginTop1' style={{background: 'gold'}}>
                     Value:
-                    <TextArea id={'styleTextArea'} className={['borders1', 'cursor', 'marginTop1']} onValueChange={(e) => changeText(e)} type="text" value={node.value} style={{marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%'}}/>
+                    <TextArea id={'styleTextArea'} className={['borders1', 'cursor', 'marginTop1']} onValueChange={(e) => updateValueByKey('value', e)} type="text" value={node.value} style={{marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%'}}/>
                 </div>
             )}
             {node.src && (
                 <div className='borders1 padding1 marginTop1' style={{background: 'gold'}}>
                     src:
-                    <div style={{width: '100vw', height: '2vh', background: 'black'}} onClick={() => { setIsModalOpen(true); setModalContent(<FileBrowser type={resourceType} showControls={false} setSrcToInject={setSrcToInject}/>)}}>see content</div>
-                    <Input className={['borders1', 'cursor', 'marginTop1']} onValueChange={(e) => updateValueByKey('src', e)} type="text" value={node.src} style={{marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%'}}/>
+                    <div style={{width: '100vw', height: '2vh', background: 'black'}} onClick={() => { setIsModalOpen(true); setModalContent(<FileBrowser type={resourceType} showControls={false} actionFunction={updateSrcValue} path={'davipianof@gmail.com/plan felipe musical'}/>)}}>Change src</div>
                 </div>
             )}
             <button className='borders1 cursor marginTop1' onClick={()=> deleteComponent()} style={{marginRight: '10px', background: 'red', padding: '10px', fontSize: '100%'}}>
                 Delete component
             </button>
         </div>
+    );*/
+    return (
+        <div key={node.id} style={{}}>
+            <div>Type: {node.type}</div>
+            <div className="marginTop1">
+                onClick: 
+                <Input 
+                    className={['borders1', 'cursor']} 
+                    type="text" 
+                    value={node.onClick ? node.onClick.toString() : ''} 
+                    style={{ marginRight: '10px', padding: '10px', fontSize: '100%' }}
+                />
+            </div>
+            {node.hasOwnProperty('className') && (
+                <div style={{ display: 'block', background: 'gold' }} className='borders1 padding1 marginTop1'>
+                    ClassName:
+                    <Select 
+                        id={'selectFileBrowser'} 
+                        style={{ marginRight: '10px', padding: '10px', fontSize: '100%', maxWidth: '100%', boxSizing: 'border-box' }} 
+                        className={[]} 
+                        name={'selectFileBrowser'} 
+                        value={selectedClassName} 
+                        event={(e) => setSelectedClassName(e.target.value)} 
+                        options={['Select class', ...sortArrayAlphabetically(availableClasses)]} 
+                    />
+                    <button className='borders1 cursor' onClick={addClass} style={{ marginRight: '10px', background: 'blue', padding: '10px', fontSize: '100%' }}>
+                        Add class
+                    </button>
+                    {node.className.map((className, index) => (
+                        <div className='borders1 center' style={{ margin: '10px', background: 'black', padding: '10px', display: 'flex' }} key={index}>
+                            {className} 
+                            <button className='borders1 cursor' onClick={() => removeClass(className)} style={{ margin: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                                x
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
+            {node.hasOwnProperty('style') && (
+                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                    Style:
+                    <Input 
+                        id={'styleInput'} 
+                        className={['borders1', 'cursor', 'marginTop1']} 
+                        onValueChange={() => {}} 
+                        type="text" 
+                        value={''} 
+                        style={{ marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%' }}
+                    />
+                    <button className='borders1 cursor' onClick={injectStyle} style={{ margin: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                        add new style
+                    </button>
+                    {Object.entries(node.style).map(([key, value], index) => (
+                        <div onClick={() => setStyleInputValue(key, value)} key={index} style={{ display: 'block', background: 'blue', margin: '10px' }} className='borders1'>
+                            <div className='borders1 center' style={{ background: 'black', padding: '10px', display: 'flex' }}>
+                                {key}   
+                                <button className='borders1 cursor' onClick={() => deleteStyle(key)} style={{ margin: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                                    x
+                                </button>
+                            </div>
+                            <p className='center'>{value}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+            {node.hasOwnProperty('text') && (
+                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                    Text:                                                                                   
+                    <Input 
+                        id={'styleInput'} 
+                        className={['borders1', 'cursor', 'marginTop1']} 
+                        onValueChange={(e) => updateValueByKey('text', e)} 
+                        type="text" 
+                        value={node.text || ''} 
+                        style={{ marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%' }}
+                    />
+                </div>
+            )}
+            {node.hasOwnProperty('value') && (
+                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                    Value:
+                    <TextArea 
+                        id={'styleTextArea'} 
+                        className={['borders1', 'cursor', 'marginTop1']} 
+                        onValueChange={(e) => updateValueByKey('value', e)} 
+                        type="text" 
+                        value={node.value || ''} 
+                        style={{ marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%' }}
+                    />
+                </div>
+            )}
+            {node.hasOwnProperty('src') && (
+                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                    src:
+                    <div style={{ width: '100vw', height: '2vh', background: 'black' }} onClick={() => { setIsModalOpen(true); setModalContent(<FileBrowser type={resourceType} showControls={false} actionFunction={updateSrcValue} path={'davipianof@gmail.com/plan felipe musical'} />); }}>Change src</div>
+                </div>
+            )}
+            <button className='borders1 cursor marginTop1' onClick={deleteComponent} style={{ marginRight: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                Delete component
+            </button>
+        </div>
     );
+    
+    
 };
 
 export default componentRendererAttributes

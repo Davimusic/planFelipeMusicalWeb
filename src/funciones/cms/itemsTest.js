@@ -75,7 +75,9 @@ const i2 = {
             alt: 'Placeholder',
             width: '1000',
             height: '1000',
-            style: { width: '50%', objectFit: 'cover', margin: '0 auto' }
+            style: { width: '50%', objectFit: 'cover', margin: '0 auto' },
+            onClick:()=> console.log('hola mundo')
+            
         }, {
             type: 'TextArea',
             id: 'ex3',

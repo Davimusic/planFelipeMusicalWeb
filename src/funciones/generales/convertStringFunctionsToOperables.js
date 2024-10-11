@@ -1,4 +1,5 @@
 export default function convertStringFunctionsToOperables(path, functions, setBody) {
+    console.log('llamado...');
     if (typeof window !== 'undefined') {
         const storedObject = JSON.parse(localStorage.getItem(path));
         
