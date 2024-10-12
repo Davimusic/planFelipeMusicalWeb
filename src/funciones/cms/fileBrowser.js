@@ -17,7 +17,7 @@ const FileBrowser = ({type, showControls, actionFunction, path}) => {
         const fetchFiles = async () => {
             setLoading(true);
             try {
-                console.log('Fetching files with resource type:', resourceType); // Log para depuración
+                //console.log('Fetching files with resource type:', resourceType); // Log para depuración
                 const res = await axios.get(`/api/cloudinary/resources/${resourceType}/upload`, {
                     params: {
                         prefix: path,
@@ -27,7 +27,7 @@ const FileBrowser = ({type, showControls, actionFunction, path}) => {
                         Authorization: `Basic ${btoa(`${API_KEY}:${API_SECRET}`)}`,
                     },
                 });
-                console.log('Response data:', res.data); // Log para depuración
+                //console.log('Response data:', res.data); // Log para depuración
                 setFiles(res.data.resources || []);//en raw por ahora SOLO guardar WORD
             } catch (error) {
                 if (error.response) {

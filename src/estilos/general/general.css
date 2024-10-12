@@ -216,3 +216,21 @@ a {
   }
 
 .cursor{cursor: pointer;}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.hoverBounce {
+    display: inline-block;
+    transition: transform 2s ease;
+}
+
+.hoverBounce:hover {
+    animation: pulse 2s infinite;
+}

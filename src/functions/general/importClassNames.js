@@ -38,7 +38,8 @@ export default function importClassNames(){//debe ser dinamico, no he encontrado
         'buttonImage',
         'boxShadow1',
         'scroll',
-        'cursor'
+        'cursor',
+        'hoverBounce'
     ];
 
     return classNames

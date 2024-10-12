@@ -1,8 +1,10 @@
 import React from 'react';
 import objectComponent from './objectComponent';
 import logOutSession from '../generales/security/logOutSession';
+import deepClone from '@/functions/general/deepClone';
+'../../estilos/general/general.css'
 
-const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen}) => {
+const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen, setBodyEdit, setBodyTest, bodyTest}) => {
   let tagertId = id['cloneId']
 
   const components = [
@@ -20,10 +22,6 @@ const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen
     { type: 'Select', description: 'Select' }
   ];
 
-  // Función para clonar el objeto
-  function clone(obj) {
-    return JSON.parse(JSON.stringify(obj));
-  }
 
   function addChildComponentById(newChild, targetId, obj) {
     if (obj.id === targetId) {
@@ -46,25 +44,26 @@ const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen
   // Función para manejar la selección de un componente
   function handleComponentSelect(type) {
     const newChild = objectComponent(type)
-    const updatedBody = clone(body); 
     setIsReinjected(true)
-    setBody(addChildComponentById(newChild, tagertId, updatedBody));
+    setBody(addChildComponentById(newChild, tagertId, deepClone({...body})));
+    setBodyEdit(addChildComponentById(newChild, tagertId, deepClone({...body})));
+    setBodyTest(addChildComponentById(newChild, tagertId, deepClone({...bodyTest})));
     setIsModalOpen(false)
   }
 
   return (
-    <table style={tableStyles}>
+    <table className='color6' style={tableStyles}>
       <thead>
         <tr>
-          <th>Component Type</th>
-          <th>Description</th>
+          <th style={thStyles}>Component Type</th>
+          <th style={thStyles}>Description</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody >
         {components.map((component, index) => (
           <tr key={index}>
-            <td onClick={()=> handleComponentSelect(component.type)}>{component.type}</td>
-            <td>{component.description}</td>
+            <td style={tdStyles} className='cursor' onClick={()=> handleComponentSelect(component.type)}>{component.type}</td>
+            <td style={tdStyles}>{component.description}</td>
           </tr>
         ))}
       </tbody>
@@ -76,12 +75,14 @@ const tableStyles = {
   width: '100%',
   borderCollapse: 'collapse',
   margin: '20px 0',
+  backgroundColor: '#480083'
 };
 
 const thStyles = {
   border: '1px solid #ddd',
   padding: '8px',
   backgroundColor: '#f2f2f2',
+  color: 'black'
 };
 
 const tdStyles = {

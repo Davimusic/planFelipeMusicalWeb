@@ -15,6 +15,8 @@ import SettingControls from "@/funciones/cms/settingControls";
 import FileBrowser from "@/funciones/cms/fileBrowser";
 import '../../estilos/general/general.css'
 import findObjectById from "@/functions/general/findObjectById";
+import Text from "@/components/simple/text";
+import ModernCheckbox from "@/funciones/cms/ModernCheckbox";
 
 //hacer que en prueba los links tambien no tengan activacion
 const functions = importAllFunctions()
@@ -35,6 +37,7 @@ export default function hi(){
     const [resourceType, setResourceType] = useState('image');
     const [srcToInject, setSrcToInject] = useState('');
     const [editionState, setEditionState] = useState('editTemplate');
+    const [isRearrangeComponents, setIsRearrangeComponents] = useState(false)
 
 
     
@@ -57,16 +60,18 @@ export default function hi(){
         console.log(editionState);
         
         if(editionState === 'editTemplate'){
+            functions.injectDocumentStyle('frame', 'border: 5px solid blue;')
             setBody(bodyEdit)
         } else if(editionState === 'testTemplate'){
+            functions.removeDocumentClass('frame')
             setBody(bodyTest)
         }
         
     }, [editionState]);
 
     useEffect(() => {
-        console.log(body);
-    }, [body]);
+        console.log(isRearrangeComponents);
+    }, [isRearrangeComponents]);
 
 
 
@@ -79,6 +84,8 @@ export default function hi(){
             setClassNames(foundObject.className)
             if(foundObject.type === 'Video'){
                 setResourceType('video')
+            } else if(foundObject.type === 'Image'){
+                setResourceType('image')
             }
         } else {
             console.log('Object not found');
@@ -125,20 +132,30 @@ export default function hi(){
 
     
 
-    //let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black', opacity: editionState === 'testTemplate' ? 0 : 1, visibility: editionState === 'testTemplate' ? 'hidden' : 'visible', transition: 'opacity 0.5s, visibility 0.5s' }
-    let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black' }
+    let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black', opacity: editionState === 'testTemplate' ? 0 : 1, visibility: editionState === 'testTemplate' ? 'hidden' : 'visible', transition: 'opacity 0.5s, visibility 0.5s' }
+    //let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black' }
     const cloneId = { cloneId: id };
 
+    function handleCheckboxChange(dic){
+        setIsRearrangeComponents(!isRearrangeComponents)
+    }
+    const check = <ModernCheckbox
+                        id={'moveComponents'}
+                        actionFunction={handleCheckboxChange}
+                        isCheckedInitially={isRearrangeComponents === true}
+                    />
 
     return (
         <>
-            <div className="center cursor" style={{width: '100vw', height: '5vh', display: 'flex'}} >
+            <div className="center cursor margin1" style={{width: '100%', height: '5vh', display: 'flex'}} >
                 <SettingControls setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState}/>
             </div>
+
+            <div style={{color: 'black'}} onClick={()=> functions.fullScreen()}>click....</div>
             
             <div className='center color2' style={{width: '100vw', height: '95vh'}}>
                 <div className='scroll borders1' style={divstyle}>
-                    {renderComponentNames(body, handleButtonClick, selectedId, setIsModalOpen, setModalContent, setBody, setIsReinjected, cloneId, body, setId)}
+                    {renderComponentNames(body, handleButtonClick, selectedId, setIsModalOpen, setModalContent, setBody, setIsReinjected, cloneId, body, setId, setBodyEdit, setBodyTest, bodyTest, check)}
                 </div>
                 <div className='' style={{width: '55%', height: '90%', background: 'transparent', position: 'relative', border: '1px solid black'}}>
                     <Menu>
