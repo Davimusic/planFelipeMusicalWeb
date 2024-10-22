@@ -1,4 +1,4 @@
-.borders1{
+/*.borders1{
     border-radius: 0.5em;
 }
 
@@ -56,15 +56,15 @@
 
 .verticalCenter{
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;    /* Centra verticalmente */
+    justify-content: center; 
+    align-items: center;    
     height: 100vh;          
 }
 
 .horizontalCenter {
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center;    /* Centra verticalmente */
+    justify-content: center; 
+    align-items: center;    
     height: 90.25vh;
 }
 
@@ -94,8 +94,7 @@
 .responsiveContainer {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centra horizontalmente */
-    /*background-color: #404041;*/
+    justify-content: center; 
 }
 
 .halfHeightScreen{
@@ -206,13 +205,13 @@ a {
 
 .scroll {
     overflow-x: auto;
-    overflow-y: auto; /* Agregado */
-    scrollbar-width: none; /* Para Firefox */
-    -ms-overflow-style: none;  /* Para Internet Explorer y Edge */
+    overflow-y: auto; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
 }
   
   .scroll::-webkit-scrollbar { 
-    display: none;  /* Para Chrome, Safari y Opera */
+    display: none;  
   }
 
 .cursor{cursor: pointer;}
@@ -233,4 +232,4 @@ a {
 
 .hoverBounce:hover {
     animation: pulse 2s infinite;
-}
+}*/

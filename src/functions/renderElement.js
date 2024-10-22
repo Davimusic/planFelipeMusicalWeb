@@ -1,5 +1,4 @@
 import React from 'react';
-import IsShow from '@/components/isShow';
 import Text from '@/components/simple/text';
 import Video from '@/components/simple/video';
 import Audio from '@/components/simple/audio';

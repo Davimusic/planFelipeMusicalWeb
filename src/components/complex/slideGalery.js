@@ -60,7 +60,8 @@ const items=
 let slide={
     "type": "Container",
     "id": 1,
-    "className": ['color1'],
+    'style': {'height': '73vh'},
+    "className": ['color1', 'scroll'],
     onClick: `() => alert('conat')`,
     "children": [
         {
@@ -141,6 +142,34 @@ let slide={
                 }
             ]
         },
+        {
+            type: 'Text',
+            text: 'Item 4',
+            id:'a1',
+            style: { backgroundColor: 'yellow', height: '45vh', width: '90%', objectFit: 'cover', margin: '0 auto' }
+        },
+        {
+            type: 'Text',
+            text: 'Texto de ejemplo',
+            id:'a2',
+            style: { backgroundColor: 'lightgrey', height: '45vh', width: '90%', display: 'flex', alignItems: 'center', justifyContent: 'center', objectFit: 'cover', margin: '0 auto' }
+        },
+        {
+            type: 'Image',
+            className: ['center'],
+            id:'a3',
+            src: 'https://res.cloudinary.com/dplncudbq/image/upload/v1657563380/mias/h19_wgstaq.jpg',
+            alt: 'Placeholder',
+            width: '1000',
+            height: '1000',
+            style: { width: '100%', objectFit: 'cover', margin: '0 auto' }
+        },
+        {
+            type: 'Video',
+            id:'a4',
+            src: 'https://res.cloudinary.com/dplncudbq/video/upload/v1657988838/mias/y5_hjj0uv.mp4',
+            style: { height: '45vh', width: '90%', objectFit: 'cover', margin: '0 auto' }
+        }
     ]
 }
 

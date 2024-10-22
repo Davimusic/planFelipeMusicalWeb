@@ -1,10 +1,10 @@
 import React from 'react';
 import objectComponent from './objectComponent';
-import logOutSession from '../generales/security/logOutSession';
+//import logOutSession from '../security/logOutSession';
 import deepClone from '@/functions/general/deepClone';
 '../../estilos/general/general.css'
 
-const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen, setBodyEdit, setBodyTest, bodyTest}) => {
+const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen, setBodyEdit, setBodyTest, bodyTest, isWrapChildren}) => {
   let tagertId = id['cloneId']
 
   const components = [
@@ -23,7 +23,9 @@ const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen
   ];
 
 
-  function addChildComponentById(newChild, targetId, obj) {
+  /*function addChildComponentById(newChild, targetId, obj) {
+    console.log('si');
+    
     if (obj.id === targetId) {
         if (newChild.type === 'Container') {
             newChild.children = obj.children ? [...obj.children] : [];
@@ -38,16 +40,47 @@ const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen
         obj.children = obj.children.map(child => addChildComponentById(newChild, targetId, child));
     }
     return obj;
+}*/
+
+function addChildComponentById(newChild, targetId, obj, encapsulate=true) {
+  console.log('si');
+  console.log(encapsulate);
+  
+  
+  if (obj.id === targetId) {
+      if (newChild.type === 'Container') {
+          if (encapsulate) {
+              // Encapsula todos los hijos en el nuevo contenedor
+              newChild.children = obj.children ? [...obj.children] : [];
+              obj.children = [newChild];
+          } else {
+              // Añade el nuevo contenedor sin encapsular a los anteriores
+              if (!obj.children) {
+                  obj.children = [];
+              }
+              obj.children.push(newChild);
+          }
+      } else {
+          if (!obj.children) {
+              obj.children = [];
+          }
+          obj.children.push(newChild);
+      }
+  } else if (obj.children) {
+      obj.children = obj.children.map(child => addChildComponentById(newChild, targetId, child, encapsulate));
+  }
+  return obj;
 }
+
 
 
   // Función para manejar la selección de un componente
   function handleComponentSelect(type) {
     const newChild = objectComponent(type)
     setIsReinjected(true)
-    setBody(addChildComponentById(newChild, tagertId, deepClone({...body})));
-    setBodyEdit(addChildComponentById(newChild, tagertId, deepClone({...body})));
-    setBodyTest(addChildComponentById(newChild, tagertId, deepClone({...bodyTest})));
+    setBody(addChildComponentById(newChild, tagertId, deepClone({...body}), isWrapChildren));
+    setBodyEdit(addChildComponentById(newChild, tagertId, deepClone({...body}), isWrapChildren));
+    setBodyTest(addChildComponentById(newChild, tagertId, deepClone({...bodyTest}), isWrapChildren));
     setIsModalOpen(false)
   }
 

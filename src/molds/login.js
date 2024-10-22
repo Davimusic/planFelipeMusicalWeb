@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import importAllFunctions from "@/functions/general/importAllLocalFunctions";
+'../estilos/general/general.css'
 
 let functions = importAllFunctions()
 
@@ -163,7 +164,6 @@ export default function LoginMold() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    
     functions['setEmail'] = (value) => setEmail(value);
     functions['email'] = () => email;
     functions['setPassword'] = (value) => setPassword(value);
@@ -176,10 +176,6 @@ export default function LoginMold() {
     useEffect(() => {
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
     }, []);
-
-    
-    
-
 
     useEffect(() => {
         functions.evaluteAction(functions.localStorageAcces('GET', 'loggingStatus'),()=> router.push('/first'),()=> console.log('login'))

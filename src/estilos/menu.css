@@ -1,6 +1,5 @@
 .dropdown {
   position: absolute;
-  /*z-index: 900;*/
   transition: all 1s ease-in-out;
   width: 50px;
   height: 50px;

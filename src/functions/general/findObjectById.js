@@ -1,5 +1,5 @@
 export default function findObjectById(obj, id) {
-    const clonedObj = JSON.parse(JSON.stringify(obj));
+    //const clonedObj = JSON.parse(JSON.stringify(obj));
 
     function search(obj, id) {
         if (obj.id === id) {
@@ -18,7 +18,7 @@ export default function findObjectById(obj, id) {
         return null;
     }
 
-    return search(clonedObj, id);
+    return search({...obj}, id);
 }
 
 
