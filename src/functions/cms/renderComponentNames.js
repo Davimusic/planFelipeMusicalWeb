@@ -4,7 +4,8 @@ import ComponentTableNames from "./componentTableNames";
 import ComponentToggle from "./componentToggle";
 import findObjectById from '@/functions/general/findObjectById';
 import udpateBodies from './udpateBodies';
-import toggleClassById from '@/functions/general/toggleClassById';
+import toggleStyleById from '@/functions/general/toggleStyleById';
+import colorPalette from './colorPalette';
 
 const renderComponentNames = (
     component, handleButtonClick, selectedId, setIsModalOpen, setModalContent, 
@@ -47,7 +48,7 @@ const renderComponentNames = (
       if (isMoveComponentsActivated) {
           if (!selectedComponent) {
               setSelectedComponent(id);  // Primer clic: selecciona el componente a mover
-              toggleClassById(`${id}Component`, 'color3', true)
+              toggleStyleById(`${id}Component`, 'background', colorPalette()['color3'], true)
           } else {
               if (selectedComponent === id) {
                   // Si el componente de origen es el mismo que el de destino, no hacer nada
@@ -104,7 +105,7 @@ const renderComponentNames = (
   
                       obj.children = insertAfterComponent(obj, id, sourceComponent);
                   }
-                  toggleClassById(`${selectedComponent}Component`, 'color3', false)
+                  toggleStyleById(`${selectedComponent}Component`,'background', colorPalette()['color3'], false)
                   udpateBodies({ ...obj }, { ...obj }, true, setIsReinjected, setBody, setBodyEdit, setBodyTest)
                   setSelectedComponent(null);
               }
@@ -128,7 +129,7 @@ const renderComponentNames = (
                 {type === 'Container' ? (
                     <Image
                         onClick={() => modal(id)}
-                        src='https://res.cloudinary.com/dplncudbq/image/upload/v1706027794/agregarMas_gbbwzo.png'
+                        src='https://res.cloudinary.com/dplncudbq/image/upload/v1729718949/plus_b987af.png'
                         style={{marginLeft: '20px', width: '30px', height: '30px', background: 'white', borderRadius: '50%' }}
                         width={30}
                         height={30}
@@ -137,7 +138,7 @@ const renderComponentNames = (
             </div>
             {children && (
                 <>
-                    {ComponentToggle(uniqueId)}
+                    <ComponentToggle id={uniqueId}/>
                     <div id={uniqueId} className="borders1" style={{ background: '#33303083' }}> {/* Div que envuelve a todos los hijos con un ID único */}
                         {children.map((child, index) => (
                             <div key={index}>

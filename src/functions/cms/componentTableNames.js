@@ -3,6 +3,7 @@ import objectComponent from './objectComponent';
 //import logOutSession from '../security/logOutSession';
 import deepClone from '@/functions/general/deepClone';
 '../../estilos/general/general.css'
+import colorPalette from './colorPalette';
 
 const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen, setBodyEdit, setBodyTest, bodyTest, isWrapChildren}) => {
   let tagertId = id['cloneId']
@@ -43,10 +44,6 @@ const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen
 }*/
 
 function addChildComponentById(newChild, targetId, obj, encapsulate=true) {
-  console.log('si');
-  console.log(encapsulate);
-  
-  
   if (obj.id === targetId) {
       if (newChild.type === 'Container') {
           if (encapsulate) {
@@ -85,7 +82,7 @@ function addChildComponentById(newChild, targetId, obj, encapsulate=true) {
   }
 
   return (
-    <table className='color6' style={tableStyles}>
+    <table style={tableStyles}>
       <thead>
         <tr>
           <th style={thStyles}>Component Type</th>
@@ -108,14 +105,14 @@ const tableStyles = {
   width: '100%',
   borderCollapse: 'collapse',
   margin: '20px 0',
-  backgroundColor: '#480083'
+  backgroundColor: colorPalette()['color5']
 };
 
 const thStyles = {
   border: '1px solid #ddd',
   padding: '8px',
-  backgroundColor: '#f2f2f2',
-  color: 'black'
+  backgroundColor: colorPalette()['color4'],
+  color: 'white'
 };
 
 const tdStyles = {

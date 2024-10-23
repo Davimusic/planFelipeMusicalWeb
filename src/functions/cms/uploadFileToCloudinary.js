@@ -43,7 +43,7 @@ export default function UploadFileToCloudinary({path}) {
 
     return (
         <div>
-            <label className="imagenSubirArchivos" style={{ display: loading ? 'none' : 'flex', backgroundImage: 'url("https://res.cloudinary.com/dplncudbq/image/upload/v1706024045/crearNuevoObjeto_o9hw7f.png")' }}>
+            <label className="imagenSubirArchivos" style={{ display: loading ? 'none' : 'flex', backgroundImage: 'url("https://res.cloudinary.com/dplncudbq/image/upload/v1729718949/upload_rqmafo.png")' }}>
                 <input type="file" onChange={handleFileChange} style={{ display: 'none' }} />
             </label>
             {selectedFile && !loading && (

@@ -9,6 +9,7 @@ import sortArrayAlphabetically from "@/functions/general/sortArrayAlphabetically
 import ComponentToggle from "./componentToggle";
 import udpateBodies from "./udpateBodies";
 import deleteComponent from "./deleteComponent";
+import colorPalette from "./colorPalette";
 
 let functions = importAllFunctions()
 
@@ -259,7 +260,7 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
             <div>Type: {node.type}</div>
             <div className="marginTop1">
                 onClick: 
-                {ComponentToggle('onclickId')}
+                <ComponentToggle id={'onclickId'}/>
                 <div id='onclickId'>
                     <Input 
                         className={['borders1', 'cursor']} 
@@ -270,9 +271,9 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
                 </div>
             </div>
             {node.hasOwnProperty('className') && (
-                <div style={{ display: 'block', background: 'gold' }} className='borders1 padding1 marginTop1'>
+                <div style={{ display: 'block', background: colorPalette()['color4'] }} className='borders1 padding1 marginTop1'>
                     ClassName:
-                    {ComponentToggle('classNameId')}
+                    <ComponentToggle id={'classNameId'}/>
                     <div id='classNameId'>
                         <Select 
                             id={'selectFileBrowser'} 
@@ -283,13 +284,13 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
                             event={(e) => setSelectedClassName(e.target.value)} 
                             options={['Select class', ...sortArrayAlphabetically(availableClasses)]} 
                         />
-                        <button className='borders1 cursor' onClick={addClass} style={{ marginRight: '10px', background: 'blue', padding: '10px', fontSize: '100%' }}>
+                        <button className='borders1 cursor' onClick={addClass} style={{ marginRight: '10px', background: colorPalette()['color5'], padding: '10px', fontSize: '100%', color: 'white' }}>
                             Add class
                         </button>
                         {node.className.map((className, index) => (
                             <div className='borders1 center' style={{ margin: '10px', background: 'black', padding: '10px', display: 'flex' }} key={index}>
                                 {className} 
-                                <button className='borders1 cursor' onClick={() => removeClass(className)} style={{ margin: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                                <button className='borders1 cursor' onClick={() => removeClass(className)} style={{ margin: '10px', background: colorPalette()['color3'], padding: '10px', fontSize: '100%' }}>
                                     x
                                 </button>
                             </div>
@@ -298,9 +299,9 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
                 </div>
             )}
             {node.hasOwnProperty('style') && (
-                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                <div className='borders1 padding1 marginTop1' style={{ background: colorPalette()['color4'] }}>
                     Style:
-                    {ComponentToggle('styleId')}
+                    <ComponentToggle id={'styleId'}/>
                     <div id='styleId'>
                         <Input 
                             id={'styleInput'} 
@@ -310,14 +311,14 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
                             value={''} 
                             style={{ marginRight: '10px', padding: '10px', fontSize: '100%', width: '100%' }}
                         />
-                        <button className='borders1 cursor' onClick={injectStyle} style={{ margin: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                        <button className='borders1 cursor' onClick={injectStyle} style={{ margin: '10px', background: colorPalette()['color5'], padding: '10px', fontSize: '100%', color: 'white' }}>
                             add new style
                         </button>
                         {Object.entries(node.style).map(([key, value], index) => (
-                            <div onClick={() => setStyleInputValue(key, value)} key={index} style={{ display: 'block', background: 'blue', margin: '10px' }} className='borders1'>
+                            <div onClick={() => setStyleInputValue(key, value)} key={index} style={{ display: 'block', background: colorPalette()['color5'], margin: '10px' }} className='borders1'>
                                 <div className='borders1 center scroll' style={{ background: 'black', padding: '10px', display: 'flex' }}>
                                     {key}   
-                                    <button className='borders1 cursor' onClick={() => deleteStyle(key)} style={{ margin: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                                    <button className='borders1 cursor' onClick={() => deleteStyle(key)} style={{ margin: '10px', background: colorPalette()['color3'], padding: '10px', fontSize: '100%' }}>
                                         x
                                     </button>
                                 </div>
@@ -328,9 +329,9 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
                 </div>
             )}
             {node.hasOwnProperty('text') && (
-                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                <div className='borders1 padding1 marginTop1' style={{ background: colorPalette()['color4'] }}>
                     Text: 
-                    {ComponentToggle('textId')}
+                    <ComponentToggle id={'textId'}/>
                     <div id='textId'>                                                                                  
                         <Input 
                             id={'styleInput'} 
@@ -344,9 +345,9 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
                 </div>
             )}
             {node.hasOwnProperty('value') && (
-                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                <div className='borders1 padding1 marginTop1' style={{ background: colorPalette()['color4'] }}>
                     Value:
-                    {ComponentToggle('ValueID')}
+                    <ComponentToggle id={'ValueID'}/>
                     <div id='ValueID'>    
                         <TextArea 
                             id={'styleTextArea'} 
@@ -360,17 +361,17 @@ const formatNode = (node, component, targetId, classNames, setClassNames, setBod
                 </div>
             )}
             {node.hasOwnProperty('src') && (
-                <div className='borders1 padding1 marginTop1' style={{ background: 'gold' }}>
+                <div className='borders1 padding1 marginTop1' style={{ background: colorPalette()['color4'] }}>
                     src:
-                    {ComponentToggle('srcId')}
+                    <ComponentToggle id={'srcId'}/>
                     <div id='srcId'>  
-                        <button className='borders1 cursor' onClick={() => { setIsModalOpen(true); setModalContent(<FileBrowser type={resourceType} showControls={false} actionFunction={updateSrcValue} path={'davipianof@gmail.com/plan felipe musical'} />); }} style={{ margin: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+                        <button className='borders1 cursor' onClick={() => { setIsModalOpen(true); setModalContent(<FileBrowser type={resourceType} showControls={false} actionFunction={updateSrcValue} path={'davipianof@gmail.com/plan felipe musical'} />); }} style={{ margin: '10px', background: colorPalette()['color5'], padding: '10px', fontSize: '100%', color: 'white' }}>
                             change scr file
                         </button>
                     </div>
                 </div>
             )}
-            <button className='borders1 cursor marginTop1' onClick={()=> deleteComponent(targetId, component, setIsReinjected, setBody, setBodyEdit, setBodyTest, bodyTest, true)} style={{ marginRight: '10px', background: 'red', padding: '10px', fontSize: '100%' }}>
+            <button className='borders1 cursor marginTop1' onClick={()=> deleteComponent(targetId, component, setIsReinjected, setBody, setBodyEdit, setBodyTest, bodyTest, true)} style={{ marginRight: '10px', background: colorPalette()['color5'], padding: '10px', fontSize: '100%', color: 'white' }}>
                 Delete component
             </button>
         </div>

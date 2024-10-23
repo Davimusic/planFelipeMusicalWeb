@@ -19,6 +19,7 @@ import ModernCheckbox from "@/functions/cms/ModernCheckbox";
 import ComponentRenderCheckbox from "@/functions/cms/componentRenderCheckbox";
 import generalConnector from "@/functions/BackendConnectors/generalConnector";
 import udpateBodies from "@/functions/cms/udpateBodies";
+import colorPalette from "@/functions/cms/colorPalette";
 
 
 //hacer que en prueba los links tambien no tengan activacion
@@ -34,7 +35,7 @@ export default function hi(){
     const [isReinjected, setIsReinjected] = useState(false);//activa las funciones del template
     const [id, setId] = useState(0);//contiene el id del objeto seleccionado
     const [selectedId, setSelectedId] = useState(null);
-    const [availableClasses, setAvailableClasses] = useState(['color1', 'color2', 'color3', 'rotate'])//clases traidas de la nuve para usar
+    const [availableClasses, setAvailableClasses] = useState([])//clases traidas de la nuve para usar
     const [selectedClassName, setSelectedClassName] = useState('')//clase seleccionada a usar
     const [classNames, setClassNames] = useState([]);//las clases del objeto seleccionado
     const [modalContent, setModalContent] = useState(null);//contenido del modal
@@ -50,7 +51,13 @@ export default function hi(){
 
     const [objectMolds, setObjectMolds] = useState([])//nombres de los templates ya creados
     const [objectMoldsInUse, setObjectMoldsInUse] = useState(objectMolds[0])//template en uso
-    const [objectMoldsDb, setObjectMoldsDb]= useState([])//todos los templates de base de datos
+    const [objectMoldsDb, setObjectMoldsDb]= useState({})//todos los templates de base de datos
+
+    const [selectedComponent, setSelectedComponent] = useState(null);//para resaltar el componente de renderComponentNames seleccionado para reubicarlo
+    
+    const [isModalOpen, setIsModalOpen] = useState(false);//modal
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
 
     function traverseAndEval(obj) {
@@ -82,7 +89,7 @@ export default function hi(){
             const result = await generalConnector('getTemplates', 'GET');
             console.log(result.templates);
             setObjectMoldsDb(result.templates)
-            setObjectMolds(functions.extractKeys(result.templates))
+            setObjectMolds(functions.sortArrayAlphabetically(functions.extractKeys(result.templates)))
         } catch (error) {
             console.error('Error:', error);
         }
@@ -112,10 +119,11 @@ export default function hi(){
             }
             const bright = editionState
             const functiones = [
-                { function: () => setEditionState('editTemplate'), setInterval: 500 },
-                { function: () => setEditionState('testTemplate'), setInterval: 500 },
-                { function: () => setEditionState('editTemplate'), setInterval: 500 },
-                { function: () => setEditionState(bright), setInterval: 500 }
+                { function: () => setEditionState('editTemplate'), setInterval: 1000 },
+                { function: () => setEditionState('testTemplate'), setInterval: 1000 },
+                { function: () => setEditionState('editTemplate'), setInterval: 1000 },
+                { function: () => setEditionState(bright), setInterval: 1000 },
+                { function: () => console.log('actualizó'), setInterval: 1000 }
             ];
             
             functions.executeFunctionsAtInterval(functiones)
@@ -169,6 +177,10 @@ export default function hi(){
     }, []);
 
     useEffect(() => {
+        setObjectMolds(functions.sortArrayAlphabetically(functions.extractKeys(objectMoldsDb)))
+    }, [objectMoldsDb]);//al actualizarse los los templates hace que tambien se actualize los titulos de estos templates que estàn en setObjectMolds
+
+    useEffect(() => {
         if (Object.keys(body).length !== 0) { 
             if (!isInjected) {
                 setIsInjected(true);
@@ -187,21 +199,9 @@ export default function hi(){
         }
     }, [body, isReinjected]);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-    /*const buttonStyles = {
-        padding: '10px 20px',
-        backgroundColor: '#0070f3',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-    };*/
 
-
-    //let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black', opacity: editionState === 'testTemplate' ? 0 : 1, visibility: editionState === 'testTemplate' ? 'hidden' : 'visible', transition: 'opacity 0.5s, visibility 0.5s' }
-    let divstyle = { width: functions.isSmallScreen(800) ? '100%' : '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: 'gray', padding: '20px', border: '1px solid black' }
+    //let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background:  colorPalette()['color3'], padding: '20px', border: 'none', opacity: editionState === 'testTemplate' ? 0 : 1, visibility: editionState === 'testTemplate' ? 'hidden' : 'visible', transition: 'opacity 0.5s, visibility 0.5s' }
+    let divstyle = { width: functions.isSmallScreen(800) ? '100%' : '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background: colorPalette()['color3'], padding: '20px', border: 'none' }
     const cloneId = { cloneId: id };
 
     function handleCheckboxChange(){
@@ -216,20 +216,13 @@ export default function hi(){
     const check = ComponentRenderCheckbox(isWrapChildren, 'moveComponents', 'crear hijo envuelto', 'crear hijo separado', handleCheckboxChange, isRearrangeComponents);
     const check2 = ComponentRenderCheckbox(isMoveComponentsActivated, 'moveComponents2', 'mover componente', 'sin uso', handleCheckboxChange2, isMoveComponentsActivated);
     
-    
-    
-    
-    const [selectedComponent, setSelectedComponent] = useState(null);
-    useEffect(() => {
-        console.log(bodyTest);
-    }, [bodyTest]);
 
     return (
-        <>
-            <div className="center cursor margin1" style={{width: '100%', height: '5vh', display: 'flex'}} >
-                <SettingControls setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} bodyTest={bodyTest} setIsReinjected={setIsReinjected} setBody={setBody} setBodyEdit={setBodyEdit} setBodyTest={setBodyTest} objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse}/>
+        <div className="scroll" style={{width: '100vw', height: '100vh', background: colorPalette()['color1']}}>
+            <div className="center" style={{width: '100vw', height: '7vh', display: 'flex', background:  colorPalette()['color3']}} >
+                <SettingControls setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} bodyTest={bodyTest} setIsReinjected={setIsReinjected} setBody={setBody} setBodyEdit={setBodyEdit} setBodyTest={setBodyTest} objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse} setObjectMoldsDb={setObjectMoldsDb}/>
             </div>
-            <div className='center color2 scroll' style={{width: '100vw', height: '85vh', display: functions.isSmallScreen(800) ? 'block' : 'flex'}}>
+            <div className='center scroll' style={{width: '100vw', height: '93vh', display: functions.isSmallScreen(800) ? 'block' : 'flex'}}>
                 <div className='scroll borders1' style={divstyle}>
                     {renderComponentNames(body, handleButtonClick, selectedId, setIsModalOpen, setModalContent, setBody, setIsReinjected, cloneId, body, setId, setBodyEdit, setBodyTest, bodyTest, check, isWrapChildren, check2, isMoveComponentsActivated, selectedComponent, setSelectedComponent)}
                 </div>
@@ -243,7 +236,7 @@ export default function hi(){
                 </div>
                 <Modal isOpen={isModalOpen}  onClose={closeModal} children={modalContent}/>
             </div>
-        </>
+        </div>
     )  
 }
 
