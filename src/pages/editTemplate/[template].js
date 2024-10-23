@@ -103,8 +103,22 @@ export default function hi(){
     useEffect(() => {
         if (objectMoldsDb[objectMoldsInUse] !== undefined) {
             const obj = { ...objectMoldsDb[objectMoldsInUse] };
-            udpateBodies(obj, traverseAndEval(obj), false, setIsReinjected, setBody, setBodyEdit, setBodyTest )
-            //setBody(traverseAndEval(obj));
+            setBody(traverseAndEval(obj));
+            if(Object.keys(obj).length === 0 && obj.constructor === Object){
+                console.log('tiene....');
+            }else {
+                setBodyEdit(traverseAndReplaceOnClick(injectLabelIntoJSON(obj, items), handleButtonClick))
+                setBodyTest(traverseAndEval(obj))
+            }
+            const bright = editionState
+            const functiones = [
+                { function: () => setEditionState('editTemplate'), setInterval: 500 },
+                { function: () => setEditionState('testTemplate'), setInterval: 500 },
+                { function: () => setEditionState('editTemplate'), setInterval: 500 },
+                { function: () => setEditionState(bright), setInterval: 500 }
+            ];
+            
+            functions.executeFunctionsAtInterval(functiones)
         }
     }, [objectMoldsInUse]);//actualiza cada que se selecciona un nuevo objeto de la base de datos
 
