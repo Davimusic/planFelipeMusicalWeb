@@ -10,14 +10,14 @@ const ComponentRenderCheckbox = (condition, id, labelTrue, labelFalse, handleCha
     }
 
     return (
-        <>
-            {condition ? labelTrue : labelFalse}
+        <div style={{display: 'flex'}}>
             <ModernCheckbox
                 id={id}
                 actionFunction={localHandleChange}
                 isCheckedInitially={isChecked}
             />
-        </>
+            {condition ? labelTrue : labelFalse}
+        </div>
     );
 };
 

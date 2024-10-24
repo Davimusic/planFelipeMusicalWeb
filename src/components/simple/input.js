@@ -9,6 +9,7 @@ const Input = ({ inputType, id, style, required, onValueChange, value, name, cla
     }, [value]);
 
     const handleChange = (event) => {
+        event.stopPropagation();
         const newValue = event.target.value;
         setInputValue(newValue);
         if (onValueChange) {
@@ -31,6 +32,8 @@ const Input = ({ inputType, id, style, required, onValueChange, value, name, cla
 };
 
 export default Input;
+
+
 
 
 

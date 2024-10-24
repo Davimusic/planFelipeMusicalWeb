@@ -15,10 +15,8 @@ import colorPalette from "./colorPalette";
 
 
 
-export default function SettingControl({ setIsModalOpen, setModalContent, setEditionState, objectMolds, bodyTest, setIsReinjected, setBody, setBodyEdit, setBodyTest, objectMoldsDb, handleButtonClick, setObjectMoldsInUse, objectMoldsInUse, setObjectMoldsDb}) {
+export default function SettingControl({ setIsModalOpen, setModalContent, setEditionState, objectMolds, bodyTest, setIsReinjected, setBody, setBodyEdit, setBodyTest, objectMoldsDb, handleButtonClick, setObjectMoldsInUse, objectMoldsInUse, setObjectMoldsDb }) {
     const [activeCheckbox, setActiveCheckbox] = useState('editTemplate');
-    
-    
 
     const handleCheckboxChange = (id) => {
         setActiveCheckbox(id);
@@ -29,45 +27,93 @@ export default function SettingControl({ setIsModalOpen, setModalContent, setEdi
     }, [activeCheckbox]);
 
     useEffect(() => {
-        document.getElementById('inputSetting').value = objectMoldsInUse
+        document.getElementById('inputSetting').value = objectMoldsInUse;
     }, [objectMoldsInUse]);
 
+    const handlePropagation = (e) => {
+        e.stopPropagation();
+    };
+
     return (
-        <div style={{ width: '100%' }} className="equalSpace">
+        <div style={{ width: '100%', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between', alignItems: 'center' }} className="scroll">
             <Image
-                onClick={() => {
+                onClick={(e) => {
+                    //e.stopPropagation();
                     setIsModalOpen(true);
                     setModalContent(<UploadFileToCloudinary path={`davipianof@gmail.com/plan felipe musical`} />);
                 }}
                 src={'https://res.cloudinary.com/dplncudbq/image/upload/v1729718949/upload_rqmafo.png'}
                 className={[]}
-                style={{ width: '2vhx' }}
+                style={{height: '50px', width: '50px'}}
                 width={'50'}
                 height={'50'}
                 alt={'upload files'}
             />
-            <div>
-                <div style={{ color: 'black' }}>Edit</div>
+            <div style={{display: 'flex'}} onClick={handlePropagation}>
                 <ModernCheckbox
                     id={'editTemplate'}
-                    actionFunction={handleCheckboxChange}
+                    actionFunction={(e) => {
+                        handleCheckboxChange('editTemplate');
+                    }}
                     isCheckedInitially={activeCheckbox === 'editTemplate'}
                 />
+                <div style={{ color: 'white' }}>Edit</div>
             </div>
-            <div>
-                <div style={{ color: 'black' }}>Teste</div>
+            <div style={{display: 'flex'}} onClick={handlePropagation}>
                 <ModernCheckbox
                     id={'testTemplate'}
-                    actionFunction={handleCheckboxChange}
+                    actionFunction={(e) => {
+                        e.stopPropagation();
+                        handleCheckboxChange('testTemplate');
+                    }}
                     isCheckedInitially={activeCheckbox === 'testTemplate'}
                 />
+                <div style={{ color: 'white' }}>Teste</div>
             </div>
-            <Image onClick={()=> fullScreen()} src={'https://res.cloudinary.com/dplncudbq/image/upload/v1729718949/full_sxwwyn.png'} width={'30'} height={'30'} alt={'ampliar'} style={{height: '50px', width: '50px'}}/>
-            <Image onClick={()=> saveTemplate(JSON.stringify(traverseAndStringify(bodyTest)), replaceCharacter(document.getElementById('inputSetting').value, ' ', '-'), objectMolds, setObjectMoldsDb, objectMoldsDb, setIsModalOpen, setModalContent, setObjectMoldsInUse)} 
-                                    src={'https://res.cloudinary.com/dplncudbq/image/upload/v1706024045/save_pmx5wo.png'} width={'30'} height={'30'} alt={'guardar'} style={{height: '50px', width: '50px'}}
-            />
-            <Input inputType={'text'} id={'inputSetting'} required={true} onValueChange={(e) => e} value={objectMoldsInUse}/>
-            <Select id={'uploadModls'} name={'uploadModls'} value={objectMoldsInUse} options={objectMolds} event={(e) => {setObjectMoldsInUse(e.target.value)}} />
+            <div onClick={handlePropagation}>
+                <Image
+                    onClick={(e) => {
+                        fullScreen();
+                    }}
+                    src={'https://res.cloudinary.com/dplncudbq/image/upload/v1729718949/full_sxwwyn.png'}
+                    width={'30'}
+                    height={'30'}
+                    alt={'ampliar'}
+                    style={{ height: '50px', width: '50px' }}
+                />
+            </div>
+            <div onClick={handlePropagation}>
+                <Image
+                    onClick={(e) => {
+                        saveTemplate(JSON.stringify(traverseAndStringify(bodyTest)), replaceCharacter(document.getElementById('inputSetting').value, ' ', '-'), objectMolds, setObjectMoldsDb, objectMoldsDb, setIsModalOpen, setModalContent, setObjectMoldsInUse);
+                    }}
+                    src={'https://res.cloudinary.com/dplncudbq/image/upload/v1706024045/save_pmx5wo.png'}
+                    width={'30'}
+                    height={'30'}
+                    alt={'guardar'}
+                    style={{ height: '50px', width: '50px' }}
+                />
+            </div>
+            <div onClick={handlePropagation}>
+                <Input
+                    inputType={'text'}
+                    id={'inputSetting'}
+                    required={true}
+                    value={objectMoldsInUse}
+                />
+            </div>
+            <div onClick={handlePropagation}>
+                <Select
+                    id={'uploadModls'}
+                    name={'uploadModls'}
+                    value={objectMoldsInUse}
+                    options={objectMolds}
+                    event={(e) => {
+                        e.stopPropagation();
+                        setObjectMoldsInUse(e.target.value);
+                    }}
+                />
+            </div>
         </div>
     );
 }

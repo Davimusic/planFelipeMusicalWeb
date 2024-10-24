@@ -20,6 +20,8 @@ import ComponentRenderCheckbox from "@/functions/cms/componentRenderCheckbox";
 import generalConnector from "@/functions/BackendConnectors/generalConnector";
 import udpateBodies from "@/functions/cms/udpateBodies";
 import colorPalette from "@/functions/cms/colorPalette";
+import CmsMenuContent from "@/functions/cms/cmsMenuContent";
+import getMenuContent from "@/functions/general/getMenuContent";
 
 
 //hacer que en prueba los links tambien no tengan activacion
@@ -218,25 +220,23 @@ export default function hi(){
     
 
     return (
-        <div className="scroll" style={{width: '100vw', height: '100vh', background: colorPalette()['color1']}}>
-            <div className="center" style={{width: '100vw', height: '7vh', display: 'flex', background:  colorPalette()['color3']}} >
-                <SettingControls setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} bodyTest={bodyTest} setIsReinjected={setIsReinjected} setBody={setBody} setBodyEdit={setBodyEdit} setBodyTest={setBodyTest} objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse} setObjectMoldsDb={setObjectMoldsDb}/>
-            </div>
-            <div className='center scroll' style={{width: '100vw', height: '93vh', display: functions.isSmallScreen(800) ? 'block' : 'flex'}}>
-                <div className='scroll borders1' style={divstyle}>
-                    {renderComponentNames(body, handleButtonClick, selectedId, setIsModalOpen, setModalContent, setBody, setIsReinjected, cloneId, body, setId, setBodyEdit, setBodyTest, bodyTest, check, isWrapChildren, check2, isMoveComponentsActivated, selectedComponent, setSelectedComponent)}
+        <Menu zIndex={'999999999'} backgroundColor={colorPalette()['color4']} body={<SettingControls setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} bodyTest={bodyTest} setIsReinjected={setIsReinjected} setBody={setBody} setBodyEdit={setBodyEdit} setBodyTest={setBodyTest} objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse} setObjectMoldsDb={setObjectMoldsDb}/>} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1729800824/menu2_rtbvzo.png'}>
+                <div className='center scroll borders1' style={{width: '95vw', height: '95.5vh', display: functions.isSmallScreen(800) ? 'block' : 'flex', background: colorPalette()['color1']}}>
+                    <div className='scroll borders1' style={divstyle}>
+                        {renderComponentNames(body, handleButtonClick, selectedId, setIsModalOpen, setModalContent, setBody, setIsReinjected, cloneId, body, setId, setBodyEdit, setBodyTest, bodyTest, check, isWrapChildren, check2, isMoveComponentsActivated, selectedComponent, setSelectedComponent)}
+                    </div>
+                    <div className='' style={{width: '55%', height: '90%', background: 'transparent', border: 'none', position: 'relative'}}>
+                        <Menu zIndex={'99'} backgroundColor={colorPalette()['color1']} body={<CmsMenuContent/>} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1701542645/menu1_ui2fw4.png'}>
+                            {RenderElement(body)}
+                        </Menu>
+                    </div>
+                    <div className='scroll borders1' style={divstyle}>
+                            {componentRendererAttributes(body, id, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject, setBodyEdit, setBodyTest, bodyTest)}
+                    </div>
+                    <Modal isOpen={isModalOpen}  onClose={closeModal} children={modalContent}/>
                 </div>
-                <div className='' style={{width: '55%', height: '90%', background: 'transparent', position: 'relative', border: 'none'}}>
-                    <Menu>
-                        {RenderElement(body)}
-                    </Menu>
-                </div>
-                <div className='scroll borders1' style={divstyle}>
-                        {componentRendererAttributes(body, id, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject, setBodyEdit, setBodyTest, bodyTest)}
-                </div>
-                <Modal isOpen={isModalOpen}  onClose={closeModal} children={modalContent}/>
-            </div>
-        </div>
+            
+        </Menu>
     )  
 }
 

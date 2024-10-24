@@ -54,7 +54,7 @@ time, mark, audio, video {
 }
 
 .marco{
-  padding: 20px;
+  padding: 2vh;
   transition: padding 1s ease-in-out;
 }
 

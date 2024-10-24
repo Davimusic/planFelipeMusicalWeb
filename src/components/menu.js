@@ -5,7 +5,7 @@ import '../../src/app/globals.css';
 import HandleMultipleFunctions from "@/functions/general/handleMultipleFunctions";
 import localStorageAcces from "@/functions/security/localStorageAcces";
 
-export function Menu({ children }) {
+export function Menu({ children, imageLink, body, backgroundColor, zIndex }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
     
@@ -20,29 +20,19 @@ export function Menu({ children }) {
     }
 
     return (
-        <div className={`backgroundImage ${isMenuOpen ? 'sinMarco' : 'marco'}`} style={{ height: '100%' }}>
+        <div className={`backgroundImage ${isMenuOpen ? 'sinMarco' : 'marco'} center`} style={{ height: '100%', background: backgroundColor }}>
             <div>
-                <div className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
+                <div style={{background: backgroundColor, zIndex: zIndex}} className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
                     <img 
                         onClick={changeMenuState} 
                         className="imagenes" 
                         style={{ margin: '5px' }} 
-                        src="https://res.cloudinary.com/dplncudbq/image/upload/v1701542645/menu1_ui2fw4.png" 
+                        src={imageLink} 
                         alt="Descripción de la imagen" 
                     />
                     {isMenuOpen && (
                         <div className='menuContent' onClick={changeMenuState}>
-                            {typeof window !== 'undefined' ? (
-                                <>
-                                    <button className="botones" onClick={() => { window.location.href = 'https://apu-kappa.vercel.app/' }}>APU</button>
-                                    <button className="botones" onClick={() => { window.location.href = 'https://gannt-blush.vercel.app/' }}>GANNT</button>
-                                    <button className="botones" onClick={HandleMultipleFunctions(
-                () => localStorageAcces('POST', 'loggingStatus', false),                     
-                () => router.push('/')
-            )}
-            >SALIR</button>
-                                </>
-                            ) : null}
+                            {body}
                         </div>
                     )}
                 </div>
