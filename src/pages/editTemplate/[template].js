@@ -1,4 +1,4 @@
-import RenderElement from "@/functions/renderElement";
+import RenderElement from "@/functions/renderElement";//hola
 import importAllFunctions from "@/functions/general/importAllLocalFunctions";
 import React, { useState, useEffect } from 'react';
 import { Menu } from "@/components/menu";
