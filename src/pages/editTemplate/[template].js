@@ -20,7 +20,7 @@ import ComponentRenderCheckbox from "@/functions/cms/componentRenderCheckbox";
 import generalConnector from "@/functions/BackendConnectors/generalConnector";
 import udpateBodies from "@/functions/cms/udpateBodies";
 import colorPalette from "@/functions/cms/colorPalette";
-import CmsMenuContent from "@/functions/cms/cmsMenuContent";
+import CmsMenuContent from "@/functions/cms/cmsMenuContentTest";
 import getMenuContent from "@/functions/general/getMenuContent";
 
 
