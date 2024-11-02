@@ -23,26 +23,6 @@ const ComponentTableNames = ({body, setBody, id, setIsReinjected, setIsModalOpen
     { type: 'Select', description: 'Select' }
   ];
 
-
-  /*function addChildComponentById(newChild, targetId, obj) {
-    console.log('si');
-    
-    if (obj.id === targetId) {
-        if (newChild.type === 'Container') {
-            newChild.children = obj.children ? [...obj.children] : [];
-            obj.children = [newChild];
-        } else {
-            if (!obj.children) {
-                obj.children = [];
-            }
-            obj.children.push(newChild);
-        }
-    } else if (obj.children) {
-        obj.children = obj.children.map(child => addChildComponentById(newChild, targetId, child));
-    }
-    return obj;
-}*/
-
 function addChildComponentById(newChild, targetId, obj, encapsulate=true) {
   if (obj.id === targetId) {
       if (newChild.type === 'Container') {
@@ -76,8 +56,8 @@ function addChildComponentById(newChild, targetId, obj, encapsulate=true) {
     const newChild = objectComponent(type)
     setIsReinjected(true)
     setBody(addChildComponentById(newChild, tagertId, deepClone({...body}), isWrapChildren));
-    setBodyEdit(addChildComponentById(newChild, tagertId, deepClone({...body}), isWrapChildren));
-    setBodyTest(addChildComponentById(newChild, tagertId, deepClone({...bodyTest}), isWrapChildren));
+    //setBodyEdit(addChildComponentById(newChild, tagertId, deepClone({...body}), isWrapChildren));
+    //setBodyTest(addChildComponentById(newChild, tagertId, deepClone({...bodyTest}), isWrapChildren));
     setIsModalOpen(false)
   }
 

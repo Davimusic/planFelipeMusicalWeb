@@ -1,8 +1,8 @@
-export default function udpateBodies(edit, test, isReloadBodyWithTraverseAndReplaceOnClick, setIsReinjected, setBody, setBodyEdit, setBodyTest){
+export default function udpateBodies(edit, test, isReloadBodyWithTraverseAndReplaceOnClick, setIsReinjected, setBody){
     if(isReloadBodyWithTraverseAndReplaceOnClick === true){
         setIsReinjected(true)
     }
     setBody(edit)
-    setBodyEdit(edit)
-    setBodyTest(test)
+    //setBodyEdit(edit)
+    //setBodyTest(test)
 }

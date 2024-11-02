@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Menu } from "@/components/menu";
 import injectLabelIntoJSON from "@/functions/cms/injectLabelIntoJSON";
 import traverseAndReplaceOnClick from "@/functions/cms/traverseAndReplaceOnClick";
-import renderComponentNames from "@/functions/cms/renderComponentNames";
-import componentRendererAttributes from "@/functions/cms/componentRendererAttributes";
+import RenderComponentNames from "@/functions/cms/renderComponentNames";
+import ComponentRendererAttributes from "@/functions/cms/componentRendererAttributes";
 import items from "@/functions/cms/itemsTest";
 import Modal from "@/components/complex/modal";
 import UploadFileToCloudinary from "@/functions/cms/uploadFileToCloudinary";
@@ -23,6 +23,9 @@ import colorPalette from "@/functions/cms/colorPalette";
 import CmsMenuContent from "@/functions/cms/cmsMenuContentTest";
 import getMenuContent from "@/functions/general/getMenuContent";
 
+import updateObjectValueByKey from "@/functions/cms/updateObjectValueByKey";
+import useCustomState from "@/functions/general/useCustomState";
+
 
 //hacer que en prueba los links tambien no tengan activacion
 const functions = importAllFunctions()
@@ -30,8 +33,8 @@ const functions = importAllFunctions()
 export default function hi(){
     //guardan los estados de los objetos 
     const [body, setBody] = useState({});//el que todo el tiempo se ve en ejecucion
-    const [bodyTest, setBodyTest] = useState({});//el que siempre tiene con todas sus funcionalidades finales
-    const [bodyEdit, setBodyEdit] = useState({});//el que siempre tiene el modo edicion
+    //const [bodyTest, setBodyTest] = useState({});//el que siempre tiene con todas sus funcionalidades finales
+    //const [bodyEdit, setBodyEdit] = useState({});//el que siempre tiene el modo edicion
     
     const [isInjected, setIsInjected] = useState(false);//permite la actualizacion de los bodies
     const [isReinjected, setIsReinjected] = useState(false);//activa las funciones del template
@@ -101,10 +104,10 @@ export default function hi(){
         console.log(editionState);
         if(editionState === 'editTemplate'){
             functions.injectDocumentStyle('frame', 'border: 5px solid blue;')
-            setBody(bodyEdit)
+            setBody(body)
         } else if(editionState === 'testTemplate'){
             functions.removeDocumentClass('frame')
-            setBody(bodyTest)
+            setBody(body)
         }
         
     }, [editionState]);
@@ -112,12 +115,14 @@ export default function hi(){
     useEffect(() => {
         if (objectMoldsDb[objectMoldsInUse] !== undefined) {
             const obj = { ...objectMoldsDb[objectMoldsInUse] };
+            console.log(obj);
+            
             setBody(traverseAndEval(obj));
             if(Object.keys(obj).length === 0 && obj.constructor === Object){
                 console.log('tiene....');
             }else {
-                setBodyEdit(traverseAndReplaceOnClick(injectLabelIntoJSON(obj, items), handleButtonClick))
-                setBodyTest(traverseAndEval(obj))
+                //setBodyEdit(traverseAndReplaceOnClick(injectLabelIntoJSON(obj, items), handleButtonClick))
+                //setBodyTest(traverseAndEval(obj))
             }
             const bright = editionState
             const functiones = [
@@ -132,11 +137,6 @@ export default function hi(){
         }
     }, [objectMoldsInUse]);//actualiza cada que se selecciona un nuevo objeto de la base de datos
 
-    /*useEffect(() => {
-        if (functions.extractKeys(objectMoldsDb).length >= 1) {
-            setBody(traverseAndEval(objectMoldsDb[functions.extractKeys(objectMoldsDb)[0]]));
-        }
-    }, [objectMoldsDb]);//carga el primer resultado traido base de datos templates*/
 
     function closeAtributeTools(){
         console.log('entra');
@@ -187,8 +187,8 @@ export default function hi(){
             if (!isInjected) {
                 setIsInjected(true);
                 const obj = traverseAndReplaceOnClick(injectLabelIntoJSON({...body}, items), handleButtonClick)
-                setBodyTest(injectLabelIntoJSON({...body}, items))
-                setBodyEdit(obj)
+                //setBodyTest(injectLabelIntoJSON({...body}, items))
+                //setBodyEdit(obj)
                 setBody(obj)
             }
         }
@@ -218,12 +218,42 @@ export default function hi(){
     const check = ComponentRenderCheckbox(isWrapChildren, 'moveComponents', 'crear hijo envuelto', 'crear hijo separado', handleCheckboxChange, isRearrangeComponents);
     const check2 = ComponentRenderCheckbox(isMoveComponentsActivated, 'moveComponents2', 'mover componente', 'sin uso', handleCheckboxChange2, isMoveComponentsActivated);
     
+    
+
+    /*const MyComponent = () => {
+        const actions = {
+            'resizeOpen': () => functions.importRemoteFunctions('changeStyle', 'new_1729617774293', { width: '100px', height: '100px', transition: 'all 0.5s ease' }),
+            'resizeClose': () => functions.importRemoteFunctions('changeStyle', 'new_1729617774293', { width: '50px', height: '50px', transition: 'all 0.5s ease' }),
+            'resizeOpen2': () => functions.importRemoteFunctions('changeStyle', 'myElementId', { width: '100px', height: '100px', transition: 'all 0.5s ease' }),
+            'resizeClose2': () => functions.importRemoteFunctions('changeStyle', 'myElementId', { width: '50px', height: '50px', transition: 'all 0.5s ease' }),
+            'changeColorBlue': () => functions.importRemoteFunctions('changeStyle', 'myElementId', { color: 'blue', transition: 'all 0.5s ease' }),
+            'changeColorWhite': () => functions.importRemoteFunctions('changeStyle', 'myElementId', { color: 'white', transition: 'all 0.5s ease' }),
+            '1': () => functions.importRemoteFunctions('move', 'new_1730497731284', 100, 'left')
+        };
+        
+        const [state, setCustomState] = useCustomState('initial', actions);
+        
+        return (
+            <div>
+                <div id="myElementId" style={{ width: '200px', height: '200px', background: 'red', position: 'relative' }}>
+                    This is my element
+                </div>
+                <button onclick={()=> importRemoteFunctions('moveGallery', '1', 'left')}>Previous</button> 
+                <button onclick={()=> importRemoteFunctions('moveGallery', '1', 'right')}>Next</button>
+            </div>
+        );
+    };*/
+    
+        
+
+
 
     return (
-        <Menu zIndex={'999999999'} backgroundColor={colorPalette()['color4']} body={<SettingControls setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} bodyTest={bodyTest} setIsReinjected={setIsReinjected} setBody={setBody} setBodyEdit={setBodyEdit} setBodyTest={setBodyTest} objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse} setObjectMoldsDb={setObjectMoldsDb}/>} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1729800824/menu2_rtbvzo.png'}>
-                <div className='center scroll borders1' style={{width: '95vw', height: '95.5vh', display: functions.isSmallScreen(800) ? 'block' : 'flex', background: colorPalette()['color1']}}>
+        <div style={{background: colorPalette()['color1'], width: '100vw', height: '100vh'}}>
+            <Menu zIndex={'999999999'} backgroundColor={colorPalette()['color4']} body={<SettingControls body={body} setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} setIsReinjected={setIsReinjected} setBody={setBody}  objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse} setObjectMoldsDb={setObjectMoldsDb}/>} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1729800824/menu2_rtbvzo.png'}>
+                <div className='center scroll borders1' style={{padding:'1vh',  width: '95vw', height: '95.8vh', display: functions.isSmallScreen(800) ? 'block' : 'flex', background: colorPalette()['color1']}}>
                     <div className='scroll borders1' style={divstyle}>
-                        {renderComponentNames(body, handleButtonClick, selectedId, setIsModalOpen, setModalContent, setBody, setIsReinjected, cloneId, body, setId, setBodyEdit, setBodyTest, bodyTest, check, isWrapChildren, check2, isMoveComponentsActivated, selectedComponent, setSelectedComponent)}
+                    <RenderComponentNames component={body} handleButtonClick={handleButtonClick} selectedId={selectedId} setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setBody={setBody} setIsReinjected={setIsReinjected} cloneId={cloneId} body={body} setId={setId}  checkBox={check} isWrapChildren={isWrapChildren} check2={check2} isMoveComponentsActivated={isMoveComponentsActivated} selectedComponent={selectedComponent} setSelectedComponent={setSelectedComponent} />
                     </div>
                     <div className='' style={{width: '55%', height: '90%', background: 'transparent', border: 'none', position: 'relative'}}>
                         <Menu zIndex={'99'} backgroundColor={colorPalette()['color1']} body={<CmsMenuContent/>} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1701542645/menu1_ui2fw4.png'}>
@@ -231,12 +261,12 @@ export default function hi(){
                         </Menu>
                     </div>
                     <div className='scroll borders1' style={divstyle}>
-                            {componentRendererAttributes(body, id, classNames, setClassNames, setBody, availableClasses, selectedClassName, setSelectedClassName, setIsReinjected, setIsModalOpen, setModalContent, resourceType, setSrcToInject, setBodyEdit, setBodyTest, bodyTest)}
+                        <ComponentRendererAttributes component={body} targetId={id} classNames={classNames} setClassNames={setClassNames} setBody={setBody} availableClasses={availableClasses} selectedClassName={selectedClassName} setSelectedClassName={setSelectedClassName} setIsReinjected={setIsReinjected} setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} resourceType={resourceType} setSrcToInject={setSrcToInject} />    
                     </div>
                     <Modal isOpen={isModalOpen}  onClose={closeModal} children={modalContent}/>
                 </div>
-            
-        </Menu>
+            </Menu>
+        </div>
     )  
 }
 
