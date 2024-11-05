@@ -67,7 +67,9 @@ const ComponentRendererAttributes = ({
         };
 
         const deleteStyle = (styleKey) => {
+            let obj = functions.deepClone(component);
             function removeStyleById(styleKey, targetId, obj) {
+                if (!obj) return; // Asegúrate de que obj no sea null o undefined
                 if (obj.id === targetId && obj.style) {
                     delete obj.style[styleKey];
                 }
@@ -83,7 +85,46 @@ const ComponentRendererAttributes = ({
 
         const injectStyle = () => {
             const newKeyValue = document.getElementById('styleInput').value;
+            let obj = functions.deepClone(component); // Asegúrate de hacer una copia profunda de component
             function addStyleById(newKeyValue, targetId, obj) {
+                if (!obj) return; // Asegúrate de que obj no sea null o undefined
+                console.log(newKeyValue);
+                console.log(targetId);
+                console.log(obj);
+        
+                if (obj.id === targetId) {
+                    const [key, value] = newKeyValue.split(':');
+                    if (obj.style) {
+                        obj.style[key.trim()] = value.trim();
+                    } else {
+                        obj.style = { [key.trim()]: value.trim() };
+                    }
+                } 
+        
+                if (obj.children) {
+                    obj.children = obj.children.map(child => addStyleById(newKeyValue, targetId, child));
+                }
+        
+                return obj;
+            }
+        
+            let editObj = addStyleById(newKeyValue, targetId, obj); // Usar obj directamente que es la copia profunda de component
+            let testObj = addStyleById(newKeyValue, targetId, functions.deepClone(bodyTest)); // Hacer copia profunda de bodyTest también
+        
+            udpateBodies(editObj, testObj, true, setIsReinjected, setBody, setBodyEdit, setBodyTest);
+        };
+        
+        
+
+
+        /*const injectStyle = () => {
+            const newKeyValue = document.getElementById('styleInput').value;
+            let obj = {...component}
+            function addStyleById(newKeyValue, targetId, obj) {
+                console.log(newKeyValue);
+                console.log(targetId);
+                console.log(obj);
+                
                 if (obj.id === targetId) {
                     const [key, value] = newKeyValue.split(':');
                     if (obj.style) {
@@ -100,7 +141,7 @@ const ComponentRendererAttributes = ({
             let editObj = addStyleById(newKeyValue, targetId, functions.deepClone(component));
             let testObj = addStyleById(newKeyValue, targetId, bodyTest);
             udpateBodies(editObj, testObj, true, setIsReinjected, setBody, setBodyEdit, setBodyTest);
-        };
+        };*/
 
         const setStyleInputValue = (key, value) => {
             document.getElementById('styleInput').value = `${key}: ${value}`;

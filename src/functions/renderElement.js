@@ -12,6 +12,7 @@ import Image from '@/components/simple/image';
 import TextArea from '@/components/simple/textArea';
 import Select  from '@/components/simple/selects';
 
+
 const RenderElement = (element) => {
     
     switch (element.type) {

@@ -20,6 +20,32 @@ export function Menu({ children, imageLink, body, backgroundColor, zIndex }) {
     }
 
     return (
+    <div className={`backgroundImage ${isMenuOpen ? 'sinMarco' : 'marco'} center`} style={{ height: '100%', background: backgroundColor }}>
+        <div style={{ position: 'relative', height: '100%', width: '100%' }}>
+            <div style={{ background: backgroundColor, zIndex: zIndex, position: 'absolute', top: 0, left: 0 }} className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
+                <img
+                    onClick={changeMenuState}
+                    className="imagenes"
+                    style={{ margin: '5px' }}
+                    src={imageLink}
+                    alt="Descripción de la imagen"
+                />
+                {isMenuOpen && (
+                    <div className="menuContent" onClick={changeMenuState}>
+                        {body}
+                    </div>
+                )}
+            </div>
+            <div style={{ height: '96vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {children}
+            </div>
+        </div>
+    </div>
+);
+
+    
+
+    /*return (
         <div className={`backgroundImage ${isMenuOpen ? 'sinMarco' : 'marco'} center`} style={{ height: '100%', background: backgroundColor }}>
             <div>
                 <div style={{background: backgroundColor, zIndex: zIndex}} className={`dropdown ${isMenuOpen ? 'open' : ''}`}>
@@ -39,7 +65,7 @@ export function Menu({ children, imageLink, body, backgroundColor, zIndex }) {
                 {children}
             </div>
         </div>
-    );
+    );*/
 }
 
 

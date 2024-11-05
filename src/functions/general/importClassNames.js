@@ -45,8 +45,10 @@ export default function importClassNames(){
             "padding1": { "padding": "10px" },
             "buttonImage": { "maxWidth": "100%", "maxHeight": "100%", "width": "auto", "height": "auto" },
             "boxShadow1": { "boxShadow": "0 0 10px rgba(0,0,0,0.1)" },
-            "scroll": { "overflowX": "auto", "overflowY": "auto", "scrollbarWidth": "none", "-msOverflowStyle": "none" },
-            ".scroll::-webkit-scrollbar": { "display": "none" },
+            "scroll": { "overflowX": "auto", "overflowY": "auto", "scrollbarWidth": "none", "-msOverflowStyle": "none", "padding": "10px" },
+            ".scroll::-webkit-scrollbar": { "width": "8px", "height": "8px" }, 
+            ".scroll::-webkit-scrollbar-track": { "background": "rgba(0,0,0,0.1)" }, 
+            ".scroll::-webkit-scrollbar-thumb": { "backgroundColor": "rgba(0,0,0,0.5)", "borderRadius": "10px" },
             "cursor": { "cursor": "pointer" },
             "@keyframes pulse": {
                 "0%, 100%": { "transform": "scale(1)" },

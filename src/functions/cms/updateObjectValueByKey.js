@@ -1,12 +1,11 @@
 import deepClone from "../general/deepClone";
 
-export default function updateObjectValueByKey(key, newValue, component, bodyTest, udpateBodies, setIsReinjected, setBody, setBodyEdit, setBodyTest, targetId) {
+export default function updateObjectValueByKey(key, newValue, body, bodyTest, udpateBodies, setIsReinjected, setBody, setBodyEdit, setBodyTest, targetId) {
     console.log(key);
     console.log(newValue);
-    console.log(component);
-    console.log(bodyTest);
+    console.log(body);
+    console.log(setBody);
     console.log(targetId);
-    
 
     function update(obj) {
         if (obj.id === targetId) {
@@ -19,8 +18,8 @@ export default function updateObjectValueByKey(key, newValue, component, bodyTes
         return obj;
     }
 
-    let editObj = update(deepClone(component))
-    let testObj = update(deepClone(bodyTest))
-    //udpateBodies(editObj, testObj, true, setIsReinjected, setBody, setBodyEdit, setBodyTest)
+    let testObj = update(deepClone(body))
+    console.log(testObj);
+
     setBody(testObj)
 }

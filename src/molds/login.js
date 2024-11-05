@@ -11,7 +11,7 @@ let login={
     "style": {},
     "className": [
         "horizontalCenter",
-        "center"
+        "center",
     ],
     "children": [
         {
@@ -175,6 +175,7 @@ export default function LoginMold() {
 
     useEffect(() => {
         functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
+        functions.inyectClassNamesToDOM(functions.importClassNames()); 
     }, []);
 
     useEffect(() => {

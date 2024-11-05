@@ -3,75 +3,86 @@ import { Menu } from '@/components/menu';
 import React, { useState, useEffect } from "react";
 import RenderElement from '@/functions/renderElement';
 import importAllLocalFunctions from '@/functions/general/importAllLocalFunctions';
-import slideGalery from '@/components/complex/slideGalery';
-import SlideGallery from '@/components/complex/slideGalery';
+import { useRouter } from 'next/router';
+import generalConnector from '@/functions/BackendConnectors/generalConnector';
+import colorPalette from '@/functions/cms/colorPalette';
+import NotFound from '../404';
 
 const functions = importAllLocalFunctions()
 
-/*let prueba = [{
-    "type": "Text",
-    "text": "hola",
-    "style": {color: 'blue'},
-    onClick: `() => ''`,
-    className: ['padding1']
-},{
-    "type": "Button",
-    "name": "submitButton",
-    "style": {
-        "padding": "10px",
-        "borderRadius": "4px",
-        "border": "none",
-        "backgroundColor": "#007BFF",
-        "color": "#fff",
-        "cursor": "pointer"
-    },
-    "onClick": `() => functions.handleMultipleFunctions([
-                        functions.alert('bu')
-                            
-                ])`,
-    'className': ['rotate'],
-    "children": [
-        {
-            "type": "Text",
-            "text": "hola",
-            "style": {color: 'blue'},
-            onClick: `() => ''`,
-            className: ['']
-        },
-    ]
-},{
-    "type": "Input",
-    "name": "Input2",
-    "inputType": "password",
-    "id": "Input2",
-    "required": true,
-    "style": {},
-    "className": [
-        "borders1",
-        "width100",
-        "padding1",
-        "borderNone"
-    ],
-    "value": "",
-    "onValueChange": `(value) => functions.handleMultipleFunctions([
-functions.alert(value)
-    ])`
-},{
-    "type": "Text",
-    "text": "hola",
-    "style": {color: 'blue'},
-    onClick: `() => ''`,
-    className: ['']
-}]
-
-console.log(slideGalery(prueba));
-
-functions.localStorageAcces('POST', 'multifunctions', slideGalery(prueba))*/
-
 export default function render() {
-    const [body, setBody] = useState({});
+    const [body, setBody] = useState(null);
+    const [notFound, setNotFound] = useState(false);
+    const router = useRouter(); 
 
-    const items = [
+    useEffect(() => { 
+        if (router.isReady) {
+            functions.inyectClassNamesToDOM(functions.importClassNames()); 
+            fetchTemplates(); 
+        } 
+    }, [router.isReady]);
+
+    async function fetchTemplates() {
+        const { id } = router.query; 
+        try {
+            const result = await generalConnector('getTemplates', 'GET');
+            console.log(result.templates);
+            console.log(id);
+            if (result.templates[id] === undefined) {
+                setNotFound(true);
+            } else {
+                setBody(result.templates[id]);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setNotFound(true);
+        }
+    }
+
+    function traverseAndEval(obj) {
+        if (typeof obj !== 'object' || obj === null) return obj;
+
+        for (const key in obj) {
+            if (key === 'onClick' && typeof obj[key] === 'string') {
+                let functionString = obj[key];
+                if (functionString.includes('{')) {
+                    functionString = functionString.replace('()', '(event)').replace('{', '{ event.stopPropagation(); ');
+                } else {
+                    functionString = `event => { event.stopPropagation(); ${functionString.slice(functionString.indexOf('=>') + 2).trim()}; }`;
+                }
+                obj[key] = eval(`(${functionString})`);
+            } else if (typeof obj[key] === 'object') {
+                traverseAndEval(obj[key]);
+            }
+        }
+        console.log(obj);
+
+        return obj;
+    }
+
+    if (notFound) {
+        return <NotFound />;
+    }
+
+    if (body === null) {
+        return <div className='center' style={{width: '100vw', height: '100vh', background: colorPalette()['color4']}}>Loading...</div>; // Puedes mostrar un mensaje de carga mientras se obtienen los datos
+    }
+
+    return (
+        <Menu body={`hola`} className={''} zIndex={'999999999'} backgroundColor={colorPalette()['color4']} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1729800824/menu2_rtbvzo.png'}>
+            <div style={{ height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {RenderElement(traverseAndEval(body))}
+            </div>
+        </Menu>
+    );
+}
+
+
+
+
+
+/**
+ const items = [
         <div className='rotate' style={{ backgroundColor: 'red', height: '45vh', width: '90%',objectFit: 'cover', margin: '0 auto'  }}>Item 1</div>,
         <div style={{ backgroundColor: 'green', height: '45vh', width: '90%', objectFit: 'cover', margin: '0 auto'  }}>Item 2</div>,
         <div onClick={() => alert('si')} style={{ backgroundColor: 'blue', height: '45vh', width: '90%', objectFit: 'cover', margin: '0 auto'  }}>Item 3</div>,
@@ -108,12 +119,9 @@ export default function render() {
             </Menu>
     
     
-    /*useEffect(() => {
-        functions.convertStringFunctionsToOperables('multifunctions', functions, setBody)
-    }, []);*/
-
+    
     return <Menu>{RenderElement(body)}</Menu>
-}
+ */
 
 
 

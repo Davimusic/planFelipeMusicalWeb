@@ -26,9 +26,12 @@ import getMenuContent from "@/functions/general/getMenuContent";
 import updateObjectValueByKey from "@/functions/cms/updateObjectValueByKey";
 import useCustomState from "@/functions/general/useCustomState";
 
+import importRemoteFunctions from "@/functions/general/importRemoteFunctions";
+
 
 //hacer que en prueba los links tambien no tengan activacion
 const functions = importAllFunctions()
+
 
 export default function hi(){
     //guardan los estados de los objetos 
@@ -64,8 +67,9 @@ export default function hi(){
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
 
+    
 
-    function traverseAndEval(obj) {
+    /*function traverseAndEval(obj) {
         if (typeof obj !== 'object' || obj === null) return obj;
     
         for (const key in obj) {
@@ -76,13 +80,41 @@ export default function hi(){
             }
         }
         return obj;
-    }
+    }*/
 
     const handleButtonClick = (id) => {
         setSelectedId(id);
         setId(id)
         updateClassForOnlyOneComponent(id, 'frame')
     };
+    
+
+
+    function traverseAndEval(obj) {///tambien està en [id], debe ser global esta funcion
+        if (typeof obj !== 'object' || obj === null) return obj;
+    
+        for (const key in obj) {
+            if (key === 'onClick' && typeof obj[key] === 'string') {
+                console.log(obj[key]);
+    
+                const match = obj[key].match(/{([\s\S]*)}/);
+                if (match) {
+                    const functionBody = match[1].trim();
+                    if (functionBody.includes('importRemoteFunctions')) {
+                        obj[key] = new Function('importRemoteFunctions', `return function(event) {${functionBody}}`)(importRemoteFunctions);
+                    } else {
+                        obj[key] = eval(`(${obj[key]})`);
+                    }
+                } else {
+                    console.error(`Failed to match function body in string: ${obj[key]}`);
+                }
+            } else if (typeof obj[key] === 'object') {
+                traverseAndEval(obj[key]);
+            }
+        }
+        return obj;
+    }
+    
 
     function updateClassForOnlyOneComponent(id, className) {
         functions.removeClassFromElements(functions.getElementsByClass(className), className);
@@ -186,10 +218,8 @@ export default function hi(){
         if (Object.keys(body).length !== 0) { 
             if (!isInjected) {
                 setIsInjected(true);
-                const obj = traverseAndReplaceOnClick(injectLabelIntoJSON({...body}, items), handleButtonClick)
-                //setBodyTest(injectLabelIntoJSON({...body}, items))
-                //setBodyEdit(obj)
-                setBody(obj)
+                //const obj = traverseAndReplaceOnClick(injectLabelIntoJSON({...body}, items), handleButtonClick)
+                //setBody(obj)
             }
         }
     }, [body, isInjected]);
@@ -197,9 +227,14 @@ export default function hi(){
     useEffect(() => {
         if(isReinjected === true){
             setIsReinjected(false);
-            setBody(traverseAndReplaceOnClick(body, handleButtonClick))
+            
+            //setBody(traverseAndReplaceOnClick(body, handleButtonClick))
         }
     }, [body, isReinjected]);
+
+    useEffect(() => {
+        console.log(body);
+    }, [body]);
 
 
     //let divstyle = { width: '20%', minWidth: '200px', maxWidth: '400px', height: '90%', background:  colorPalette()['color3'], padding: '20px', border: 'none', opacity: editionState === 'testTemplate' ? 0 : 1, visibility: editionState === 'testTemplate' ? 'hidden' : 'visible', transition: 'opacity 0.5s, visibility 0.5s' }
@@ -250,7 +285,7 @@ export default function hi(){
 
     return (
         <div style={{background: colorPalette()['color1'], width: '100vw', height: '100vh'}}>
-            <Menu zIndex={'999999999'} backgroundColor={colorPalette()['color4']} body={<SettingControls body={body} setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} setIsReinjected={setIsReinjected} setBody={setBody}  objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse} setObjectMoldsDb={setObjectMoldsDb}/>} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1729800824/menu2_rtbvzo.png'}>
+            <Menu zIndex={'999999999'} backgroundColor={colorPalette()['color4']} body={<SettingControls id={id} body={body} setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setEditionState={setEditionState} objectMolds={objectMolds} setIsReinjected={setIsReinjected} setBody={setBody}  objectMoldsDb={objectMoldsDb} handleButtonClick={handleButtonClick} setObjectMoldsInUse={setObjectMoldsInUse} objectMoldsInUse={objectMoldsInUse} setObjectMoldsDb={setObjectMoldsDb}/>} imageLink={'https://res.cloudinary.com/dplncudbq/image/upload/v1729800824/menu2_rtbvzo.png'}>
                 <div className='center scroll borders1' style={{padding:'1vh',  width: '95vw', height: '95.8vh', display: functions.isSmallScreen(800) ? 'block' : 'flex', background: colorPalette()['color1']}}>
                     <div className='scroll borders1' style={divstyle}>
                     <RenderComponentNames component={body} handleButtonClick={handleButtonClick} selectedId={selectedId} setIsModalOpen={setIsModalOpen} setModalContent={setModalContent} setBody={setBody} setIsReinjected={setIsReinjected} cloneId={cloneId} body={body} setId={setId}  checkBox={check} isWrapChildren={isWrapChildren} check2={check2} isMoveComponentsActivated={isMoveComponentsActivated} selectedComponent={selectedComponent} setSelectedComponent={setSelectedComponent} />

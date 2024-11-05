@@ -23,7 +23,8 @@ import executeFunctionsAtCustomIntervals from "../general/executeFunctionsAtInte
 
 
 
-export default function SettingControl({ setIsModalOpen, setModalContent, setEditionState, objectMolds, body, bodyTest, setIsReinjected, setBody, setBodyEdit, setBodyTest, objectMoldsDb, handleButtonClick, setObjectMoldsInUse, objectMoldsInUse, setObjectMoldsDb }) {
+
+export default function SettingControl({ setIsModalOpen, setModalContent, setEditionState, objectMolds, body, bodyTest, setIsReinjected, setBody, id, setBodyEdit, setBodyTest, objectMoldsDb, handleButtonClick, setObjectMoldsInUse, objectMoldsInUse, setObjectMoldsDb }) {
     const [activeCheckbox, setActiveCheckbox] = useState('editTemplate');
 
     const handleCheckboxChange = (id) => {
@@ -72,6 +73,13 @@ export default function SettingControl({ setIsModalOpen, setModalContent, setEdi
         importRemoteFunctions('changeStyle', 'new_1729621636166', { fontSize: '15vh', color: 'red', transition: 'all 0.5s ease' });
     };
 
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -127,7 +135,7 @@ export default function SettingControl({ setIsModalOpen, setModalContent, setEdi
             <div onClick={handlePropagation}>
                 <Image
                     onClick={(e) => {
-                        saveTemplate(JSON.stringify(traverseAndStringify(bodyTest)), replaceCharacter(document.getElementById('inputSetting').value, ' ', '-'), objectMolds, setObjectMoldsDb, objectMoldsDb, setIsModalOpen, setModalContent, setObjectMoldsInUse);
+                        saveTemplate(JSON.stringify(traverseAndStringify(body)), replaceCharacter(document.getElementById('inputSetting').value, ' ', '-'), objectMolds, setObjectMoldsDb, objectMoldsDb, setIsModalOpen, setModalContent, setObjectMoldsInUse);
                     }}
                     src={'https://res.cloudinary.com/dplncudbq/image/upload/v1706024045/save_pmx5wo.png'}
                     width={'30'}
@@ -159,10 +167,9 @@ export default function SettingControl({ setIsModalOpen, setModalContent, setEdi
             <Image
                     onClick={(e) => {
                         e.stopPropagation();
-                        const pru = traverseAndReplaceOnClick({...body},prueba3, ['new_1729621636166'])
-                        const pru2 = traverseAndReplaceOnClick({...pru},prueba, ['new_1729617774293'])
-                        console.log(pru2);
-                        setBody(pru)
+                        //console.log(functionToString(prueba2));
+                        
+                        const p = updateObjectValueByKey('onClick', prueba2, body, '', '', '', setBody, '', '', id )
                     }}
                     src={'https://res.cloudinary.com/dplncudbq/image/upload/v1729718949/full_sxwwyn.png'}
                     width={'30'}
