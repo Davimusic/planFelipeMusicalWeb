@@ -37,12 +37,12 @@ export default function importRemoteFunctions(functionName, elementId, ...params
     }
 }
 
-// Helper function to get an element
+
 function getElement(elementId) {
     return document.getElementById(elementId);
 }
 
-// Simple function to change styles
+
 function changeStyle(obj, styles) {
     if (obj) {
         for (const [property, value] of Object.entries(styles)) {

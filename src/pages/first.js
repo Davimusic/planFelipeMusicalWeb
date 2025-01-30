@@ -9,6 +9,7 @@ import '../estilos/general/general.css'
 import { useRouter } from 'next/router';
 
 const WordViewer = () => {
+    return 'hola mundo'
     const router = useRouter();
     const [hasAccess, setHasAccess] = useState(false);
 
